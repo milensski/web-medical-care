@@ -29,7 +29,6 @@ UserModel = get_user_model()
 
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField()
 
     class Meta:
         model = UserModel
@@ -37,7 +36,6 @@ class SignUpForm(UserCreationForm):
 
 
 class SignInForm(AuthenticationForm):
-    email = forms.EmailField()
 
     class Meta:
         fields = ('email', 'password')

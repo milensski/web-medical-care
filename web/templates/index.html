@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+</head>
+<body>
+<h1>Welcome to the Index Page</h1>
+
+    {% if user.is_authenticated and request.user.is_superuser %}
+        <a href="/admin">Admin panel</a>
+    {% elif user.is_authenticated %}
+        <p>Hello, {{ user.get_full_name }}!</p>
+        <p>Staff: {{ request.user.is_staff }}</p>
+        <br>
+
+    {% else %}
+        <p>Hello, guest!</p>
+    {% endif %}
+
+    <a href="{% url 'logout' %}">Sign Out</a>
+</body>
+</html>

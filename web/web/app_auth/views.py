@@ -1,8 +1,11 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, FormView
+from django.views.generic import CreateView, View
 
-from .forms import SignUpForm, SignInForm, SignOutForm
+from .forms import SignUpForm, SignInForm
 from .models import CustomUser
 
 
@@ -10,38 +13,37 @@ class SignUpView(CreateView):
     model = CustomUser
     form_class = SignUpForm
     template_name = 'signup.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('index')
 
     def form_valid(self, form):
         # Exclude the superuser from being set as a patient
         if not self.request.user.is_superuser:
             form.instance.is_doctor = False
 
-        # Perform any additional logic or customization here
+        result = super().form_valid(form)
 
-        # Log in the user after successful registration
-        user = form.save()
-        login(self.request, user)
+        login(self.request, self.object)
 
-        return super().form_valid(form)
+        return result
 
 
-class SignInView(FormView):
+class SignInView(LoginView):
     form_class = SignInForm
     template_name = 'signin.html'
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('index')
 
     def form_valid(self, form):
         user = form.get_user()
-        login(self.request, user)
+
+        print(login(self.request, user))
+
         return super().form_valid(form)
 
 
-class SignOutView(FormView):
-    form_class = SignOutForm
-    template_name = 'signout.html'
-    success_url = reverse_lazy('home')  # Redirect to the home page or any desired URL
+class SignOutView(LogoutView):
+    pass
 
-    def form_valid(self, form):
-        logout(self.request)
-        return super().form_valid(form)
+
+@login_required
+def index(request):
+    return render(request, 'index.html')

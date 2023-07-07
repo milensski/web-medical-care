@@ -5,9 +5,10 @@
 </head>
 <body>
 <h1>Sign Up</h1>
-<form method="post" action="{% url 'sign up' %}">
+<form method="post" action="{% url 'register' %}">
     {% csrf_token %}
     {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}" />
     <button type="submit">Sign Up</button>
 </form>
 </body>

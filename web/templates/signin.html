@@ -4,11 +4,14 @@
     <title>Sign In</title>
 </head>
 <body>
+<div style="width: fit-content;display:flex; flex-direction: column; margin: 20% auto">
     <h1>Sign In</h1>
-    <form method="post" action="{% url 'sign in' %}">
+    <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Sign In</button>
+        <button type="submit">Sign In</button> <a href="{% url 'register' %}">Register</a>
+        <input type="hidden" name="next" value="{{ next }}" />
     </form>
+</div>
 </body>
 </html>

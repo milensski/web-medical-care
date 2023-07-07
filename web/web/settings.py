@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'web.app_auth.middleware.RestrictStaffToAdminMiddleware'
 ]
 
 ROOT_URLCONF = 'web.urls'
@@ -124,11 +127,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'app_auth.CustomUser'
 
-LOGIN_REDIRECT_URL = 'sign up'
-LOGOUT_REDIRECT_URL = 'sign out'
-LOGIN_URL = 'sign in'
-
-AUTHENTICATION_BACKENDS = [
-    'web.app_auth.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
+LOGIN_REDIRECT_URL = reverse_lazy('index')
+LOGOUT_REDIRECT_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('login')
+#
+# AUTHENTICATION_BACKENDS = [
+#     'web.app_auth.backends.EmailBackend',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
