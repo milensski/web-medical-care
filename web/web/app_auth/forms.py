@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import Group
+
+from web.app_auth.models import Profile
 
 UserModel = get_user_model()
 
@@ -30,13 +33,26 @@ UserModel = get_user_model()
 
 class SignUpForm(UserCreationForm):
 
+    def save(self, commit=True):
+        user = super().save(commit)
+
+        profile = Profile.objects.create(pk=user.pk)
+
+        group = Group.objects.get(name='Patients')
+
+        user.groups.add(group)
+
+        if commit:
+            profile.save()
+
+        return user
+
     class Meta:
         model = UserModel
-        fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
+        fields = ('email', 'password1', 'password2')
 
 
 class SignInForm(AuthenticationForm):
-
     class Meta:
         fields = ('email', 'password')
 

@@ -3,6 +3,8 @@ import django.contrib.admin.sites
 from django.http import Http404
 import logging
 
+from django.shortcuts import redirect
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,4 +25,4 @@ class RestrictStaffToAdminMiddleware:
             ip = request.META.get('HTTP_X_REAL_IP', request.META.get('REMOTE_ADDR'))
             ua = request.META.get('HTTP_USER_AGENT')
             logger.warn(f'Non-staff user "{request.user}" attempted to access admin site at "{request.get_full_path()}". UA = "{ua}", IP = "{ip}", Method = {request.method}')
-            raise Http404
+            return redirect('index')

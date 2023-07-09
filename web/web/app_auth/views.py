@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, View
 
 from .forms import SignUpForm, SignInForm
-from .models import CustomUser
+from .models import CustomUser, Profile
 
 
 class SignUpView(CreateView):
@@ -22,7 +22,10 @@ class SignUpView(CreateView):
 
         result = super().form_valid(form)
 
+
         login(self.request, self.object)
+
+
 
         return result
 
@@ -46,4 +49,11 @@ class SignOutView(LogoutView):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+
+    profile = Profile.objects.filter(pk=request.user.pk).get()
+
+    context = {
+        'profile': profile
+    }
+
+    return render(request, 'index.html', context)
