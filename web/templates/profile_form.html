@@ -1,0 +1,15 @@
+<!-- profile_form.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Profile Form</title>
+</head>
+<body>
+  <h2>Profile Form</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

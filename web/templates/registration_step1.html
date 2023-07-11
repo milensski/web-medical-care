@@ -1,0 +1,15 @@
+<!-- registration_step1.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Step 1</title>
+</head>
+<body>
+  <h2>Registration Step 1: User Registration</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Next</button>
+  </form>
+</body>
+</html>

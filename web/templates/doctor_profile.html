@@ -1,0 +1,15 @@
+<!-- doctor_profile.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Profile</title>
+</head>
+<body>
+  <h2>Doctor Profile</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Register</button>
+  </form>
+</body>
+</html>

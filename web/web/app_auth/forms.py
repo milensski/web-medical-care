@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import Group
 
-from web.app_auth.models import Profile
+from web.app_auth.models import DoctorProfile, PatientProfile
 
 UserModel = get_user_model()
 
@@ -31,25 +30,32 @@ UserModel = get_user_model()
 #         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
 
-class SignUpForm(UserCreationForm):
-
-    def save(self, commit=True):
-        user = super().save(commit)
-
-        profile = Profile.objects.create(pk=user.pk)
-
-        group = Group.objects.get(name='Patients')
-
-        user.groups.add(group)
-
-        if commit:
-            profile.save()
-
-        return user
-
+class CustomUserForm(UserCreationForm):
     class Meta:
         model = UserModel
         fields = ('email', 'password1', 'password2')
+
+
+class ProfileTypeForm(forms.Form):
+    profile_type = forms.ChoiceField(
+        choices=[('doctor', 'Doctor'), ('patient', 'Patient')],
+        widget=forms.RadioSelect,
+        required=True
+    )
+
+
+class DoctorProfileForm(forms.ModelForm):
+    class Meta:
+        model = DoctorProfile
+        fields = (
+            'first_name', 'middle_name', 'last_name', 'phone_number', 'uin_number', 'specialization', 'experience',
+            'gender')
+
+
+class PatientProfileForm(forms.ModelForm):
+    class Meta:
+        model = PatientProfile
+        fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number', 'gender')
 
 
 class SignInForm(AuthenticationForm):

@@ -1,0 +1,15 @@
+<!-- registration_step2.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Step 2</title>
+</head>
+<body>
+  <h2>Registration Step 2: Profile Type Selection</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Next</button>
+  </form>
+</body>
+</html>
