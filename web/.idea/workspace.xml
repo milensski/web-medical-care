@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b3a8e5b-617a-4eca-86f8-1ca8d081b1fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/doctor_profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/patient_profile.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/profile_form.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/registration_step1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/registration_step2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/web/app_auth/decorators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/web.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/signin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/signin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/migrations/0001_initial.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/migrations/0002_alter_customuser_options_alter_profile_options_and_more.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/mixins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/decorators.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +21,7 @@
   </component>
   <component name="ProjectId" id="2SPyWehYp6fRy0EypOkXGIjbp24" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -85,27 +73,11 @@
       <option name="presentableId" value="Default" />
       <updated>1689062545007</updated>
       <workItem from="1689062547510" duration="20000" />
-      <workItem from="1689062616655" duration="3278000" />
+      <workItem from="1689062616655" duration="8655000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/web/app_auth/views.py</url>
-          <line>20</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/web/app_auth/views.py</url>
-          <line>13</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

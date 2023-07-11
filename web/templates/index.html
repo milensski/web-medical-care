@@ -6,18 +6,32 @@
 <body>
 <h1>Welcome to the Index Page</h1>
 
-    {% if user.is_authenticated and request.user.is_superuser or request.user.is_staff  %}
-        <p>Hello, {{ profile }}!</p>
-        <a href="/admin">Admin panel</a>
-    {% elif user.is_authenticated %}
-        <p>Hello, {{ profile }}!</p>
-        <p>Staff: {{ request.user.is_staff }}</p>
-        <br>
+{% if user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
+    <h1>Hello!</h1>
+    <h2>Info about current user:</h2>
+    <a href="/admin">Admin panel</a>
+{% elif user.is_authenticated %}
+    <h1>Hello!</h1>
 
+    {% if is_doctor %}
+        <h1>Staff: {{ request.user.is_staff }}</h1>
+        <h2>Info about current user:</h2>
+        <p>{{ profile }}</p>
+        <p>{{ profile.specialization }}</p>
+        <p>{{ profile.experience }} years</p>
     {% else %}
-        <p>Hello, guest!</p>
+        <h2>Patient:</h2>
+        <p>{{ profile.first_name }}</p>
+        <p>{{ profile.middle_name }}</p>
+        <p>{{ profile.last_name }}</p>
+        <p>{{ profile.phone_number }}</p>
     {% endif %}
+    <br>
 
-    <a href="{% url 'logout' %}">Sign Out</a>
+{% else %}
+    <p>Hello, guest!</p>
+{% endif %}
+
+<a href="{% url 'logout' %}">Sign Out</a>
 </body>
 </html>

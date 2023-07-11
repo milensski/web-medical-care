@@ -29,7 +29,11 @@ def restrict_profile_type(view_func):
 
 def redirect_authenticated_user(view_func):
     def wrapper(request, *args, **kwargs):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and request.user.groups.filter(name='Doctors').exists():
+            # User is already logged in, redirect to a different page
+            return redirect('index')  # Replace 'home' with the desired URL or view
+
+        elif request.user.is_authenticated and request.user.groups.filter(name='Patients').exists():
             # User is already logged in, redirect to a different page
             return redirect('index')  # Replace 'home' with the desired URL or view
 

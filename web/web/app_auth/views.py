@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from .decorators import restrict_profile_type, redirect_authenticated_user
 from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm
 from .mixins import LoggedUserRedirectMixin
+from .models import DoctorProfile, PatientProfile
 
 
 @redirect_authenticated_user
@@ -68,8 +69,8 @@ def patient_profile(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            doctors_group = Group.objects.get(name='Patients')
-            request.user.groups.add(doctors_group)
+            patient_group = Group.objects.get(name='Patients')
+            request.user.groups.add(patient_group)
             return redirect('index')
     else:
         form = PatientProfileForm()
@@ -95,4 +96,23 @@ class SignOutView(LogoutView):
 
 @login_required
 def index(request):
-    return render(request, 'index.html')
+    user = request.user
+    profile = None
+    is_doctor = False
+
+    try:
+        if user.groups.filter(name='Doctors').exists():
+            profile = DoctorProfile.objects.get(user=user)
+            is_doctor = True
+        elif user.groups.filter(name='Patients').exists():
+            profile = PatientProfile.objects.get(user=user)
+    except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
+        # Profile does not exist
+        pass
+
+    context = {
+        'profile': profile,
+        'is_doctor': is_doctor,
+    }
+
+    return render(request, 'index.html', context)
