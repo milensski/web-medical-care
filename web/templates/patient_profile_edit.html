@@ -1,0 +1,16 @@
+<!-- patient_profile_edit.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Patient Profile</title>
+</head>
+<body>
+<h1>Edit Patient Profile</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

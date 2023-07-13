@@ -14,6 +14,7 @@
     <h1>Hello!</h1>
 
     {% if is_doctor %}
+        <a href="{% url 'doctor dashboard' %}">DASHBOARD</a>
         <h1>Staff: {{ request.user.is_staff }}</h1>
         <h2>Info about current user:</h2>
         <p>{{ profile }}</p>

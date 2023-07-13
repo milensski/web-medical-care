@@ -5,10 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b3a8e5b-617a-4eca-86f8-1ca8d081b1fa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/add_oncology_status.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/doctor_dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/patient_profile_details.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/patient_profile_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3/storage_v2/_src_/database/web_db.SfXN0A/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3/storage_v2/_src_/database/web_db.SfXN0A/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/decorators.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/decorators.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/mixins.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -25,20 +32,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="web" type="Python.DjangoServer" factoryName="Django server">
       <module name="web" />
@@ -73,7 +80,8 @@
       <option name="presentableId" value="Default" />
       <updated>1689062545007</updated>
       <workItem from="1689062547510" duration="20000" />
-      <workItem from="1689062616655" duration="8655000" />
+      <workItem from="1689062616655" duration="20452000" />
+      <workItem from="1689241774252" duration="10547000" />
     </task>
     <servers />
   </component>

@@ -1,0 +1,58 @@
+<!-- doctor_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+</head>
+<body>
+<h1>Doctor Dashboard</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Patient Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>PIN</th>
+        <th>Gender</th>
+        <th>Profile</th>
+        <th>Status</th>
+        <th></th>
+
+        <!-- Add additional patient fields here -->
+    </tr>
+    </thead>
+    <tbody>
+    {% for patient in patients %}
+        <tr>
+            <td>{{ patient.get_full_name }}</td>
+
+            <td>{{ patient.user.email }}</td>
+
+            {% for detail in patient.get_details %}
+                <td>{{ detail }}</td>
+            {% endfor %}
+            <td><a href="{% url 'patient details' pk=patient.pk %}">View</a></td>
+            <td><a href="{% url 'patient edit' pk=patient.pk %}">Edit</a></td>
+            <!-- Display additional patient fields here -->
+            {% if patient.oncologystatus.first %}
+                <!-- Patient has an oncology status, show the status text -->
+                <td>{{ patient.oncologystatus.first }}</td>
+                <td></td>
+            {% else %}
+                <!-- Patient doesn't have an oncology status, show the "Add" button -->
+                <td>No oncology status</td>
+                <td><a href="{% url 'add oncology status' patient.pk %}">Add</a></td>
+            {% endif %}
+        </tr>
+
+    {% empty %}
+        <tr>
+            <td colspan="2">No patients found.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'index' %}">Return</a>
+</body>
+</html>

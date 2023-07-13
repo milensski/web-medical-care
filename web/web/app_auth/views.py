@@ -1,14 +1,16 @@
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, UpdateView, CreateView
 
 from .decorators import restrict_profile_type, redirect_authenticated_user
 from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm
-from .mixins import LoggedUserRedirectMixin
-from .models import DoctorProfile, PatientProfile
+from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
+from .models import DoctorProfile, PatientProfile, OncologyStatus
 
 
 @redirect_authenticated_user
@@ -116,3 +118,76 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+
+class DoctorDashboard(ListView):
+    model = PatientProfile
+    template_name = 'doctor_dashboard.html'
+    context_object_name = 'patients'
+    ordering = ['pk']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        patients_with_oncology = []
+        patients_without_oncology = []
+
+        for patient in context['patients']:
+            oncology_status = OncologyStatus.objects.filter(patient_id=patient.pk).first()
+
+            if oncology_status:
+                patients_with_oncology.append((patient, oncology_status))
+            else:
+                patients_without_oncology.append(patient)
+
+        context['patients_with_oncology'] = patients_with_oncology
+        context['patients_without_oncology'] = patients_without_oncology
+        return context
+
+    """
+    The get_queryset() method is overridden to filter the patient profiles 
+    based on the logged-in doctor. 
+    It retrieves only the patient profiles that have a foreign key relationship 
+    with the logged-in doctor.
+    
+    """
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     return queryset.filter(doctor__user=self.request.user)
+
+
+class AddOncologyStatus(DoctorRequiredMixin, CreateView):
+    template_name = 'add_oncology_status.html'
+    model = OncologyStatus
+    fields = '__all__'
+
+    def get_initial(self):
+        initial = super().get_initial()
+        print(self.request.user.pk)
+        initial['doctor'] = DoctorProfile.objects.get(pk=13)  # HARD CODED since the user must be doctor
+        initial['patient'] = self.get_patient()
+        return initial
+
+    def get_doctor(self):
+        doctor = DoctorProfile.objects.get(self.request.user)
+        return doctor
+
+    def get_patient(self):
+        patient = PatientProfile.objects.get(pk=self.kwargs['pk'])
+        return patient
+
+
+class PatientProfileDetails(LoginRequiredMixin, DetailView):
+    model = PatientProfile
+    template_name = 'patient_profile_details.html'
+    context_object_name = 'patient'
+
+
+class PatientProfileEdit(LoginRequiredMixin, UpdateView):
+    model = PatientProfile
+    form_class = PatientProfileForm
+    template_name = 'patient_profile_edit.html'
+    success_url = '/dashboard/'  # Replace with the desired URL or reverse('dashboard')

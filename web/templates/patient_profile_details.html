@@ -1,0 +1,16 @@
+<html>
+<head>
+    <title>Patient Profile Details</title>
+</head>
+<body>
+    <h1>Patient Profile Details</h1>
+    <p><strong>Full name:</strong> {{ patient.get_full_name }}</p>
+
+    <p><strong>PIN:</strong> {{ patient.civil_number }}</p>
+    <p><strong>Phone:</strong> {{ patient.phone_number }}</p>
+    <p><strong>Gender:</strong> {{ patient.gender }}</p>
+    <!-- Display additional patient fields here -->
+    <button><a href="{% url 'patient edit' pk=patient.pk %}">Edit</a></button>
+
+</body>
+</html>
