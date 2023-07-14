@@ -128,3 +128,11 @@ class OncologyStatus(models.Model):
     pr = models.CharField(max_length=15, choices=ER.choices(), blank=False, null=False, verbose_name='PR')
     ki_67 = models.PositiveIntegerField(blank=False, null=False, verbose_name='KI 67')
     start_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
+
+    def __str__(self):
+
+        return f'{self.histology_diagnose}'
+
+    class Meta:
+        verbose_name = "OncologyStatus"
+        verbose_name_plural = "OncologyStatuses"

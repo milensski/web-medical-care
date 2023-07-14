@@ -1,16 +1,82 @@
 <html>
 <head>
     <title>Patient Profile Details</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .btn-edit {
+            margin-top: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+    </style>
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Patient Profile Details</h1>
-    <p><strong>Full name:</strong> {{ patient.get_full_name }}</p>
+    <div class="container">
+        <h1>Patient Profile Details</h1>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Full Name</h5>
+                <p class="card-text">{{ patient.get_full_name }}</p>
+                <h5 class="card-title">PIN</h5>
+                <p class="card-text">{{ patient.civil_number }}</p>
+                <h5 class="card-title">Phone</h5>
+                <p class="card-text">{{ patient.phone_number }}</p>
+                <h5 class="card-title">Gender</h5>
+                <p class="card-text">{{ patient.gender }}</p>
+                <!-- Display additional patient fields here -->
+                <a class="btn btn-primary btn-edit" href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
+            </div>
+        </div>
+    </div>
 
-    <p><strong>PIN:</strong> {{ patient.civil_number }}</p>
-    <p><strong>Phone:</strong> {{ patient.phone_number }}</p>
-    <p><strong>Gender:</strong> {{ patient.gender }}</p>
-    <!-- Display additional patient fields here -->
-    <button><a href="{% url 'patient edit' pk=patient.pk %}">Edit</a></button>
-
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

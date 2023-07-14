@@ -1,58 +1,135 @@
-<!-- doctor_dashboard.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>Doctor Dashboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .btn-view {
+            background-color: #17a2b8;
+            color: #fff;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .btn-add {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-update {
+            background-color: #fd7e14;
+            color: #fff;
+        }
+
+        .btn-return {
+            background-color: #6c757d;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-<h1>Doctor Dashboard</h1>
+<div class="container">
+    <h1>Doctor Dashboard</h1>
+    <form method="get">
+        {% csrf_token %}
+        {{ myFilter.form }}
 
-<table>
-    <thead>
-    <tr>
-        <th>Patient Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>PIN</th>
-        <th>Gender</th>
-        <th>Profile</th>
-        <th>Status</th>
-        <th></th>
-
-        <!-- Add additional patient fields here -->
-    </tr>
-    </thead>
-    <tbody>
-    {% for patient in patients %}
+        <button type="submit">Search</button>
+    </form>
+    <table class="table">
+        <thead>
         <tr>
-            <td>{{ patient.get_full_name }}</td>
-
-            <td>{{ patient.user.email }}</td>
-
-            {% for detail in patient.get_details %}
-                <td>{{ detail }}</td>
-            {% endfor %}
-            <td><a href="{% url 'patient details' pk=patient.pk %}">View</a></td>
-            <td><a href="{% url 'patient edit' pk=patient.pk %}">Edit</a></td>
-            <!-- Display additional patient fields here -->
-            {% if patient.oncologystatus.first %}
-                <!-- Patient has an oncology status, show the status text -->
-                <td>{{ patient.oncologystatus.first }}</td>
-                <td></td>
-            {% else %}
-                <!-- Patient doesn't have an oncology status, show the "Add" button -->
-                <td>No oncology status</td>
-                <td><a href="{% url 'add oncology status' patient.pk %}">Add</a></td>
-            {% endif %}
+            <th>Patient Name</th>
+            <th>PIN</th>
+            <th>Profile</th>
+            <th>Oncology Status</th>
         </tr>
+        </thead>
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td>{{ patient }}</td>
+                <td>{{ patient.civil_number }}</td>
+                <td>
+                    <a class="btn btn-sm btn-view" href="{% url 'patient details' pk=patient.pk %}">View</a>
+                    <a class="btn btn-sm btn-edit" href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
+                </td>
+                <td>
+                    {% for p, oncology_status in patients_with_oncology %}
+                        {% if p == patient %}
+                            <a class="btn btn-sm btn-view"
+                               href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View</a>
+                            <a class="btn btn-sm btn-update"
+                               href="{% url 'update oncology status' pk=patient.pk onco_status=oncology_status.pk %}">Update</a>
+                        {% endif %}
+                    {% empty %}
 
-    {% empty %}
-        <tr>
-            <td colspan="2">No patients found.</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<a href="{% url 'index' %}">Return</a>
+                    {% endfor %}
+                    {% if patient in patients_without_oncology %}
+                        <a class="btn btn-sm btn-add" href="{% url 'add oncology status' pk=patient.pk %}">Add</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">No patients found.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-sm btn-return" href="{% url 'index' %}">Return</a>
+</div>
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

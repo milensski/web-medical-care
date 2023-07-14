@@ -3,15 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.48">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G</Grants>
-      <IntrospectionStateNumber>2135</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2154</IntrospectionStateNumber>
       <ServerVersion>15.3</ServerVersion>
       <StartupTime>1689241961</StartupTime>
       <TimeZones>true ACDT
@@ -1408,7 +1400,7 @@ true posixrules
 13209||10|C|G
 13209||-9223372036854775808|U|G
 13209||10|U|G</Grants>
-      <IntrospectionStateNumber>2135</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2154</IntrospectionStateNumber>
       <ObjectId>42024</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4826,7 +4818,7 @@ true posixrules
     <schema id="262" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>2135</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2154</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4858,7 +4850,7 @@ true posixrules
     <sequence id="266" parent="262" name="app_auth_oncologystatus_id_seq">
       <DasType>bigint|0s</DasType>
       <ObjectId>50216</ObjectId>
-      <SequenceIdentity>1(1)</SequenceIdentity>
+      <SequenceIdentity>1(3)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>2131</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4906,7 +4898,7 @@ true posixrules
     <sequence id="272" parent="262" name="django_migrations_id_seq">
       <DasType>bigint|0s</DasType>
       <ObjectId>42025</ObjectId>
-      <SequenceIdentity>1(21)</SequenceIdentity>
+      <SequenceIdentity>1(22)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>1877</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -5422,11 +5414,11 @@ permission_id</ColNames>
       <StateNumber>2131</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="343" parent="277" name="patients_id">
+    <column id="343" parent="277" name="patient_id">
       <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>11</Position>
-      <StateNumber>2131</StateNumber>
+      <StateNumber>2136</StateNumber>
       <TypeId>20</TypeId>
     </column>
     <foreign-key id="344" parent="277" name="app_auth_oncologysta_doctor_id_8a3cf779_fk_app_auth_">
@@ -5441,14 +5433,14 @@ permission_id</ColNames>
       <RefTableName>app_auth_doctorprofile</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <foreign-key id="345" parent="277" name="app_auth_oncologysta_patients_id_8c598882_fk_app_auth_">
-      <ColNames>patients_id</ColNames>
+    <foreign-key id="345" parent="277" name="app_auth_oncologysta_patient_id_b72c44d9_fk_app_auth_">
+      <ColNames>patient_id</ColNames>
       <Deferrable>1</Deferrable>
       <InitiallyDeferred>1</InitiallyDeferred>
-      <ObjectId>50230</ObjectId>
+      <ObjectId>50237</ObjectId>
       <RefColNames>user_id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>2131</StateNumber>
+      <StateNumber>2136</StateNumber>
       <RefTableId>42113</RefTableId>
       <RefTableName>app_auth_patientprofile</RefTableName>
       <RefTableKind>table</RefTableKind>
@@ -5469,7 +5461,7 @@ permission_id</ColNames>
       <AccessMethodId>403</AccessMethodId>
     </index>
     <index id="348" parent="277" name="app_auth_oncologystatus_patients_id_8c598882">
-      <ColNames>patients_id</ColNames>
+      <ColNames>patient_id</ColNames>
       <ObjectId>50236</ObjectId>
       <StateNumber>2131</StateNumber>
       <AccessMethodId>403</AccessMethodId>

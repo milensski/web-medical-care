@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Oncology Status</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>View Oncology Status</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Patient: {{ oncology_status.patient }}</h3>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Oncology Status</h5>
+                <p class="card-text">Histology Diagnosis: {{ oncology_status.histology_diagnose }}</p>
+                <p class="card-text">TNM: {{ oncology_status.tnm }}</p>
+                <p class="card-text">Stage: {{ oncology_status.stage }}</p>
+                <p class="card-text">HER2: {{ oncology_status.get_her2_display }}</p>
+                <p class="card-text">ER: {{ oncology_status.get_er_display }}</p>
+                <p class="card-text">PR: {{ oncology_status.get_pr_display }}</p>
+                <p class="card-text">Ki-67: {{ oncology_status.ki_67 }} %</p>
+                <p class="card-text">Start Date: {{ oncology_status.start_date }}</p>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" href="{% url 'doctor dashboard' %}">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+``

@@ -1,7 +1,8 @@
 from django.urls import path
 
 from .views import SignInView, SignOutView, index, registration_step1, registration_step2, \
-    doctor_profile, patient_profile, DoctorDashboard, PatientProfileDetails, PatientProfileEdit, AddOncologyStatus
+    doctor_profile, patient_profile, DoctorDashboard, PatientProfileDetails, PatientProfileEdit, AddOncologyStatus, \
+    UpdateOncologyStatus, ViewOncologyStatus
 
 urlpatterns = [
     path('register/', registration_step1, name='registration step1'),
@@ -16,6 +17,9 @@ urlpatterns = [
     path('patient/<int:pk>', PatientProfileDetails.as_view(), name='patient details'),
     path('patient/<int:pk>/edit', PatientProfileEdit.as_view(), name='patient edit'),
     path('oncology-status/<int:pk>/add', AddOncologyStatus.as_view(), name='add oncology status'),
-
+    path('oncology-status/<int:pk>/update/<int:onco_status>', UpdateOncologyStatus.as_view(),
+         name='update oncology status'),
+    path('oncology-status/<int:pk>/view/<int:onco_status>', ViewOncologyStatus.as_view(),
+         name='view oncology status'),
 
 ]

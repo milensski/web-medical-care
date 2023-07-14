@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 
 from .decorators import restrict_profile_type, redirect_authenticated_user
+from .filters import PatientFilter
 from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus
@@ -120,7 +121,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 
-class DoctorDashboard(ListView):
+class DoctorDashboard(DoctorRequiredMixin, ListView):
     model = PatientProfile
     template_name = 'doctor_dashboard.html'
     context_object_name = 'patients'
@@ -134,7 +135,8 @@ class DoctorDashboard(ListView):
         context = super().get_context_data(**kwargs)
         patients_with_oncology = []
         patients_without_oncology = []
-
+        myFilter = PatientFilter(self.request.GET, queryset=self.queryset)
+        context['patients'] = myFilter.qs
         for patient in context['patients']:
             oncology_status = OncologyStatus.objects.filter(patient_id=patient.pk).first()
 
@@ -143,6 +145,7 @@ class DoctorDashboard(ListView):
             else:
                 patients_without_oncology.append(patient)
 
+        context['myFilter'] = myFilter
         context['patients_with_oncology'] = patients_with_oncology
         context['patients_without_oncology'] = patients_without_oncology
         return context
@@ -163,6 +166,7 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     template_name = 'add_oncology_status.html'
     model = OncologyStatus
     fields = '__all__'
+    success_url = reverse_lazy('doctor dashboard')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -171,6 +175,20 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
         initial['patient'] = self.get_patient()
         return initial
 
+    def form_valid(self, form):
+        # Check if an OncologyStatus record already exists for the doctor and patient combination
+        existing_status = OncologyStatus.objects.filter(
+            doctor=form.cleaned_data['doctor'],
+            patient=form.cleaned_data['patient']
+        ).exists()
+
+        if existing_status:
+            # Redirect or display an error message indicating that the status already exists
+            # You can modify the behavior based on your requirements
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
     def get_doctor(self):
         doctor = DoctorProfile.objects.get(self.request.user)
         return doctor
@@ -178,6 +196,31 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     def get_patient(self):
         patient = PatientProfile.objects.get(pk=self.kwargs['pk'])
         return patient
+
+
+class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
+    template_name = 'update_oncology_status.html'
+    model = OncologyStatus
+    fields = '__all__'
+    success_url = reverse_lazy('doctor dashboard')
+
+    def get_object(self, queryset=None):
+        patient_id = self.kwargs['pk']
+        oncology_status_id = self.kwargs['onco_status']
+        obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
+        return obj
+
+
+class ViewOncologyStatus(DetailView):
+    template_name = 'view_oncology_status.html'
+    model = OncologyStatus
+    context_object_name = 'oncology_status'
+
+    def get_object(self, queryset=None):
+        patient_id = self.kwargs['pk']
+        oncology_status_id = self.kwargs['onco_status']
+        obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
+        return obj
 
 
 class PatientProfileDetails(LoginRequiredMixin, DetailView):

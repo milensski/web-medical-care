@@ -1,0 +1,18 @@
+<!-- update_oncology_status.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Oncology Status</title>
+</head>
+<body>
+    <h1>Update Oncology Status</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <a href="{% url 'doctor dashboard' %}">Back to Dashboard</a>
+</body>
+</html>
