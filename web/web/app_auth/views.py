@@ -125,11 +125,8 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
     model = PatientProfile
     template_name = 'doctor_dashboard.html'
     context_object_name = 'patients'
-    ordering = ['pk']
+    ordering = ['-pk']
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -231,6 +228,7 @@ class PatientProfileDetails(LoginRequiredMixin, DetailView):
 
 class PatientProfileEdit(LoginRequiredMixin, UpdateView):
     model = PatientProfile
-    form_class = PatientProfileForm
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number', 'gender')
     template_name = 'patient_profile_edit.html'
-    success_url = '/dashboard/'  # Replace with the desired URL or reverse('dashboard')
+    success_url = reverse_lazy('doctor dashboard')  # Replace with the desired URL or reverse('dashboard')
+    ordering = ['pk']
