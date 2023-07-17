@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from enum import Enum
 
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -67,8 +68,6 @@ class ER(ChoicesEnum):
 
 
 class PatientProfile(models.Model):
-
-
     user = models.OneToOneField(CustomUser, primary_key=True, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30, null=True, blank=True)
     middle_name = models.CharField(max_length=30, null=True, blank=True)
@@ -139,3 +138,44 @@ class OncologyStatus(models.Model):
     class Meta:
         verbose_name = "OncologyStatus"
         verbose_name_plural = "OncologyStatuses"
+
+
+class WorkingHours:
+
+    @staticmethod
+    def get_working_hours():
+        hours = []
+        start_time = datetime.strptime('09:00 AM', '%I:%M %p')
+        end_time = datetime.strptime('01:00 PM', '%I:%M %p')
+        interval = timedelta(minutes=30)
+
+        current_time = start_time
+        while current_time <= end_time:
+            hours.append((current_time.strftime('%H:%M %p'), current_time.strftime('%I:%M %p')))
+            current_time += interval
+        return hours
+
+
+class Appointment(models.Model):
+    STATUS = (
+        ('Approved', 'Approve'),
+        ('Rejected', 'Reject'),
+        ('Canceled', 'Cancel')
+    )
+
+    TIME_CHOICES = WorkingHours.get_working_hours()
+
+    patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(DoctorProfile, on_delete=models.CASCADE)
+    symptoms = models.TextField(blank=False, null=False)
+    for_date = models.DateField(blank=False, null=False)
+    for_time = models.CharField(blank=False, null=False, choices=TIME_CHOICES)
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(blank=False, null=False, default='Pending')
+
+    class Meta:
+        verbose_name = "Appointment"
+        verbose_name_plural = "Appointments"
+
+    def __str__(self):
+        return f'#{self.pk} Appointment for {self.patient}'

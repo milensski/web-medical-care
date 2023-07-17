@@ -1,0 +1,119 @@
+<!-- patient_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Patient Dashboard</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Patient Dashboard</h1>
+
+    <!-- Personal Info Section -->
+    <h2>Personal Information</h2>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Name</th>
+            <td>{{ patient.get_full_name }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ patient.user.email }}</td>
+        </tr>
+        <!-- Display other personal info fields here -->
+        </tbody>
+    </table>
+
+    <!-- Oncology Status Section -->
+    <h2>Oncology Status</h2>
+    {% if oncology_status %}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Histology Diagnosis</th>
+                <td>{{ oncology_status.histology_diagnose }}</td>
+            </tr>
+            <tr>
+                <th>TNM</th>
+                <td>{{ oncology_status.tnm }}</td>
+            </tr>
+            <tr>
+                <th>Stage</th>
+                <td>{{ oncology_status.get_stage_display }}</td>
+            </tr>
+            <!-- Display other oncology status fields here -->
+            </tbody>
+        </table>
+    {% else %}
+        <p>No oncology status available.</p>
+    {% endif %}
+
+    <!-- Appointments Section -->
+    <h2>Appointments</h2>
+    <hr>
+    <a class="btn btn-primary" href="{% url 'schedule appointment' %}">Schedule Appointment</a>
+    <br>
+    {% if appointments %}
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for appointment in appointments %}
+                <tr>
+                    <td>{{ appointment.status }}</td>
+                    <td>{{ appointment.for_date }}</td>
+                    <td>{{ appointment.for_time }}</td>
+                    <td>
+                        {% if appointment.status == 'Pending' %}
+                            <a href="{% url 'cancel appointment' pk=appointment.pk %}" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel</a>
+                        {% else %}
+                            <!-- Handle other statuses or display a different button -->
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments scheduled.</p>
+    {% endif %}
+
+    <!-- Treatment Plan Section -->
+    <h2>Treatment Plan</h2>
+    {% if treatment_plan %}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Plan Date</th>
+                <td>{{ treatment_plan.plan_date }}</td>
+            </tr>
+            <tr>
+                <th>Treatment Description</th>
+                <td>{{ treatment_plan.treatment_description }}</td>
+            </tr>
+            <tr>
+                <th>Medication</th>
+                <td>{{ treatment_plan.medication }}</td>
+            </tr>
+            <!-- Display other treatment plan fields here -->
+            </tbody>
+        </table>
+    {% else %}
+        <p>No treatment plan available.</p>
+    {% endif %}
+</div>
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

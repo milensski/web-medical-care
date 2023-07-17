@@ -2,32 +2,10 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from web.app_auth.models import DoctorProfile, PatientProfile
+from web.app_auth.models import DoctorProfile, PatientProfile, Appointment
+from .widgets import DatePickerInput
 
 UserModel = get_user_model()
-
-
-# class SignUpForm(UserCreationForm):
-#     username = forms.CharField(max_length=30, required=True, )
-#     first_name = forms.CharField(max_length=30, required=True, )
-#     last_name = forms.CharField(max_length=30, required=True, )
-#     email = forms.EmailField(max_length=254, required=True, )
-#     password1 = forms.CharField(
-#         label=_("Password"),
-#         strip=False,
-#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-#         help_text='Please use strong password',
-#     )
-#     password2 = forms.CharField(
-#         label=_("Password confirmation"),
-#         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
-#         strip=False,
-#         help_text=_("Repeat password"),
-#     )
-#
-#     class Meta:
-#         model = UserModel
-#         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
 
 
 class CustomUserForm(UserCreationForm):
@@ -65,3 +43,33 @@ class SignInForm(AuthenticationForm):
 
 class SignOutForm(forms.Form):
     pass
+
+
+class AppointmentForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patient'].widget.attrs['hidden'] = True
+
+
+    class Meta:
+        model = Appointment
+        exclude = ('status',)
+
+        widgets = {
+            'for_date': DatePickerInput(),
+        }
+        labels = {
+            "patient": ""
+        }
+
+class UpdateAppointmentForm(forms.ModelForm):
+    status = forms.ChoiceField
+
+    class Meta:
+        fields = '__all__'
+        model = Appointment
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['status'].widget = forms.Select(choices=Appointment.STATUS, attrs={'class': 'form-control'})

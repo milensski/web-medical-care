@@ -21,6 +21,7 @@
         <p>{{ profile.specialization }}</p>
         <p>{{ profile.experience }} years</p>
     {% else %}
+        <a href="{% url 'patient dashboard' %}">DASHBOARD</a>
         <h2>Patient:</h2>
         <p>{{ profile.first_name }}</p>
         <p>{{ profile.middle_name }}</p>

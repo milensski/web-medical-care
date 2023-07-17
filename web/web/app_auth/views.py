@@ -8,10 +8,35 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, UpdateView, CreateView
 
 from .decorators import restrict_profile_type, redirect_authenticated_user
-from .filters import PatientFilter
-from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm
+from .filters import PatientFilter, AppointmentFilter
+from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
+    UpdateAppointmentForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
-from .models import DoctorProfile, PatientProfile, OncologyStatus
+from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment
+
+
+@login_required
+def index(request):
+    user = request.user
+    profile = None
+    is_doctor = False
+
+    try:
+        if user.groups.filter(name='Doctors').exists():
+            profile = DoctorProfile.objects.get(user=user)
+            is_doctor = True
+        elif user.groups.filter(name='Patients').exists():
+            profile = PatientProfile.objects.get(user=user)
+    except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
+        # Profile does not exist
+        pass
+
+    context = {
+        'profile': profile,
+        'is_doctor': is_doctor,
+    }
+
+    return render(request, 'index.html', context)
 
 
 @redirect_authenticated_user
@@ -80,6 +105,45 @@ def patient_profile(request):
     return render(request, 'patient_profile.html', {'form': form})
 
 
+def patient_dashboard(request):
+    patient = PatientProfile.objects.filter(user=request.user).get()
+
+    oncology_status = OncologyStatus.objects.filter(patient=patient).get()
+    appointments = Appointment.objects.filter(patient=patient).all()
+    context = {
+        'patient': patient,
+        'oncology_status': oncology_status,
+        'appointments': appointments
+    }
+
+    return render(request, 'patient_dashboard.html', context)
+
+
+def schedule_appointment(request):
+    patient = PatientProfile.objects.filter(user=request.user).get()
+
+    form = AppointmentForm(initial={'patient': patient})
+
+    if request.method == 'POST':
+        form = AppointmentForm(request.POST, initial={'patient': patient})
+        if form.is_valid():
+            form.save()
+            return redirect('patient dashboard')
+
+    context = {
+        'form': form
+    }
+
+    return render(request, 'schedule_appointment.html', context)
+
+
+def cancel_appointment(request, pk):
+    appointment = Appointment.objects.get(pk=pk)
+    appointment.status = 'Canceled'
+    appointment.save()
+    return redirect('patient dashboard')
+
+
 class SignInView(LoggedUserRedirectMixin, LoginView):
     form_class = SignInForm
     template_name = 'signin.html'
@@ -97,43 +161,19 @@ class SignOutView(LogoutView):
     pass
 
 
-@login_required
-def index(request):
-    user = request.user
-    profile = None
-    is_doctor = False
-
-    try:
-        if user.groups.filter(name='Doctors').exists():
-            profile = DoctorProfile.objects.get(user=user)
-            is_doctor = True
-        elif user.groups.filter(name='Patients').exists():
-            profile = PatientProfile.objects.get(user=user)
-    except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
-        # Profile does not exist
-        pass
-
-    context = {
-        'profile': profile,
-        'is_doctor': is_doctor,
-    }
-
-    return render(request, 'index.html', context)
-
-
 class DoctorDashboard(DoctorRequiredMixin, ListView):
     model = PatientProfile
     template_name = 'doctor_dashboard.html'
     context_object_name = 'patients'
     ordering = ['-pk']
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        doctor = DoctorProfile.objects.filter(user=self.request.user).get()
         patients_with_oncology = []
         patients_without_oncology = []
-        myFilter = PatientFilter(self.request.GET, queryset=self.queryset)
-        context['patients'] = myFilter.qs
+        my_filter = PatientFilter(self.request.GET, queryset=self.queryset)
+        context['patients'] = my_filter.qs
         for patient in context['patients']:
             oncology_status = OncologyStatus.objects.filter(patient_id=patient.pk).first()
 
@@ -141,8 +181,9 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
                 patients_with_oncology.append((patient, oncology_status))
             else:
                 patients_without_oncology.append(patient)
-
-        context['myFilter'] = myFilter
+        appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all()
+        context['appointments'] = appointments
+        context['my_filter'] = my_filter
         context['patients_with_oncology'] = patients_with_oncology
         context['patients_without_oncology'] = patients_without_oncology
         return context
@@ -207,6 +248,32 @@ class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
         obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
         return obj
 
+
+class UpdateAppointment(DoctorRequiredMixin, UpdateView):
+    template_name = 'update_appointment_status.html'
+    model = Appointment
+    form_class = UpdateAppointmentForm
+    success_url = reverse_lazy('doctor dashboard')
+
+
+class HistoryAppointments(DoctorRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'history_appointments.html'
+    context_object_name = 'appointments'
+    ordering = ['pk']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Filter appointments that are not in the "pending" status
+        queryset = queryset.exclude(status='Pending')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        my_filter = AppointmentFilter(self.request.GET, queryset=self.queryset)
+        context['appointments'] = my_filter.qs
+        context['my_filter'] = my_filter
+        return context
 
 class ViewOncologyStatus(DetailView):
     template_name = 'view_oncology_status.html'

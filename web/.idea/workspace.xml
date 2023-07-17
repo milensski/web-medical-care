@@ -5,10 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b3a8e5b-617a-4eca-86f8-1ca8d081b1fa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/templates/history_appointments.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/patient_dashboard.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/schedule_appointment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/update_appointment_status.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/web/app_auth/widgets.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3/storage_v2/_src_/database/web_db.SfXN0A/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/74b73410-d3c5-44dc-9aa7-f0adabe59dc3/storage_v2/_src_/database/web_db.SfXN0A/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/patient_profile_edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/patient_profile_edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/doctor_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/doctor_dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/filters.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/filters.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/app_auth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +38,7 @@
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
@@ -48,6 +61,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="web.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -76,11 +90,27 @@
       <updated>1689062545007</updated>
       <workItem from="1689062547510" duration="20000" />
       <workItem from="1689062616655" duration="20452000" />
-      <workItem from="1689241774252" duration="28228000" />
+      <workItem from="1689241774252" duration="53318000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/Documents/venv/web/Lib/site-packages/django/forms/widgets.py</url>
+          <line>551</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/web/app_auth/views.py</url>
+          <line>128</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
