@@ -1,0 +1,18 @@
+<!-- create_appointment_poll.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Appointment Poll</title>
+</head>
+<body>
+    <h1>Create Appointment Poll</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="{% url 'view appointment' pk=appointment.pk %}">Back</a>
+</body>
+</html>

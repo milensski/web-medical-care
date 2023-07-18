@@ -179,3 +179,22 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f'#{self.pk} Appointment for {self.patient}'
+
+
+class AppointmentPoll(models.Model):
+    CONDITIONS = (
+        ('Excellent', 'Excellent'),
+        ('Good', 'Good'),
+        ('Not feeling very well', 'Not feeling very well')
+    )
+
+    appointment = models.OneToOneField(Appointment, on_delete=models.CASCADE)
+    current_condition = models.CharField(blank=False, null=False, choices=CONDITIONS)
+    high_temperature = models.BooleanField(blank=False, null=False)
+    cough = models.BooleanField(blank=False, null=False)
+    sores_in_mouth = models.BooleanField(blank=False, null=False)
+    sores_in_nose = models.BooleanField(blank=False, null=False)
+    cold = models.BooleanField(blank=False, null=False)
+    diarrhea = models.BooleanField(blank=False, null=False)
+    skin_rash = models.BooleanField(blank=False, null=False)
+    additional_info = models.TextField(blank=True, null=True)

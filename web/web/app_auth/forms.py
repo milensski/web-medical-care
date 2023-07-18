@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from web.app_auth.models import DoctorProfile, PatientProfile, Appointment
+from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll
 from .widgets import DatePickerInput
 
 UserModel = get_user_model()
@@ -51,7 +51,6 @@ class AppointmentForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['patient'].widget.attrs['hidden'] = True
 
-
     class Meta:
         model = Appointment
         exclude = ('status',)
@@ -63,6 +62,7 @@ class AppointmentForm(forms.ModelForm):
             "patient": ""
         }
 
+
 class UpdateAppointmentForm(forms.ModelForm):
     status = forms.ChoiceField
 
@@ -73,3 +73,14 @@ class UpdateAppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['status'].widget = forms.Select(choices=Appointment.STATUS, attrs={'class': 'form-control'})
+
+
+class AppointmentPollForm(forms.ModelForm):
+    class Meta:
+        model = AppointmentPoll
+        fields = (
+            'current_condition', 'high_temperature', 'cough', 'sores_in_mouth', 'sores_in_nose', 'cold', 'diarrhea',
+            'skin_rash', 'additional_info')
+        widgets = {
+            'additional_info': forms.Textarea(attrs={'rows': 4}),
+        }

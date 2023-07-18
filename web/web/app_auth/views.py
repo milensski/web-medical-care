@@ -10,9 +10,9 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from .decorators import restrict_profile_type, redirect_authenticated_user
 from .filters import PatientFilter, AppointmentFilter
 from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
-    UpdateAppointmentForm
+    UpdateAppointmentForm, AppointmentPollForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
-from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment
+from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, AppointmentPoll
 
 
 @login_required
@@ -127,8 +127,9 @@ def schedule_appointment(request):
     if request.method == 'POST':
         form = AppointmentForm(request.POST, initial={'patient': patient})
         if form.is_valid():
-            form.save()
-            return redirect('patient dashboard')
+            appointment = form.save()
+            request.session['appointment.pk'] = appointment.pk
+            return redirect('create appointment poll')
 
     context = {
         'form': form
@@ -142,6 +143,26 @@ def cancel_appointment(request, pk):
     appointment.status = 'Canceled'
     appointment.save()
     return redirect('patient dashboard')
+
+
+def create_appointment_poll(request):
+    appointment = Appointment.objects.get(pk=request.session['appointment.pk'])
+
+    if request.method == 'POST':
+        form = AppointmentPollForm(request.POST)
+        if form.is_valid():
+            poll = form.save(commit=False)
+            poll.appointment = appointment
+            poll.save()
+            return redirect('patient dashboard')
+    else:
+        form = AppointmentPollForm()
+
+    context = {
+        'form': form,
+        'appointment': appointment,
+    }
+    return render(request, 'create_appointment_poll.html', context)
 
 
 class SignInView(LoggedUserRedirectMixin, LoginView):
@@ -270,10 +291,11 @@ class HistoryAppointments(DoctorRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        my_filter = AppointmentFilter(self.request.GET, queryset=self.queryset)
+        my_filter = AppointmentFilter(self.request.GET, queryset=self.get_queryset())
         context['appointments'] = my_filter.qs
         context['my_filter'] = my_filter
         return context
+
 
 class ViewOncologyStatus(DetailView):
     template_name = 'view_oncology_status.html'
