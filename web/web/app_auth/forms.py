@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll
+from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll, TherapyPlan
 from .widgets import DatePickerInput
 
 UserModel = get_user_model()
@@ -84,3 +84,22 @@ class AppointmentPollForm(forms.ModelForm):
         widgets = {
             'additional_info': forms.Textarea(attrs={'rows': 4}),
         }
+
+
+class TreatmentPlanForm(forms.ModelForm):
+    # medications = forms.ModelMultipleChoiceField(
+    #     queryset=Medication.objects.all(),
+    #     widget=forms.CheckboxSelectMultiple,
+    #     required=True,
+    # )
+
+    class Meta:
+        model = TherapyPlan
+        fields = ['medication', 'dosage', 'duration_days', 'instructions']
+
+
+class UpdateTreatmentPlanForm(forms.ModelForm):
+
+    class Meta:
+        model = TherapyPlan
+        fields = ['medication', 'dosage', 'duration_days', 'instructions']

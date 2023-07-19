@@ -3,7 +3,8 @@ from django.urls import path
 from .views import SignInView, SignOutView, index, registration_step1, registration_step2, \
     doctor_profile, patient_profile, DoctorDashboard, PatientProfileDetails, PatientProfileEdit, AddOncologyStatus, \
     UpdateOncologyStatus, ViewOncologyStatus, patient_dashboard, schedule_appointment, UpdateAppointment, \
-    HistoryAppointments, cancel_appointment, create_appointment_poll
+    HistoryAppointments, cancel_appointment, create_appointment_poll, ViewAppointment, reject_appointment, \
+    create_treatment_plan, view_treatment_plan, update_treatment_plan
 
 urlpatterns = [
     path('register/', registration_step1, name='registration step1'),
@@ -17,9 +18,14 @@ urlpatterns = [
     path('dashboard/', DoctorDashboard.as_view(), name='doctor dashboard'),
     path('schedule-appointment/', schedule_appointment, name='schedule appointment'),
     path('appointment-poll/', create_appointment_poll, name='create appointment poll'),
-    path('appointment/<int:pk>/', UpdateAppointment.as_view(), name='view appointment'),
+    path('appointment/<int:pk>/details', ViewAppointment.as_view(), name='view appointment'),
+    path('appointment/<int:pk>/update', UpdateAppointment.as_view(), name='update appointment'),
     path('appointment/<int:pk>/cancel/', cancel_appointment, name='cancel appointment'),
+    path('appointment/<int:pk>/reject/', reject_appointment, name='reject appointment'),
     path('appointments/history/', HistoryAppointments.as_view(), name='history appointments'),
+    path('create-treatment-plan/<int:patient_pk>/', create_treatment_plan, name='create treatment plan'),
+    path('view-treatment-plan/<int:treatment_plan_pk>/', view_treatment_plan, name='view treatment plan'),
+    path('update-treatment-plan/<int:treatment_plan_pk>/', update_treatment_plan, name='update treatment plan'),
     path('patient/dashboard/', patient_dashboard, name='patient dashboard'),
     path('patient/<int:pk>/', PatientProfileDetails.as_view(), name='patient details'),
     path('patient/<int:pk>/edit/', PatientProfileEdit.as_view(), name='patient edit'),

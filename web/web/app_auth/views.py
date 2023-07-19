@@ -10,9 +10,9 @@ from django.views.generic import ListView, DetailView, UpdateView, CreateView
 from .decorators import restrict_profile_type, redirect_authenticated_user
 from .filters import PatientFilter, AppointmentFilter
 from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
-    UpdateAppointmentForm, AppointmentPollForm
+    UpdateAppointmentForm, AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
-from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, AppointmentPoll
+from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
 
 
 @login_required
@@ -105,6 +105,7 @@ def patient_profile(request):
     return render(request, 'patient_profile.html', {'form': form})
 
 
+@login_required()
 def patient_dashboard(request):
     patient = PatientProfile.objects.filter(user=request.user).get()
 
@@ -119,6 +120,7 @@ def patient_dashboard(request):
     return render(request, 'patient_dashboard.html', context)
 
 
+@login_required()
 def schedule_appointment(request):
     patient = PatientProfile.objects.filter(user=request.user).get()
 
@@ -138,6 +140,7 @@ def schedule_appointment(request):
     return render(request, 'schedule_appointment.html', context)
 
 
+@login_required()
 def cancel_appointment(request, pk):
     appointment = Appointment.objects.get(pk=pk)
     appointment.status = 'Canceled'
@@ -145,6 +148,16 @@ def cancel_appointment(request, pk):
     return redirect('patient dashboard')
 
 
+@login_required()
+@restrict_profile_type
+def reject_appointment(request, pk):
+    appointment = Appointment.objects.get(pk=pk)
+    appointment.status = 'Rejected'
+    appointment.save()
+    return redirect('doctor dashboard')
+
+
+@login_required()
 def create_appointment_poll(request):
     appointment = Appointment.objects.get(pk=request.session['appointment.pk'])
 
@@ -163,6 +176,58 @@ def create_appointment_poll(request):
         'appointment': appointment,
     }
     return render(request, 'create_appointment_poll.html', context)
+
+
+def create_treatment_plan(request, patient_pk):
+    patient = PatientProfile.objects.get(pk=patient_pk)
+
+    if request.method == 'POST':
+        form = TreatmentPlanForm(request.POST)
+        if form.is_valid():
+            treatment_plan = form.save(commit=False)
+            treatment_plan.patient = patient
+            treatment_plan.save()
+            form.save_m2m()  # Save the medications many-to-many relationship
+            return redirect('doctor dashboard')
+    else:
+        form = TreatmentPlanForm()
+
+    context = {
+        'patient': patient,
+        'form': form,
+    }
+
+    return render(request, 'create_treatment_plan.html', context)
+
+
+def view_treatment_plan(request, treatment_plan_pk):
+    treatment_plan = TherapyPlan.objects.get(pk=treatment_plan_pk)
+
+    context = {
+        'treatment_plan': treatment_plan,
+    }
+
+    return render(request, 'treatment_plan_details.html', context)
+
+
+def update_treatment_plan(request, treatment_plan_pk):
+    treatment = TherapyPlan.objects.get(pk=treatment_plan_pk)
+
+    if request.method == 'POST':
+        form = UpdateTreatmentPlanForm(request.POST, instance=treatment)
+        if form.is_valid():
+            form.save()
+            return redirect('view treatment plan',
+                            treatment_plan_pk=treatment.pk)  # Replace with the URL name for treatment plan details view
+    else:
+        form = UpdateTreatmentPlanForm(instance=treatment)
+
+    context = {
+        'form': form,
+        'treatment_plan': treatment,
+    }
+
+    return render(request, 'treatment_plan_edit.html', context)
 
 
 class SignInView(LoggedUserRedirectMixin, LoginView):
@@ -193,20 +258,30 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
         doctor = DoctorProfile.objects.filter(user=self.request.user).get()
         patients_with_oncology = []
         patients_without_oncology = []
+        patients_with_therapy = []
+        patients_without_therapy = []
         my_filter = PatientFilter(self.request.GET, queryset=self.queryset)
         context['patients'] = my_filter.qs
         for patient in context['patients']:
             oncology_status = OncologyStatus.objects.filter(patient_id=patient.pk).first()
-
+            therapy = TherapyPlan.objects.filter(patient_id=patient.pk).first()
             if oncology_status:
                 patients_with_oncology.append((patient, oncology_status))
             else:
                 patients_without_oncology.append(patient)
+
+            if therapy:
+                patients_with_therapy.append((patient, therapy))
+            else:
+                patients_without_therapy.append(patient)
+
         appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all()
         context['appointments'] = appointments
         context['my_filter'] = my_filter
         context['patients_with_oncology'] = patients_with_oncology
         context['patients_without_oncology'] = patients_without_oncology
+        context['patients_with_therapy'] = patients_with_therapy
+        context['patients_without_therapy'] = patients_without_therapy
         return context
 
     """
@@ -270,7 +345,13 @@ class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
         return obj
 
 
-class UpdateAppointment(DoctorRequiredMixin, UpdateView):
+class ViewAppointment(LoginRequiredMixin, DetailView):
+    model = Appointment
+    template_name = 'appointment_details.html'
+    context_object_name = 'appointment'
+
+
+class UpdateAppointment(LoginRequiredMixin, UpdateView):
     template_name = 'update_appointment_status.html'
     model = Appointment
     form_class = UpdateAppointmentForm

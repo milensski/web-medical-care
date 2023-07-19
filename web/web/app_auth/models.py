@@ -3,7 +3,7 @@ from enum import Enum
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin, Group, AbstractUser
-from django.core.validators import EmailValidator
+from django.core.validators import EmailValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -198,3 +198,32 @@ class AppointmentPoll(models.Model):
     diarrhea = models.BooleanField(blank=False, null=False)
     skin_rash = models.BooleanField(blank=False, null=False)
     additional_info = models.TextField(blank=True, null=True)
+
+
+class Medication(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Medication"
+        verbose_name_plural = "Medications"
+
+    def __str__(self):
+        return self.name
+
+
+class TherapyPlan(models.Model):
+    patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE)
+    medication = models.ForeignKey(Medication, on_delete=models.CASCADE)
+    dosage = models.CharField(max_length=100, blank=True, null=True)
+    duration_days = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(1)])
+    instructions = models.TextField(blank=True, null=True)
+    created_on = models.DateField(auto_now_add=True)
+    updated_on = models.DateField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Treatment Plan"
+        verbose_name_plural = "Treatment Plans"
+
+    def __str__(self):
+        return f'Treatment Plan for {self.patient}'

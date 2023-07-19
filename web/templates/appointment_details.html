@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Details</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add custom styles here */
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Appointment Details</h2>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Patient Name</th>
+                    <td>{{ appointment.patient }}</td>
+                </tr>
+                <tr>
+                    <th>Symptoms</th>
+                    <td>{{ appointment.symptoms }}</td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ appointment.for_date }} {{ appointment.for_time }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ appointment.status }}</td>
+                </tr>
+                <!-- Add other fields from Appointment model here -->
+            </table>
+                                    {% if appointment.status == 'Pending' %}
+                            <a href="{% url 'reject appointment' pk=appointment.pk %}" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to reject this appointment?');">Reject</a>
+                        {% else %}
+                            <!-- Handle other statuses or display a different button -->
+                        {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <h2>Appointment Poll</h2>
+            {% if appointment.appointmentpoll %}
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Current Condition</th>
+                        <td>{{ appointment.appointmentpoll.current_condition }}</td>
+                    </tr>
+                    <tr>
+                        <th>High Temperature</th>
+                        <td>{{ appointment.appointmentpoll.high_temperature }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cough</th>
+                        <td>{{ appointment.appointmentpoll.cough }}</td>
+                    </tr>
+                    <!-- Add other fields from AppointmentPoll model here -->
+                </table>
+            {% else %}
+                <p>No appointment poll available for this appointment.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

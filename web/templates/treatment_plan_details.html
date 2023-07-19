@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Treatment Plan Details</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Treatment Plan Details</h2>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Patient</th>
+            <td>{{ treatment_plan.patient }}</td>
+        </tr>
+        <tr>
+            <th>Medication</th>
+            <td>
+                {{ treatment_plan.medication.name }}
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ treatment_plan.medication.description }}
+            </td>
+        </tr>
+        <tr>
+            <th>Dosage</th>
+            <td>{{ treatment_plan.dosage }}</td>
+        </tr>
+        <tr>
+            <th>Created on</th>
+            <td>
+                {{ treatment_plan.created_on }}
+            </td>
+        </tr>
+        <tr>
+            <th>Duration (days)</th>
+            <td>{{ treatment_plan.duration_days }}</td>
+        </tr>
+        <tr>
+            <th>Instructions</th>
+            <td>{{ treatment_plan.instructions }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="{% url 'doctor dashboard' %}" class="btn btn-secondary">Return</a>
+    <a href="{% url 'update treatment plan' treatment_plan_pk=treatment_plan.pk %}" class="btn btn-primary">Edit
+        Treatment Plan</a>
+</div>
+
+<!-- Add Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

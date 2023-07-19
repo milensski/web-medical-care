@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 
-from web.app_auth.models import PatientProfile, DoctorProfile
+from web.app_auth.models import PatientProfile, DoctorProfile, Medication
 
 # Register your models here.
 UserModel = get_user_model()
@@ -19,4 +19,9 @@ class PatientProfilesAdmin(admin.ModelAdmin):
 
 @admin.register(DoctorProfile)
 class DoctorProfilesAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Medication)
+class MedicationAdmin(admin.ModelAdmin):
     pass

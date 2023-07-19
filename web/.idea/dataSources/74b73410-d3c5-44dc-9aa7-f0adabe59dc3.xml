@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.48">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>2321</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2382</IntrospectionStateNumber>
       <ServerVersion>15.3</ServerVersion>
       <StartupTime>1689241961</StartupTime>
       <TimeZones>true ACDT
@@ -1400,7 +1400,7 @@ true posixrules
 13209||10|C|G
 13209||-9223372036854775808|U|G
 13209||10|U|G</Grants>
-      <IntrospectionStateNumber>2321</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2382</IntrospectionStateNumber>
       <ObjectId>42024</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4818,7 +4818,7 @@ true posixrules
     <schema id="262" parent="2" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>2321</IntrospectionStateNumber>
+      <IntrospectionStateNumber>2382</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -4826,7 +4826,7 @@ true posixrules
     <sequence id="263" parent="262" name="app_auth_appointment_id_seq">
       <DasType>bigint|0s</DasType>
       <ObjectId>50263</ObjectId>
-      <SequenceIdentity>1(12)</SequenceIdentity>
+      <SequenceIdentity>1(15)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>2256</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4834,7 +4834,7 @@ true posixrules
     <sequence id="264" parent="262" name="app_auth_appointmentpoll_id_seq">
       <DasType>bigint|0s</DasType>
       <ObjectId>50291</ObjectId>
-      <SequenceIdentity>1(2)</SequenceIdentity>
+      <SequenceIdentity>1(3)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>2310</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4890,7 +4890,7 @@ true posixrules
     <sequence id="271" parent="262" name="auth_permission_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>42041</ObjectId>
-      <SequenceIdentity>1(45)</SequenceIdentity>
+      <SequenceIdentity>1(53)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>1880</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4898,7 +4898,7 @@ true posixrules
     <sequence id="272" parent="262" name="django_admin_log_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>42157</ObjectId>
-      <SequenceIdentity>1(3)</SequenceIdentity>
+      <SequenceIdentity>1(11)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>1895</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4906,7 +4906,7 @@ true posixrules
     <sequence id="273" parent="262" name="django_content_type_id_seq">
       <DasType>integer|0s</DasType>
       <ObjectId>42033</ObjectId>
-      <SequenceIdentity>1(12)</SequenceIdentity>
+      <SequenceIdentity>1(14)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>1878</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -4914,7 +4914,7 @@ true posixrules
     <sequence id="274" parent="262" name="django_migrations_id_seq">
       <DasType>bigint|0s</DasType>
       <ObjectId>42025</ObjectId>
-      <SequenceIdentity>1(28)</SequenceIdentity>
+      <SequenceIdentity>1(30)</SequenceIdentity>
       <StartValue>1</StartValue>
       <StateNumber>1877</StateNumber>
       <OwnerName>postgres</OwnerName>
