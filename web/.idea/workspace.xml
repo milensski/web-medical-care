@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1b3a8e5b-617a-4eca-86f8-1ca8d081b1fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/templates/index2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/images/care.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/care.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/images/doctors-2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/doctors-2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/images/elvira-stoyanova-photo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/elvira-stoyanova-photo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/images/hero-bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/hero-bg.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/images/treatment.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/treatment.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/mixins.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/mixins.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +92,7 @@
       <workItem from="1689839275190" duration="557000" />
       <workItem from="1689840575665" duration="5117000" />
       <workItem from="1689921777274" duration="19777000" />
-      <workItem from="1690011534365" duration="17206000" />
+      <workItem from="1690011534365" duration="17575000" />
     </task>
     <servers />
   </component>
