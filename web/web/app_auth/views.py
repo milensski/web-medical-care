@@ -5,14 +5,28 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, UpdateView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from .decorators import restrict_profile_type, redirect_authenticated_user
+from .decorators import redirect_authenticated_user, restrict_profile_type
 from .filters import PatientFilter, AppointmentFilter
-from .forms import SignInForm, CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
-    UpdateAppointmentForm, AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm
+from .forms import CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
+    AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm, SignInForm, UpdateAppointmentForm, \
+    LandingPageSignInForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
+
+
+class LandingPageView(LoggedUserRedirectMixin, LoginView):
+    form_class = LandingPageSignInForm
+    template_name = 'index.html'
+    success_url = reverse_lazy('landing page')
+
+    def form_valid(self, form):
+        user = form.get_user()
+
+        print(login(self.request, user))
+
+        return super().form_valid(form)
 
 
 @login_required
@@ -24,19 +38,16 @@ def index(request):
     try:
         if user.groups.filter(name='Doctors').exists():
             profile = DoctorProfile.objects.get(user=user)
-            is_doctor = True
+            return redirect('doctor dashboard')
         elif user.groups.filter(name='Patients').exists():
             profile = PatientProfile.objects.get(user=user)
+            return redirect('patient dashboard')
+
     except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
         # Profile does not exist
         pass
 
-    context = {
-        'profile': profile,
-        'is_doctor': is_doctor,
-    }
-
-    return render(request, 'index.html', context)
+    return redirect('landing page')
 
 
 @redirect_authenticated_user

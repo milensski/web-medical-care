@@ -1,12 +1,15 @@
 from django.urls import path
 
-from .views import SignInView, SignOutView, index, registration_step1, registration_step2, \
+from .views import SignInView, SignOutView, registration_step1, registration_step2, \
     doctor_profile, patient_profile, DoctorDashboard, PatientProfileDetails, PatientProfileEdit, AddOncologyStatus, \
     UpdateOncologyStatus, ViewOncologyStatus, patient_dashboard, schedule_appointment, UpdateAppointment, \
     HistoryAppointments, cancel_appointment, create_appointment_poll, ViewAppointment, reject_appointment, \
-    create_treatment_plan, view_treatment_plan, update_treatment_plan
+    create_treatment_plan, view_treatment_plan, update_treatment_plan, LandingPageView, index
 
 urlpatterns = [
+
+    path('', LandingPageView.as_view(), name='landing page'),
+
     path('register/', registration_step1, name='registration step1'),
     path('register/step2/', registration_step2, name='registration step2'),
     path('register/step3/doctor/', doctor_profile, name='doctor profile'),
@@ -14,8 +17,8 @@ urlpatterns = [
 
     path('login/', SignInView.as_view(), name='login'),
     path('logout/', SignOutView.as_view(), name='logout'),
-    path('', index, name='index'),
-    path('dashboard/', DoctorDashboard.as_view(), name='doctor dashboard'),
+    path('index/', index, name='index'),
+    path('doctor/dashboard/', DoctorDashboard.as_view(), name='doctor dashboard'),
     path('schedule-appointment/', schedule_appointment, name='schedule appointment'),
     path('appointment-poll/', create_appointment_poll, name='create appointment poll'),
     path('appointment/<int:pk>/details', ViewAppointment.as_view(), name='view appointment'),

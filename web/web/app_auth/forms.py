@@ -1,6 +1,8 @@
 from django import forms
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll, TherapyPlan
 from .widgets import DatePickerInput
@@ -39,6 +41,39 @@ class PatientProfileForm(forms.ModelForm):
 class SignInForm(AuthenticationForm):
     class Meta:
         fields = ('email', 'password')
+
+
+class LandingPageSignInForm(SignInForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add Bootstrap classes and placeholders to the form fields
+        self.fields['username'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter your email'})
+        self.fields['password'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter your password'})
+
+    def clean(self):
+        email = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if email and password:
+            # Validate email format using Django's built-in validator
+            try:
+                validate_email(email)
+            except ValidationError:
+                raise forms.ValidationError('Invalid email format.')
+
+            self.user_cache = authenticate(username=email, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    self.error_messages['invalid_login'],
+                    code='invalid_login',
+                    params={'username': self.username_field.verbose_name},
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
 
 
 class SignOutForm(forms.Form):
@@ -99,7 +134,6 @@ class TreatmentPlanForm(forms.ModelForm):
 
 
 class UpdateTreatmentPlanForm(forms.ModelForm):
-
     class Meta:
         model = TherapyPlan
         fields = ['medication', 'dosage', 'duration_days', 'instructions']

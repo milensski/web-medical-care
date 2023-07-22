@@ -1,39 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Index</title>
-</head>
-<body>
-<h1>Welcome to the Index Page</h1>
+{% extends 'base.html' %}
+{% block content %}
+    <!-- Welcome Section -->
+    <section class="hero my-5 mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 d-flex align-items-stretch">
+                    <div class="card card-blur h-100 d-flex flex-column justify-content-center">
+                        <div class="card-body">
+                            {{ request.user }}
 
-{% if user.is_authenticated and request.user.is_superuser or request.user.is_staff %}
-    <h1>Hello!</h1>
-    <h2>Info about current user:</h2>
-    <a href="/admin">Admin panel</a>
-{% elif user.is_authenticated %}
-    <h1>Hello!</h1>
+                            <h1 class="display-4 hero-login-h3">Welcome to OncoConnect!</h1>
+                            <p class="lead text-secondary">A specialized medical app for oncology patients.</p>
+                            <a class="btn btn-primary2" href="#" role="button">Learn more</a>
+                        </div>
+                    </div>
+                </div>
 
-    {% if is_doctor %}
-        <a href="{% url 'doctor dashboard' %}">DASHBOARD</a>
-        <h1>Staff: {{ request.user.is_staff }}</h1>
-        <h2>Info about current user:</h2>
-        <p>{{ profile }}</p>
-        <p>{{ profile.specialization }}</p>
-        <p>{{ profile.experience }} years</p>
-    {% else %}
-        <a href="{% url 'patient dashboard' %}">DASHBOARD</a>
-        <h2>Patient:</h2>
-        <p>{{ profile.first_name }}</p>
-        <p>{{ profile.middle_name }}</p>
-        <p>{{ profile.last_name }}</p>
-        <p>{{ profile.phone_number }}</p>
-    {% endif %}
-    <br>
+                <!-- Login Form -->
+                <div class="col-md-6 d-flex align-items-stretch">
+                    <div class="card card-blur h-100 d-flex flex-column justify-content-center">
+                        <div class="card-body">
+                            <!-- Add your login form here -->
+                            <h3 class="display-4 hero-login-h3">Login</h3>
+                            <div class="container">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary2">Login</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-{% else %}
-    <p>Hello, guest!</p>
-{% endif %}
 
-<a href="{% url 'logout' %}">Sign Out</a>
-</body>
-</html>
+
+    <!-- Other Sections (Cards)  -->
+    <section class="container card-section">
+        <h3 class="section-title text-center mb-4">Services</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <h5 class="card-header card-title text-primary2">Personalized Care Plans</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Get access to tailored treatment plans designed specifically for your unique needs and
+                            medical
+                            history.
+                            Our experienced oncologists create personalized care plans to optimize your recovery
+                            journey.
+                        </p>
+                    </div>
+                    <img src="../static/images/treatment.jpg" class="card-img-top" alt="...">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <h5 class="card-header card-title text-primary2">Oncology Status Updates</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Receive real-time updates and insights about your oncology status from our dedicated
+                            team of oncologists. Stay informed about your health progress and track any changes in
+                            your
+                            condition.
+                        </p>
+                    </div>
+                    <img src="../static/images/care.jpg" class="card-img-top" alt="...">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <h5 class="card-header card-title text-primary2">Appointments Scheduling</h5>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Easily schedule and manage your oncology appointments with our user-friendly interface.
+                            Stay on top of your treatment plan by setting up reminders and receiving notifications
+                            for
+                            upcoming
+                            appointments.
+                        </p>
+                    </div>
+                    <img src="../static/images/elvira-stoyanova-photo.jpg" class="card-img-top" alt="...">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="jumbotron jumbotron-fluid about-section">
+        <div class="container">
+            <h3 class="display-4">Empowering Oncology Patients with Advanced Care and Support</h3>
+            <p class="lead">
+                At OncoConnect, we are dedicated to revolutionizing the way oncology patients receive care and support.
+                Our specialized telemedicine app is designed to empower patients and enhance their journey through
+                cancer treatment.
+            </p>
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <div class="map-outer">
+            <div class="gmap_canvas">
+                <iframe class="gmap_iframe" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=Burgas, Комплексен онкологичен център Корпус 3&amp;t=&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+                <a href="https://connectionsgame.org/">Connections Game</a></div>
+        </div>
+    </div>
+{% endblock %}
