@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -52,14 +53,18 @@ def index(request):
 
 @redirect_authenticated_user
 def registration_step1(request):
+    form = CustomUserForm()
+
     if request.method == 'POST':
         form = CustomUserForm(request.POST)
         if form.is_valid():
             user = form.save()  # Save the user object
             login(request, user)  # Log in the user
             return redirect('registration step2')
-    else:
-        form = CustomUserForm()
+        else:
+            # messages.error(request, form.errors)
+            messages.add_message(request, messages.ERROR, message='Invalid form')
+
     return render(request, 'registration_step1.html', {'form': form})
 
 
@@ -68,8 +73,10 @@ def registration_step1(request):
 def registration_step2(request):
     if request.method == 'POST':
         form = ProfileTypeForm(request.POST)
+        print(form)
         if form.is_valid():
             profile_type = form.cleaned_data['profile_type']
+            print(profile_type)
             request.session['profile_type'] = profile_type
             if profile_type == 'doctor':
                 return redirect('doctor profile')

@@ -11,6 +11,15 @@ UserModel = get_user_model()
 
 
 class CustomUserForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add Bootstrap classes and placeholders to the form fields
+        self.fields['email'].widget.attrs.update(
+            {'class': 'form-control2 text-center','placeholder': 'Enter your email'})
+        self.fields['password1'].widget.attrs.update(
+            {'class': 'form-control2 text-center','placeholder': 'Enter your password'})
+        self.fields['password2'].widget.attrs.update(
+            {'class': 'form-control2 text-center','placeholder': 'Repeat your password'})
     class Meta:
         model = UserModel
         fields = ('email', 'password1', 'password2')
@@ -19,7 +28,7 @@ class CustomUserForm(UserCreationForm):
 class ProfileTypeForm(forms.Form):
     profile_type = forms.ChoiceField(
         choices=[('doctor', 'Doctor'), ('patient', 'Patient')],
-        widget=forms.RadioSelect,
+        widget=forms.RadioSelect(attrs = {'class' : 'form-check-input'}),
         required=True
     )
 

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,9 +13,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="{% static '/styles.css' %}">
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
 
@@ -48,17 +51,16 @@
     </div>
 </nav>
 
-
-    <main>
+<main>
     {% block content %}
     {% endblock %}
-    </main>
+</main>
 
 <footer class="bg-primary2 text-white text-center py-3">
-  <div class="container">
-    <p>&copy; 2023 OncoConnect. All rights reserved.</p>
-    <p>Designed and developed by Milen Palachorov.</p>
-  </div>
+    <div class="container">
+        <p>&copy; 2023 OncoConnect. All rights reserved.</p>
+        <p>Designed and developed by Milen Palachorov.</p>
+    </div>
 </footer>
 
 
@@ -77,15 +79,26 @@
 {#</script>#}
 
 <script>
-  $(document).ready(function() {
-    $(window).on("scroll", function() {
-      if ($(window).scrollTop() > 50) {
-        $(".navbar").addClass("navbar-scroll");
-      } else {
-        $(".navbar").removeClass("navbar-scroll");
-      }
+    $(document).ready(function () {
+        $(window).on("scroll", function () {
+            if ($(window).scrollTop() > 50) {
+                $(".navbar").addClass("navbar-scroll");
+            } else {
+                $(".navbar").removeClass("navbar-scroll");
+            }
+        });
     });
-  });
+</script>
+<script>
+    // suppose the `id` attribute of element is `message_container`.
+    var message_ele = document.querySelector(".alert");
+
+    setTimeout(function () {
+        message_ele.classList.add('animate__animated', 'animate__fadeOutUp');
+        {#message_ele.style.display = "none";#}
+
+    }, 3000);
+    // Timeout is 3 sec, you can change it
 </script>
 </body>
 </html>

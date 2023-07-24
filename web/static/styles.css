@@ -25,6 +25,7 @@
     color: cornflowerblue;
 }
 
+
 .card-blur::before {
     content: "";
     position: absolute;
@@ -36,6 +37,7 @@
     z-index: -1;
     border-radius: 20px;
 }
+
 
 .navbar {
     background-color: cornflowerblue;
@@ -155,9 +157,6 @@
     transition: transform 0.3s ease;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-}
 
 .section-title {
     font-family: 'Montserrat', sans-serif;
@@ -220,6 +219,46 @@
 
 }
 
+.form-control2::placeholder {
+    color: #888;
+    font-size: 10px;
+}
+
+/*!* Hide default radio buttons *!*/
+/*input[type="radio"] {*/
+/*    display: none;*/
+/*}*/
+
+.form-check-input:checked + .form-check-label.custom-radio-label {
+    border-color: #0069d9;
+    background: #0069d9;
+    color: #fff;
+}
+
+.form-check-label.custom-radio-label {
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 10px;
+    border: 2px solid lightgrey;
+    transition: all 0.3s ease;
+}
+
+.form-check-label.custom-radio-label span {
+    font-size: 20px;
+    color: #606fff;
+
+}
+
+.form-check-input:checked + .form-check-label.custom-radio-label span {
+    color: #460000;
+}
 .map-outer {
     position: relative;
     text-align: right;

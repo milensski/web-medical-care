@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+from django.contrib import messages
 from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -139,3 +140,11 @@ LOGIN_URL = reverse_lazy('login')
 #     'web.app_auth.backends.EmailBackend',
 #     'django.contrib.auth.backends.ModelBackend',
 # ]
+
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.WARNING: 'alert-warning',
+        messages.SUCCESS: 'alert-success',
+        messages.ERROR: 'alert-danger',
+ }

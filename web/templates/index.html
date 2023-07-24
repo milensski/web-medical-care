@@ -26,6 +26,7 @@
                                 <form method="post">
                                     {% csrf_token %}
                                     {{ form.as_p }}
+                                    <p>Don't have an account? <a href="{% url 'registration step1' %}">Register</a> </p>
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary2">Login</button>
                                     </div>
@@ -113,4 +114,5 @@
                 <a href="https://connectionsgame.org/">Connections Game</a></div>
         </div>
     </div>
+
 {% endblock %}
