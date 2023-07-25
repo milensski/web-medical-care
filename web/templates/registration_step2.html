@@ -1,29 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container" style="margin: 13% auto">
-        {% include 'messages.html' %}
-        <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card card-blur">
-                    <div class="card-body">
-                        <h3 class="hero-login-h3">Choose Profile Type</h3>
-                        <form method="post">
-                            {% csrf_token %}
-                            {% for field in form.profile_type %}
-                                <div class="mb-4">
-                                    <div class="form-check">
-                                        <label class="form-check-label custom-radio-label" for="{{ field.id_for_label }}">
+    <div class="emtpy">
+        <div class="container">
+            {% include 'messages.html' %}
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-6">
+                    <div class="card card-blur">
+                        <div class="card-body">
+                            <h3 class="hero-login-h3">Choose Profile Type</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                {% for field in form.profile_type %}
+                                    <div class="mb-4">
+                                        <div class="form-check">
+                                            <label class="form-check-label custom-radio-label"
+                                                   for="{{ field.id_for_label }}">
 
-                                            <span class="display-4">{{ field }}</span>
-                                        </label>
+                                                <span class="display-4">{{ field }}</span>
+                                            </label>
+                                        </div>
                                     </div>
+                                {% endfor %}
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary2">Next</button>
                                 </div>
-                            {% endfor %}
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary2">Next</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

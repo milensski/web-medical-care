@@ -125,14 +125,18 @@ def patient_profile(request):
 
 @login_required()
 def patient_dashboard(request):
-    patient = PatientProfile.objects.filter(user=request.user).get()
 
-    oncology_status = OncologyStatus.objects.filter(patient=patient).get()
+    patient = PatientProfile.objects.filter(user=request.user).first()
+
     appointments = Appointment.objects.filter(patient=patient).all()
+    oncology_status = OncologyStatus.objects.filter(patient=patient).first()
+    treatment = TherapyPlan.objects.filter(patient=patient).first()
+
     context = {
         'patient': patient,
         'oncology_status': oncology_status,
-        'appointments': appointments
+        'appointments': appointments,
+        'treatment': treatment
     }
 
     return render(request, 'patient_dashboard.html', context)

@@ -1,11 +1,90 @@
+.navbar {
+    background-color: cornflowerblue;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: padding-top 0.3s, padding-bottom 0.3s;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.navbar-brand:hover {
+    color: midnightblue;
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 18px;
+}
+
+.navbar-toggler-icon {
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 2px;
+}
+
+
+.navbar-nav .nav-link {
+    color: #fff;
+    margin: 0 10px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #1977cc;
+    z-index: -1;
+}
+
+@media (max-width: 576px) {
+    .navbar-nav {
+        margin-top: 0;
+        display: none;
+    }
+
+    .navbar-collapse {
+        margin-top: 10px;
+    }
+
+    .navbar-toggler {
+        display: block;
+    }
+}
+
+main {
+    padding-top: 60px;
+}
+.emtpy {
+    padding-top: 60px;
+    height: 90vh;
+}
+#id_gender {
+    color: #007bff;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 50px;
+}
+
 .hero {
     height: 80vh;
     background: url('images/hero-bg.jpg') center/cover no-repeat;
-    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: #ffffff;
+}
+
+footer{
+    height: 20vh;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.footer-padding {
+    padding-top: 30px;
 }
 
 .card-blur {
@@ -38,71 +117,6 @@
     border-radius: 20px;
 }
 
-
-.navbar {
-    background-color: cornflowerblue;
-    padding: 10px 0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: padding-top 0.3s, padding-bottom 0.3s;
-}
-.navbar-scroll {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-.navbar-brand {
-    font-size: 24px;
-    color: #fff;
-    letter-spacing: 2px;
-}
-
-.navbar-brand:hover {
-    color: midnightblue;
-}
-
-.navbar-toggler {
-    border: none;
-    outline: none;
-    color: #fff;
-    font-size: 18px;
-}
-
-.navbar-toggler-icon {
-    background-color: #fff;
-    border-radius: 2px;
-    padding: 2px;
-}
-
-.navbar-nav {
-    margin-top: 10px;
-}
-
-.navbar-nav .nav-link {
-    color: #fff;
-    margin: 0 10px;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.navbar-nav .nav-link:hover {
-    background-color: #1977cc;
-    z-index: -1;
-}
-
-@media (max-width: 576px) {
-    .navbar-nav {
-        margin-top: 0;
-        display: none;
-    }
-
-    .navbar-collapse {
-        margin-top: 10px;
-    }
-
-    .navbar-toggler {
-        display: block;
-    }
-}
 
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0,
@@ -259,6 +273,7 @@
 .form-check-input:checked + .form-check-label.custom-radio-label span {
     color: #460000;
 }
+
 .map-outer {
     position: relative;
     text-align: right;
@@ -339,7 +354,7 @@
     text-align: center;
     border-radius: 10px;
     background: #fff;
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    box-shadow:  2px 15px rgba(0, 0, 0, 0.1);
     padding: 40px 30px;
     width: 100%;
 }
@@ -359,4 +374,40 @@
 .why-us .icon-boxes .icon-box p {
     font-size: 15px;
     color: #848484;
+}
+
+table th {
+    /* Add your styles here */
+    background-color: cornflowerblue;
+    color: #fff;
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* CSS to style <td> (table data) elements */
+table td {
+    /* Add your styles here */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+/* Optional: Add hover effect on table rows */
+table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.appointment-poll-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.appointment-poll-form h2 {
+    margin-bottom: 30px;
+    color: #007bff;
 }

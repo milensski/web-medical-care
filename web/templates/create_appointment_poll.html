@@ -1,18 +1,20 @@
-<!-- create_appointment_poll.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Appointment Poll</title>
-</head>
-<body>
-    <h1>Create Appointment Poll</h1>
+{% extends 'base.html' %}
 
+{% block content %}
+<div class="container mt-5 mb-5">
+  <div class="appointment-poll-form">
+    <h2>Appointment Poll</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="mb-3 form-check">
+        {{ field }}
+        <label class="form-check-label">{{ field.label_tag }}</label>
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary2">Submit</button>
 
-    <a href="{% url 'update appointment' pk=appointment.pk %}">Back</a>
-</body>
-</html>
+    </form>
+  </div>
+</div>
+{% endblock %}

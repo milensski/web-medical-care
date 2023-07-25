@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <div class="container" style="margin: 13% auto">
+<div class="emtpy">
+    <div class="container">
                         {% include 'messages.html' %}
-        <div class="row justify-content-center mt-5">
+        <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card card-blur">
                     <div class="card-body">
@@ -12,7 +12,7 @@
                         <form method="post">
                             {% csrf_token %}
                             {% for field in form %}
-                                <div class="mb-4">
+                                <div class="form-floating mb-3 mb-4">
                                     <label for="{{ field.id_for_label }}" class="form-label2">{{ field.label }}</label>
                                     {{ field }}
                                 </div>
@@ -26,5 +26,5 @@
             </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

@@ -15,11 +15,12 @@ class CustomUserForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         # Add Bootstrap classes and placeholders to the form fields
         self.fields['email'].widget.attrs.update(
-            {'class': 'form-control2 text-center','placeholder': 'Enter your email'})
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter your email'})
         self.fields['password1'].widget.attrs.update(
-            {'class': 'form-control2 text-center','placeholder': 'Enter your password'})
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter your password'})
         self.fields['password2'].widget.attrs.update(
-            {'class': 'form-control2 text-center','placeholder': 'Repeat your password'})
+            {'class': 'form-control2 text-center', 'placeholder': 'Repeat your password'})
+
     class Meta:
         model = UserModel
         fields = ('email', 'password1', 'password2')
@@ -28,12 +29,30 @@ class CustomUserForm(UserCreationForm):
 class ProfileTypeForm(forms.Form):
     profile_type = forms.ChoiceField(
         choices=[('doctor', 'Doctor'), ('patient', 'Patient')],
-        widget=forms.RadioSelect(attrs = {'class' : 'form-check-input'}),
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
         required=True
     )
 
 
 class DoctorProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add Bootstrap classes and placeholders to the form fields
+        self.fields['first_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter first name'})
+        self.fields['middle_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter middle name'})
+        self.fields['last_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter last name'})
+        self.fields['phone_number'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter phone number'})
+        self.fields['uin_number'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter UIN number'})
+        self.fields['specialization'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter field of specialization'})
+        self.fields['experience'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter years of experience'})
+
     class Meta:
         model = DoctorProfile
         fields = (
@@ -42,9 +61,23 @@ class DoctorProfileForm(forms.ModelForm):
 
 
 class PatientProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add Bootstrap classes and placeholders to the form fields
+        self.fields['first_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter first name'})
+        self.fields['middle_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter middle name'})
+        self.fields['last_name'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter last name'})
+        self.fields['phone_number'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter phone number'})
+        self.fields['civil_number'].widget.attrs.update(
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter personal id number'})
+
     class Meta:
         model = PatientProfile
-        fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number', 'gender')
+        fields = ('first_name', 'middle_name', 'last_name', 'civil_number', 'phone_number', 'gender')
 
 
 class SignInForm(AuthenticationForm):
@@ -94,6 +127,9 @@ class AppointmentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['patient'].widget.attrs['hidden'] = True
+        self.fields['for_date'].widget.attrs.update({'class': 'form-control', })
+        self.fields['for_time'].widget.attrs.update({'class': 'form-control'})
+        self.fields['symptoms'].widget.attrs.update({'class': 'form-control', 'rows': 4})
 
     class Meta:
         model = Appointment
@@ -126,7 +162,8 @@ class AppointmentPollForm(forms.ModelForm):
             'current_condition', 'high_temperature', 'cough', 'sores_in_mouth', 'sores_in_nose', 'cold', 'diarrhea',
             'skin_rash', 'additional_info')
         widgets = {
-            'additional_info': forms.Textarea(attrs={'rows': 4}),
+
+            'additional_info': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         }
 
 
