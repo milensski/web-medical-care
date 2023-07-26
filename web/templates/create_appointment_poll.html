@@ -1,20 +1,56 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-5 mb-5">
-  <div class="appointment-poll-form">
-    <h2>Appointment Poll</h2>
-    <form method="post">
-      {% csrf_token %}
-      {% for field in form %}
-      <div class="mb-3 form-check">
-        {{ field }}
-        <label class="form-check-label">{{ field.label_tag }}</label>
-      </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-primary2">Submit</button>
 
-    </form>
-  </div>
-</div>
+        <div class="container  text-center" style="margin: 4% auto">
+            <div class="appointment-poll-form">
+                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Please fill below:</h1>
+
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <p class="lead text-secondary">How do you determine your general
+                            condition at the time of filling out the survey</p>
+                    <div class="form-group">
+                        <label for="{{ form.current_condition.id_for_label }}">Current condition: </label>
+                        {{ form.current_condition }}
+                    </div>
+                    <p class="lead text-secondary">Do you currently have any of the following symptoms:</p>
+                    <div class="form-group">
+                        <label for="{{ form.high_temperature.id_for_label }}">High temperature? :</label>
+                        {{ form.high_temperature }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.cough.id_for_label }}">Cough? :</label>
+                        {{ form.cough }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.sores_in_mouth.id_for_label }}">Sores in mouth? :</label>
+                        {{ form.sores_in_mouth }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.sores_in_nose.id_for_label }}">Sores in nose? :</label>
+                        {{ form.sores_in_nose }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.cold.id_for_label }}">Cold? :</label>
+                        {{ form.cold }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.diarrhea.id_for_label }}">Diarrhea? :</label>
+                        {{ form.diarrhea }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.skin_rash.id_for_label }}">Skin rash? :</label>
+                        {{ form.skin_rash }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.additional_info.id_for_label }}">Additional info :</label>
+                        {{ form.additional_info }}
+                    </div>
+                    <button type="submit" class="btn form-btn-primary2">Submit</button>
+
+                </form>
+            </div>
+        </div>
+
 {% endblock %}

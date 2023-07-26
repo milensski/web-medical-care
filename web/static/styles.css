@@ -58,6 +58,7 @@
 
 main {
     padding-top: 60px;
+
 }
 .emtpy {
     padding-top: 60px;
@@ -67,6 +68,26 @@ main {
     color: #007bff;
     font-family: 'Montserrat', sans-serif;
     border-radius: 50px;
+}
+
+.form-group label {
+    color: #007bff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+option {
+    color: #002589;
+    font-family: 'Montserrat', sans-serif;
+}
+option::selection{
+    color: #002589;
+    font-family: 'Montserrat', sans-serif;
+}
+
+option:checked {
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #007bff;
 }
 
 .hero {
@@ -141,8 +162,23 @@ footer{
     border-radius: 50px;
     transition: all ease-in-out 0.4s;
 }
-
 .btn-primary2:hover {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: cornflowerblue;
+
+}
+.form-btn-primary2 {
+    margin-top: 30px;
+    color: cornflowerblue;
+    border-color: cornflowerblue;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+.form-btn-primary2:hover {
     background-color: cornflowerblue;
     color: white;
     border-color: cornflowerblue;
@@ -273,6 +309,7 @@ footer{
 .form-check-input:checked + .form-check-label.custom-radio-label span {
     color: #460000;
 }
+
 
 .map-outer {
     position: relative;

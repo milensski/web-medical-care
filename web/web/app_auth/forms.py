@@ -130,6 +130,7 @@ class AppointmentForm(forms.ModelForm):
         self.fields['for_date'].widget.attrs.update({'class': 'form-control', })
         self.fields['for_time'].widget.attrs.update({'class': 'form-control'})
         self.fields['symptoms'].widget.attrs.update({'class': 'form-control', 'rows': 4})
+        self.fields['doctor'].widget.attrs.update({'class': 'custom-select'})
 
     class Meta:
         model = Appointment

@@ -7,18 +7,9 @@
     <list default="true" id="1b3a8e5b-617a-4eca-86f8-1ca8d081b1fa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/create_appointment_poll.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_appointment_poll.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/doctor_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/doctor_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/patient_dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/patient_dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/patient_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/patient_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration_step1.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration_step1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration_step2.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration_step2.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/schedule_appointment.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/schedule_appointment.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/app_auth/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/app_auth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/app_auth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/web/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,6 +98,7 @@
       <workItem from="1690011534365" duration="36923000" />
       <workItem from="1690263454539" duration="8853000" />
       <workItem from="1690291870971" duration="3935000" />
+      <workItem from="1690352905018" duration="5036000" />
     </task>
     <servers />
   </component>

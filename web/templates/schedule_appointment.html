@@ -1,13 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container  text-center">
-        <h1 class="mt-5 display-4 mb-4 hero-login-h3">Schedule Appointment</h1>
-        <div class="row">
-            <div class="col">
-
-            </div>
-            <div class="col-md-6">
+    <div class="emtpy">
+        <div class="container  text-center">
+            <div class="appointment-poll-form">
+                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Schedule Appointment</h1>
                 <form method="post" class="text-center">
                     {% csrf_token %}
                     <div class="form-group">
@@ -32,12 +29,10 @@
                     {# Add other fields here if needed #}
 
                     <input type="hidden" name="patient" value="{{ form.initial.patient.pk }}">
-                    <button type="submit" class="btn btn-primary2">Schedule</button>
+                    <button type="submit" class="btn form-btn-primary2">Schedule</button>
                 </form>
             </div>
-            <div class="col">
 
-            </div>
         </div>
     </div>
 
