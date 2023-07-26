@@ -1,24 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create Treatment Plan</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Create Treatment Plan for {{ patient }}</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{% url 'doctor dashboard' %}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="emtpy">
+        <div class="container  text-center ">
+            <div class="appointment-poll-form mb-4">
+                <h1 class="display-4 hero-login-h3">Treatment Plan</h1>
+                <p class="card-header text-primary2 mb-4">{{ patient }}</p>
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <div class="mb-3 form-group">
+                        {{ form.as_p }}
 
-    <!-- Add Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+                    </div>
+                    <div class="my-4">
+                        <a href="{% url 'doctor dashboard' %}" class="btn card-btn-primary2">Back</a>
+                        <button type="submit" class="btn card-btn-edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

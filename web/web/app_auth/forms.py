@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
-from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll, TherapyPlan
+from web.app_auth.models import DoctorProfile, PatientProfile, Appointment, AppointmentPoll, TherapyPlan, OncologyStatus
 from .widgets import DatePickerInput
 
 UserModel = get_user_model()
@@ -90,7 +90,7 @@ class LandingPageSignInForm(SignInForm):
         super().__init__(*args, **kwargs)
         # Add Bootstrap classes and placeholders to the form fields
         self.fields['username'].widget.attrs.update(
-            {'class': 'form-control2 text-center', 'placeholder': 'Enter your email'})
+            {'class': 'form-control2 text-center', 'placeholder': 'Enter your email', 'type': 'email'})
         self.fields['password'].widget.attrs.update(
             {'class': 'form-control2 text-center', 'placeholder': 'Enter your password'})
 
@@ -120,6 +120,19 @@ class LandingPageSignInForm(SignInForm):
 
 class SignOutForm(forms.Form):
     pass
+
+
+class OncologyStatusForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['doctor'].widget = forms.HiddenInput()
+        self.fields['patient'].widget = forms.HiddenInput()
+
+    class Meta:
+        model = OncologyStatus
+        fields = '__all__'  # Include all fields from the model
 
 
 class AppointmentForm(forms.ModelForm):

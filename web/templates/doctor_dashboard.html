@@ -1,106 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Doctor Dashboard</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin-top: 50px;
-        }
-
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: #fff;
-        }
-
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #f2f2f2;
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .btn {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-
-        .btn-view {
-            background-color: #17a2b8;
-            color: #fff;
-        }
-
-        .btn-edit {
-            background-color: #ffc107;
-            color: #333;
-        }
-
-        .btn-add {
-            background-color: #28a745;
-            color: #fff;
-        }
-
-        .btn-update {
-            background-color: #fd7e14;
-            color: #fff;
-        }
-
-        .btn-return {
-            background-color: #6c757d;
-            color: #fff;
-        }
-
-        .card {
-            margin-bottom: 20px;
-        }
-
-        .card-header {
-            background-color: #f2f2f2;
-            font-family: 'Poppins', sans-serif;
-            color: #333;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .card-body {
-            padding: 15px;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>Doctor Dashboard</h1>
-    <form method="get">
+{% extends 'base.html' %}
+{% block content %}
+   <div class="container mb-5 text-center">
+        <h1 class="display-4 mb-4 hero-login-h3 my-4">Doctor dashboard</h1>
+    <form method="get" class="form-group search">
         {% csrf_token %}
         {{ my_filter.form }}
 
-        <button type="submit">Search</button>
+        <button type="submit" class="form-btn-primary2 search">Search</button>
     </form>
     <div class="row">
         <div class="col-md-8">
-            <table class="table">
+            <h2 class="section-title">Patients</h2>
+
+            <table class="table2">
                 <thead>
                 <tr>
                     <th>Patient Name</th>
@@ -113,19 +25,16 @@
                 <tbody>
                 {% for patient in patients %}
                     <tr>
-                        <td>{{ patient }}</td>
+                        <td>{{ patient.get_full_name }}</td>
                         <td>{{ patient.civil_number }}</td>
                         <td>
                             <a class="btn btn-sm btn-view" href="{% url 'patient details' pk=patient.pk %}">View</a>
-                            <a class="btn btn-sm btn-edit" href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
                         </td>
                         <td>
                             {% for p, oncology_status in patients_with_oncology %}
                                 {% if p == patient %}
                                     <a class="btn btn-sm btn-view"
                                        href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View</a>
-                                    <a class="btn btn-sm btn-update"
-                                       href="{% url 'update oncology status' pk=patient.pk onco_status=oncology_status.pk %}">Update</a>
                                 {% endif %}
                             {% empty %}
 
@@ -138,7 +47,7 @@
                         <td>
                             {% for p, therapy in patients_with_therapy %}
                                 {% if p == patient %}
-                                <a class="btn btn-sm btn-add"
+                                <a class="btn btn-sm btn-view"
                                    href="{% url 'view treatment plan' treatment_plan_pk=therapy.pk  %}">View</a>
                                 {% endif %}
                             {% endfor %}
@@ -161,17 +70,18 @@
         </div>
         <div class="col-md-4">
 
-            <h2>Appointments <a class="btn btn-sm btn-return" href="{% url 'history appointments' %}">History</a></h2>
+            <h2 class="section-title">Appointments <a class="btn btn-sm btn-history" href="{% url 'history appointments' %}">History</a></h2>
             {% for appointment in appointments %}
                 <div class="card">
                     <div class="card-header">
                         {{ appointment.patient }}
                     </div>
-                    <div class="card-body">
+                    <div class="card-body card-text">
                         <p><strong>Appointment Date:</strong> {{ appointment.for_date }}</p>
+                        <p><strong>Time:</strong> {{ appointment.for_time }}</p>
                         <p><strong>Symptoms:</strong> {{ appointment.symptoms }}</p>
-                        <p><strong>Status:</strong> {{ appointment.status }}</p>
-                        <a class="btn btn-sm btn-return" href="{% url 'view appointment' pk=appointment.pk %}">View</a>
+                        <p><strong>Status:</strong> <span style="color: darkorange">{{ appointment.status }} </span> </p>
+                        <a class="btn btn-sm btn-view" href="{% url 'view appointment' pk=appointment.pk %}">View</a>
 
                     </div>
                 </div>
@@ -188,9 +98,4 @@
     <a class="btn btn-sm btn-return" href="{% url 'index' %}">Return</a>
 </div>
 
-<!-- Add Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+{% endblock %}

@@ -4,11 +4,11 @@ from web.app_auth.models import PatientProfile, Appointment
 
 
 class PatientFilter(FilterSet):
-    civil_number = CharFilter(field_name='civil_number', lookup_expr='icontains')
+    civil_number = CharFilter(field_name='civil_number', label='PIN', lookup_expr='contains')
 
     class Meta:
         model = PatientProfile
-        fields = ('first_name', 'middle_name', 'last_name', 'civil_number')
+        fields = ('first_name', 'last_name', 'civil_number')
 
 
 class AppointmentFilter(FilterSet):
@@ -16,6 +16,7 @@ class AppointmentFilter(FilterSet):
     # appointments = [(x, x) for x in query]
 
     status = ChoiceFilter(choices=Appointment.STATUS)
+
     # patient = ChoiceFilter(choices=appointments)
 
     class Meta:

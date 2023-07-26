@@ -1,5 +1,23 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-</form>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="emtpy">
+        <div class="container  text-center ">
+            <div class="appointment-poll-form mb-4">
+                <h1 class="display-4 hero-login-h3">Oncology status</h1>
+                <p class="card-header text-primary2 mb-4">{{ form.initial.patient }}</p>
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <div class="mb-3 form-group">
+                        {{ form.as_p }}
+
+                    </div>
+                    <div class="my-4">
+                        <a href="{% url 'doctor dashboard' %}" class="btn card-btn-primary2">Back</a>
+                        <button type="submit" class="btn card-btn-edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

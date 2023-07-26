@@ -1,18 +1,22 @@
-<!-- update_oncology_status.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Oncology Status</title>
-</head>
-<body>
-    <h1>Update Oncology Status</h1>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="emtpy">
+        <div class="container  text-center">
+            <div class="appointment-poll-form">
+                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Edit Oncology Status</h1>
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <div class="mb-3 form-group">
+                        {{ form.as_p }}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
+                    </div>
+                    <div class="my-4">
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn card-btn-primary2">Back</a>
+                        <button type="submit" class="btn card-btn-edit">Edit</button>
+                    </div>
+                </form>
+            </div>
 
-    <a href="{% url 'doctor dashboard' %}">Back to Dashboard</a>
-</body>
-</html>
+        </div>
+    </div>
+{% endblock %}

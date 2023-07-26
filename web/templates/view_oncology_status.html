@@ -1,39 +1,116 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>View Oncology Status</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <h1>View Oncology Status</h1>
+{% extends 'base.html' %}
+{% block content %}
 
-        <div class="card">
-            <div class="card-header">
-                <h3>Patient: {{ oncology_status.patient }}</h3>
+    <section style="background-color: #eee;">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Oncology status</h1>
+
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'patient details' pk=oncology_status.patient.pk %}">{{ oncology_status.patient.get_full_name }}</a> </li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">Oncology Status</h5>
-                <p class="card-text">Histology Diagnosis: {{ oncology_status.histology_diagnose }}</p>
-                <p class="card-text">TNM: {{ oncology_status.tnm }}</p>
-                <p class="card-text">Stage: {{ oncology_status.stage }}</p>
-                <p class="card-text">HER2: {{ oncology_status.get_her2_display }}</p>
-                <p class="card-text">ER: {{ oncology_status.get_er_display }}</p>
-                <p class="card-text">PR: {{ oncology_status.get_pr_display }}</p>
-                <p class="card-text">Ki-67: {{ oncology_status.ki_67 }} %</p>
-                <p class="card-text">Start Date: {{ oncology_status.start_date }}</p>
-            </div>
-            <div class="card-footer">
-                <a class="btn btn-primary" href="{% url 'doctor dashboard' %}">Back to Dashboard</a>
+
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Histology Diagnosis: </p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.histology_diagnose }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">TNM:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.tnm }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Stage:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.stage }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">HER2:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.get_her2_display }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">ER:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.get_er_display }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">PR:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.get_pr_display }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Ki-67:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.ki_67 }} %</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Start Date:</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{ oncology_status.start_date }} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                                    <a class="btn card-btn-primary2 mb-4" href="{{request.META.HTTP_REFERER}}">Back</a>
+                                    <a class="btn card-btn-edit mb-4" href="{% url 'update oncology status' pk=oncology_status.patient.pk onco_status=oncology_status.pk  %}">Edit</a>
+
+                        </div>
+                        <div class="col-md-6">
+
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
-    </div>
-
-    <!-- Add Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
-``
+    </section>
+{% endblock %}

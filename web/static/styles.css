@@ -60,17 +60,106 @@ main {
     padding-top: 60px;
 
 }
+
+input[type=text] {
+    height: 25px;
+    font-size: 14px;
+    padding: 6px 6px;
+    border-radius: 15px;
+}
+
+input[type=password] {
+    height: 30px;
+
+    font-size: 16px;
+    padding: 6px 6px;
+    border-radius: 15px;
+}
+
 .emtpy {
     padding-top: 60px;
     height: 90vh;
 }
+
 #id_gender {
     color: #007bff;
     font-family: 'Montserrat', sans-serif;
     border-radius: 50px;
 }
 
+#id_histology_diagnose {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 100px;
+    background-color: transparent;
+}
+
+#id_stage {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+
+}
+#id_her2 {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+
+}
+#id_er {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+
+}
+
+#id_pr {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+
+}
+
+#id_ki_67 {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    font-size: 16px;
+    background-color: transparent;
+
+}
+#id_medication {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 30px;
+    width: 100px;
+    background-color: transparent;
+}
+#id_duration_days {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 25px;
+    width: 100px;
+    background-color: transparent;
+}
+#id_instructions {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 100px;
+    background-color: transparent;
+}
+
 .form-group label {
+    vertical-align: top;
     color: #007bff;
     font-family: 'Montserrat', sans-serif;
 }
@@ -79,7 +168,8 @@ option {
     color: #002589;
     font-family: 'Montserrat', sans-serif;
 }
-option::selection{
+
+option::selection {
     color: #002589;
     font-family: 'Montserrat', sans-serif;
 }
@@ -99,7 +189,7 @@ option:checked {
     color: #ffffff;
 }
 
-footer{
+footer {
     height: 20vh;
     font-family: 'Montserrat', sans-serif;
 }
@@ -151,6 +241,93 @@ footer{
     color: cornflowerblue;
 }
 
+.btn-view {
+    width: 70px;
+    color: #411997;
+    border-color: #411997;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    transition: all ease-in-out 0.2s;
+    margin-bottom: 10px;
+
+}
+
+.btn-view:hover {
+
+
+    background-color: #411997;
+    color: white;
+    border-color: #411997;
+
+}
+
+.btn-add {
+    width: 70px;
+    background-color: #027700;
+    color: white;
+    border-color: #027700;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+    margin-bottom: 10px;
+
+}
+
+.btn-add:hover {
+
+    color: #027700;
+    border-color: #027700;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-history {
+    width: 70px;
+    background-color: #696969;
+    color: white;
+    border-color: #696969;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+    margin-bottom: 5px;
+
+}
+
+.btn-history:hover {
+
+    color: #696969;
+    border-color: #696969;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.card-btn-primary2 {
+    color: cornflowerblue;
+    border-color: cornflowerblue;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.card-btn-primary2:hover {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: cornflowerblue;
+}
+
+.card-btn-edit {
+    background-color: #411997;
+    color: white;
+    border-color: #411997;
+    width: 100px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.2s;
+}
+
+.card-btn-edit:hover {
+    color: #411997;
+    border-color: #411997;
+    background: rgba(255, 255, 255, 0.2);
+}
+
 .btn-primary2 {
     margin-top: 30px;
     margin-bottom: -50px;
@@ -162,26 +339,57 @@ footer{
     border-radius: 50px;
     transition: all ease-in-out 0.4s;
 }
+
 .btn-primary2:hover {
     background-color: cornflowerblue;
     color: white;
     border-color: cornflowerblue;
 
 }
+
+.form-group.search label{
+    vertical-align: middle;
+}
+
+.form-btn-primary2.search {
+    margin-bottom: 20px;
+}
+
+.table2 {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 .form-btn-primary2 {
     margin-top: 30px;
-    color: cornflowerblue;
+    background-color: cornflowerblue;
+    color: white;
     border-color: cornflowerblue;
     display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
     padding: 6px 30px 8px 30px;
     border-radius: 50px;
     transition: all ease-in-out 0.4s;
 }
+
 .form-btn-primary2:hover {
-    background-color: cornflowerblue;
-    color: white;
+    color: cornflowerblue;
     border-color: cornflowerblue;
+    background: rgba(255, 255, 255, 0.2);
 
 }
 
@@ -260,6 +468,7 @@ footer{
     border-bottom: 1px solid #ccc;
     border-radius: 0;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .form-control2:focus {
@@ -391,7 +600,7 @@ footer{
     text-align: center;
     border-radius: 10px;
     background: #fff;
-    box-shadow:  2px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 15px rgba(0, 0, 0, 0.1);
     padding: 40px 30px;
     width: 100%;
 }

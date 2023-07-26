@@ -12,7 +12,7 @@ from .decorators import redirect_authenticated_user, restrict_profile_type
 from .filters import PatientFilter, AppointmentFilter
 from .forms import CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
     AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm, SignInForm, UpdateAppointmentForm, \
-    LandingPageSignInForm
+    LandingPageSignInForm, OncologyStatusForm
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
 
@@ -125,7 +125,6 @@ def patient_profile(request):
 
 @login_required()
 def patient_dashboard(request):
-
     patient = PatientProfile.objects.filter(user=request.user).first()
 
     appointments = Appointment.objects.filter(patient=patient).all()
@@ -321,7 +320,7 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
 class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     template_name = 'add_oncology_status.html'
     model = OncologyStatus
-    fields = '__all__'
+    form_class = OncologyStatusForm
     success_url = reverse_lazy('doctor dashboard')
 
     def get_initial(self):
@@ -346,7 +345,7 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_doctor(self):
-        doctor = DoctorProfile.objects.get(self.request.user)
+        doctor = DoctorProfile.objects.get(user=self.request.user)
         return doctor
 
     def get_patient(self):
@@ -357,7 +356,8 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
 class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
     template_name = 'update_oncology_status.html'
     model = OncologyStatus
-    fields = '__all__'
+    form_class = OncologyStatusForm
+
     success_url = reverse_lazy('doctor dashboard')
 
     def get_object(self, queryset=None):
@@ -420,7 +420,7 @@ class PatientProfileDetails(LoginRequiredMixin, DetailView):
 
 class PatientProfileEdit(LoginRequiredMixin, UpdateView):
     model = PatientProfile
-    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number', 'gender')
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number',)
     template_name = 'patient_profile_edit.html'
     success_url = reverse_lazy('doctor dashboard')  # Replace with the desired URL or reverse('dashboard')
     ordering = ['pk']
