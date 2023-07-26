@@ -132,7 +132,7 @@ input[type=password] {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 30px;
-    width: 100px;
+    width: 120px;
     font-size: 16px;
     background-color: transparent;
 
@@ -141,14 +141,14 @@ input[type=password] {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 30px;
-    width: 100px;
+    width: 140px;
     background-color: transparent;
 }
 #id_duration_days {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 25px;
-    width: 100px;
+    width: 120px;
     background-color: transparent;
 }
 #id_instructions {
