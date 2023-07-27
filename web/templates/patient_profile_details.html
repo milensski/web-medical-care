@@ -1,122 +1,107 @@
 {% extends 'base.html' %}
 {% block content %}
-    {#    <div class="container">#}
+    <div class="emtpy">
+        <section style="background-color: #eee;">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Patient profile</h1>
 
-    {#        <div class="card">#}
-    {#            <div class="card-body">#}
-    {#                <h5 class="card-title">Full Name</h5>#}
-    {#                <p class="card-text">{{ patient.get_full_name }}</p>#}
-    {#                <h5 class="card-title">PIN</h5>#}
-    {#                <p class="card-text">{{ patient.civil_number }}</p>#}
-    {#                <h5 class="card-title">Phone</h5>#}
-    {#                <p class="card-text">{{ patient.phone_number }}</p>#}
-    {#                <h5 class="card-title">Gender</h5>#}
-    {#                <p class="card-text">{{ patient.gender }}</p>#}
-    {#                <!-- Display additional patient fields here -->#}
-    {#                <a class="btn btn-primary btn-edit" href="{% url 'patient edit' pk=patient.pk %}">Edit</a>#}
-    {#            </div>#}
-    {#        </div>#}
-    {#    </div>#}
-    <section style="background-color: #eee;">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Patient profile</h1>
-
-                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{ patient.get_full_name }}</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-body text-center">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                 alt="avatar"
-                                 class="rounded-circle img-fluid" style="width: 150px;">
-                            <h5 class="my-3">{{ patient.first_name }} {{ patient.last_name }}</h5>
-                            <p class="text-muted mb-4">{{ patient.gender.capitalize }}</p>
-                            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                            {#            <div class="d-flex justify-content-center mb-2">#}
-                            {#              <button type="button" class="btn btn-primary">Follow</button>#}
-                            {#              <button type="button" class="btn btn-outline-primary ms-1">Message</button>#}
-                            {#            </div>#}
-                        </div>
-                    </div>
-                    <div class="card mb-4 mb-lg-0">
-                        <div class="card-body p-0">
-
-                        </div>
+                        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ patient.get_full_name }}</li>
+                            </ol>
+                        </nav>
                     </div>
                 </div>
-                <div class="col-lg-8">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Full Name</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ patient.get_full_name }}</p>
-                                </div>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mb-4">
+                            <div class="card-body text-center">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                     alt="avatar"
+                                     class="rounded-circle img-fluid" style="width: 150px;">
+                                <h5 class="my-3">{{ patient.first_name }} {{ patient.last_name }}</h5>
+                                <p class="text-muted mb-4">{{ patient.gender.capitalize }}</p>
+                                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                                {#            <div class="d-flex justify-content-center mb-2">#}
+                                {#              <button type="button" class="btn btn-primary">Follow</button>#}
+                                {#              <button type="button" class="btn btn-outline-primary ms-1">Message</button>#}
+                                {#            </div>#}
                             </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Email</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ patient.user.email }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Phone</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ patient.phone_number }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Personal ID Number</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ patient.civil_number }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Address</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
-                                </div>
+                        </div>
+                        <div class="card mb-4 mb-lg-0">
+                            <div class="card-body p-0">
+
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-
-                                    <a class="btn card-btn-primary2" href="{% url 'index' %}">Back</a>
-                                    <a class="btn card-btn-edit"
-                                       href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
-
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Full Name</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ patient.get_full_name }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Email</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ patient.user.email }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Phone</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ patient.phone_number }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Personal ID Number</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ patient.civil_number }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Address</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
 
+                                <a class="btn card-btn-primary2" href="{% url 'index' %}">Back</a>
+                                <a class="btn card-btn-edit"
+                                   href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
+
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 {% endblock %}

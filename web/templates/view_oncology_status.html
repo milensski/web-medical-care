@@ -6,6 +6,7 @@
             <div class="row">
                 <div class="col">
                     <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Oncology status</h1>
+                <p class="card-header text-primary2 mb-4 text-center">{{ oncology_status.patient }}</p>
 
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
@@ -98,7 +99,7 @@
                     <div class="row">
                         <div class="col-md-6">
 
-                                    <a class="btn card-btn-primary2 mb-4" href="{{request.META.HTTP_REFERER}}">Back</a>
+                                    <a class="btn card-btn-primary2 mb-4" href="{% url 'index' %}">Back</a>
                                     <a class="btn card-btn-edit mb-4" href="{% url 'update oncology status' pk=oncology_status.patient.pk onco_status=oncology_status.pk  %}">Edit</a>
 
                         </div>

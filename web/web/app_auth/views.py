@@ -170,7 +170,6 @@ def cancel_appointment(request, pk):
 
 
 @login_required()
-@restrict_profile_type
 def reject_appointment(request, pk):
     appointment = Appointment.objects.get(pk=pk)
     appointment.status = 'Rejected'
@@ -179,9 +178,17 @@ def reject_appointment(request, pk):
 
 
 @login_required()
+def approve_appointment(request, pk):
+    appointment = Appointment.objects.get(pk=pk)
+    print(appointment)
+    appointment.status = 'Approved'
+    appointment.save()
+    return redirect('doctor dashboard')
+
+
+@login_required()
 def create_appointment_poll(request):
     appointment = Appointment.objects.get(pk=request.session['appointment.pk'])
-
     if request.method == 'POST':
         form = AppointmentPollForm(request.POST)
         if form.is_valid():

@@ -87,11 +87,23 @@ input[type=password] {
     border-radius: 50px;
 }
 
+#id_patient {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 50px;
+}
+
+#id_status {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 50px;
+}
+
 #id_histology_diagnose {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 100px;
     background-color: transparent;
+    padding-left: 5px;
+
 }
 
 #id_stage {
@@ -102,6 +114,7 @@ input[type=password] {
     background-color: transparent;
 
 }
+
 #id_her2 {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
@@ -110,6 +123,7 @@ input[type=password] {
     background-color: transparent;
 
 }
+
 #id_er {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
@@ -135,8 +149,10 @@ input[type=password] {
     width: 120px;
     font-size: 16px;
     background-color: transparent;
+    padding-left: 5px;
 
 }
+
 #id_medication {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
@@ -144,18 +160,23 @@ input[type=password] {
     width: 140px;
     background-color: transparent;
 }
+
 #id_duration_days {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 25px;
     width: 120px;
+    padding-left: 5px;
     background-color: transparent;
 }
+
 #id_instructions {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
     height: 100px;
     background-color: transparent;
+    padding-left: 5px;
+
 }
 
 .form-group label {
@@ -347,7 +368,7 @@ footer {
 
 }
 
-.form-group.search label{
+.form-group.search label {
     vertical-align: middle;
 }
 
@@ -375,6 +396,10 @@ th {
     letter-spacing: 2px;
 }
 
+tr.clickable {
+    cursor: pointer;
+}
+
 .form-btn-primary2 {
     margin-top: 30px;
     background-color: cornflowerblue;
@@ -391,6 +416,89 @@ th {
     border-color: cornflowerblue;
     background: rgba(255, 255, 255, 0.2);
 
+}
+
+.form-btn-danger {
+    margin-top: 30px;
+    color: #cf0303;
+    border-color: #cf0303;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.form-btn-danger:hover {
+    background-color: #cf0303;
+    color: white;
+    border-color: #cf0303;
+}
+.table-btn-danger {
+    color: #cf0303;
+    border-color: #cf0303;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.table-btn-danger:hover {
+    background-color: #cf0303;
+    color: white;
+    border-color: #cf0303;
+}
+
+.table-btn-view {
+    color: cornflowerblue;
+    border-color: cornflowerblue;
+    background: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.table-btn-view:hover {
+    background-color: cornflowerblue;
+    color: white;
+    border-color: cornflowerblue;
+}
+
+.table-btn-primary2 {
+        background-color: #411997;
+    color: white;
+    border-color: #411997;
+    display: inline-block;
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.table-btn-primary2:hover {
+    color: #411997;
+    border-color: #411997;
+    background: rgba(255, 255, 255, 0.2);
+
+}
+
+.form-btn-add {
+    margin-left: 450px;
+    background-color: #0f9c00;
+    color: white;
+    border-color: #0f9c00;
+    margin-top: 30px;
+    display: inline-block;
+    padding: 6px 30px 8px 30px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.4s;
+}
+
+.form-btn-add:hover {
+    color: #0f9c00;
+    border-color: #0f9c00;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .bg-primary2 {

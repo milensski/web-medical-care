@@ -1,101 +1,105 @@
 {% extends 'base.html' %}
 {% block content %}
-   <div class="container mb-5 text-center">
-        <h1 class="display-4 mb-4 hero-login-h3 my-4">Doctor dashboard</h1>
-    <form method="get" class="form-group search">
-        {% csrf_token %}
-        {{ my_filter.form }}
+    <div class="emtpy">
+        <div class="container mb-5 text-center">
+            <h1 class="display-4 mb-4 hero-login-h3 my-4">Doctor dashboard</h1>
+            <form method="get" class="form-group search">
+                {% csrf_token %}
+                {{ my_filter.form }}
 
-        <button type="submit" class="form-btn-primary2 search">Search</button>
-    </form>
-    <div class="row">
-        <div class="col-md-8">
-            <h2 class="section-title">Patients</h2>
+                <button type="submit" class="form-btn-primary2 search">Search</button>
+            </form>
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="section-title">All Patients</h2>
 
-            <table class="table2">
-                <thead>
-                <tr>
-                    <th>Patient Name</th>
-                    <th>PIN</th>
-                    <th>Profile</th>
-                    <th>Oncology Status</th>
-                    <th>Treatment</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for patient in patients %}
-                    <tr>
-                        <td>{{ patient.get_full_name }}</td>
-                        <td>{{ patient.civil_number }}</td>
-                        <td>
-                            <a class="btn btn-sm btn-view" href="{% url 'patient details' pk=patient.pk %}">View</a>
-                        </td>
-                        <td>
-                            {% for p, oncology_status in patients_with_oncology %}
-                                {% if p == patient %}
+                    <table class="table2">
+                        <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>PIN</th>
+                            <th>Profile</th>
+                            <th>Oncology Status</th>
+                            <th>Treatment</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for patient in patients %}
+                            <tr>
+                                <td>{{ patient.get_full_name }}</td>
+                                <td>{{ patient.civil_number }}</td>
+                                <td>
                                     <a class="btn btn-sm btn-view"
-                                       href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View</a>
-                                {% endif %}
-                            {% empty %}
+                                       href="{% url 'patient details' pk=patient.pk %}">View</a>
+                                </td>
+                                <td>
+                                    {% for p, oncology_status in patients_with_oncology %}
+                                        {% if p == patient %}
+                                            <a class="btn btn-sm btn-view"
+                                               href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View</a>
+                                        {% endif %}
+                                    {% empty %}
 
-                            {% endfor %}
-                            {% if patient in patients_without_oncology %}
-                                <a class="btn btn-sm btn-add"
-                                   href="{% url 'add oncology status' pk=patient.pk %}">Add</a>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% for p, therapy in patients_with_therapy %}
-                                {% if p == patient %}
-                                <a class="btn btn-sm btn-view"
-                                   href="{% url 'view treatment plan' treatment_plan_pk=therapy.pk  %}">View</a>
-                                {% endif %}
-                            {% endfor %}
-                            {% if patient in patients_without_therapy %}
-                                <a class="btn btn-sm btn-add"
-                                   href="{% url 'create treatment plan' patient_pk=patient.pk %}">Add</a>
-                            {% endif %}
-                        </td>
-                    </tr>
+                                    {% endfor %}
+                                    {% if patient in patients_without_oncology %}
+                                        <a class="btn btn-sm btn-add"
+                                           href="{% url 'add oncology status' pk=patient.pk %}">Add</a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% for p, therapy in patients_with_therapy %}
+                                        {% if p == patient %}
+                                            <a class="btn btn-sm btn-view"
+                                               href="{% url 'view treatment plan' treatment_plan_pk=therapy.pk %}">View</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if patient in patients_without_therapy %}
+                                        <a class="btn btn-sm btn-add"
+                                           href="{% url 'create treatment plan' patient_pk=patient.pk %}">Add</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
 
 
 
-                {% empty %}
-                    <tr>
-                        <td colspan="4">No patients found.</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-4">
-
-            <h2 class="section-title">Appointments <a class="btn btn-sm btn-history" href="{% url 'history appointments' %}">History</a></h2>
-            {% for appointment in appointments %}
-                <div class="card">
-                    <div class="card-header">
-                        {{ appointment.patient }}
-                    </div>
-                    <div class="card-body card-text">
-                        <p><strong>Appointment Date:</strong> {{ appointment.for_date }}</p>
-                        <p><strong>Time:</strong> {{ appointment.for_time }}</p>
-                        <p><strong>Symptoms:</strong> {{ appointment.symptoms }}</p>
-                        <p><strong>Status:</strong> <span style="color: darkorange">{{ appointment.status }} </span> </p>
-                        <a class="btn btn-sm btn-view" href="{% url 'view appointment' pk=appointment.pk %}">View</a>
-
-                    </div>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">No patients found.</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            {% empty %}
-                <div class="card">
-                    <div class="card-body">
-                        No appointments found.
-                    </div>
+                <div class="col-md-4">
+
+                    <h2 class="section-title">Appointments <a class="btn btn-sm btn-history"
+                                                              href="{% url 'history appointments' %}">History</a></h2>
+                    {% for appointment in appointments %}
+                        <div class="card">
+                            <div class="card-header">
+                                {{ appointment.patient }}
+                            </div>
+                            <div class="card-body card-text">
+                                <p><strong>Appointment Date:</strong> {{ appointment.for_date }}</p>
+                                <p><strong>Time:</strong> {{ appointment.for_time }}</p>
+                                <p><strong>Symptoms:</strong> {{ appointment.symptoms }}</p>
+                                <p><strong>Status:</strong> <span
+                                        style="color: darkorange">{{ appointment.status }} </span></p>
+                                <a class="btn btn-sm btn-view" href="{% url 'view appointment' pk=appointment.pk %}">View</a>
+
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="card">
+                            <div class="card-body">
+                                No appointments found.
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
+
+            {#    <a class="btn btn-primary2" href="{% url 'index' %}">Return</a>#}
         </div>
     </div>
-
-    <a class="btn btn-sm btn-return" href="{% url 'index' %}">Return</a>
-</div>
-
 {% endblock %}

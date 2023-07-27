@@ -1,24 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Treatment Plan</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container mt-5">
-        <h2>Edit Treatment Plan</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a href="{% url 'view treatment plan' treatment_plan.pk %}" class="btn btn-secondary">Cancel</a>
-        </form>
-    </div>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="emtpy">
+        <div class="container  text-center">
+            <div class="appointment-poll-form">
+                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Edit Treatment Plan</h1>
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <div class="mb-3 form-group">
+                        {{ form.as_p }}
 
-    <!-- Add Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+                    </div>
+                    <div class="my-4">
+                        <a href="{{request.META.HTTP_REFERER}}" class="btn card-btn-primary2">Back</a>
+                        <button type="submit" class="btn card-btn-edit">Edit</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
