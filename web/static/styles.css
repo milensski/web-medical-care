@@ -179,6 +179,13 @@ input[type=password] {
 
 }
 
+#id_for_time {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    background-color: transparent;
+    padding-left: 5px;
+}
+
 .form-group label {
     vertical-align: top;
     color: #007bff;
@@ -347,6 +354,21 @@ footer {
     color: #411997;
     border-color: #411997;
     background: rgba(255, 255, 255, 0.2);
+}
+
+.card-btn-update {
+    background-color: #f9b000;
+    color: white;
+    border-color: #f9b000;
+    width: 100px;
+    border-radius: 50px;
+    transition: all ease-in-out 0.2s;
+}
+
+.card-btn-update:hover {
+    color: #fff;
+    border-color: #976319;
+    background: #976319;
 }
 
 .btn-primary2 {

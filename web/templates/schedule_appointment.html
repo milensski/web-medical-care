@@ -29,7 +29,8 @@
                     {# Add other fields here if needed #}
 
                     <input type="hidden" name="patient" value="{{ form.initial.patient.pk }}">
-                    <button type="submit" class="btn form-btn-primary2">Schedule</button>
+                    <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
+                    <button type="submit" class="btn card-btn-edit">Schedule</button>
                 </form>
             </div>
 

@@ -158,6 +158,7 @@ class WorkingHours:
 
 class Appointment(models.Model):
     STATUS = (
+        ('Pending', 'Pending'),
         ('Approved', 'Approve'),
         ('Rejected', 'Reject'),
         ('Canceled', 'Cancel')

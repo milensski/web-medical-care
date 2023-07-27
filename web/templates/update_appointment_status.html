@@ -1,27 +1,24 @@
-<!-- update_appointment_status.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Appointment Status</title>
-    <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
-    <h1>Update Appointment Status</h1>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="emtpy">
+        <div class="container  text-center">
+            <div class="appointment-poll-form">
+                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Update Appointment Status</h1>
+                <p class="card-header text-primary2 mb-4 text-center">{{ appointment.patient }}</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+                <form method="post" class="text-center">
+                    {% csrf_token %}
+                    <div class="mb-3 form-group">
+                        {{ form.as_p }}
 
-    <a href="{% url 'doctor dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-</div>
+                    </div>
+                    <div class="my-4">
+                        <a href="{{ request.META.HTTP_REFERER }}" class="btn card-btn-primary2">Back</a>
+                        <button type="submit" class="btn card-btn-edit">Update</button>
+                    </div>
+                </form>
+            </div>
 
-<!-- Add Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+        </div>
+    </div>
+{% endblock %}

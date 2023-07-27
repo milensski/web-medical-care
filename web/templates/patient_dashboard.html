@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="emtpy">
-        <div class="container mb-5 text-center">
+        <div class="container mb-5 text-center my-5">
             <h1 class="display-4 mb-4 hero-login-h3">Patient Dashboard</h1>
 
             <div class="row">
@@ -31,7 +30,10 @@
                                 <!-- Display other personal info fields here -->
                                 </tbody>
                             </table>
+                            <a class="btn form-btn-primary2"
+                               href="{% url 'patient details' pk=patient.pk %}">See profile</a>
                         </div>
+
                     </div>
                 </div>
                 <!-- Appointments Section -->
@@ -105,6 +107,9 @@
                                     <!-- Display other oncology status fields here -->
                                     </tbody>
                                 </table>
+                                <a class="btn form-btn-primary2"
+                                   href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View
+                                    full details</a>
                             {% else %}
                                 <p class="lead text-secondary">No oncology status available.</p>
                             {% endif %}
@@ -115,27 +120,30 @@
 
                 <!-- Treatment Plan Section -->
                 <div class="col-md-6">
-                    <div class="card mb-4">
+                    <div class="card">
                         <div class="card-body">
                             <h2 class="card-title section-title">Treatment Plan</h2>
-                            {% if treatment_plan %}
+                            {% if treatment %}
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <th>Plan Date</th>
-                                        <td>{{ treatment_plan.plan_date }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Treatment Description</th>
-                                        <td>{{ treatment_plan.treatment_description }}</td>
-                                    </tr>
-                                    <tr>
                                         <th>Medication</th>
-                                        <td>{{ treatment_plan.medication }}</td>
+                                        <td>{{ treatment.medication }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Dosage</th>
+                                        <td>{{ treatment.dosage }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Duration</th>
+                                        <td>{{ treatment.duration_days }} days</td>
                                     </tr>
                                     <!-- Display other treatment plan fields here -->
                                     </tbody>
                                 </table>
+                                <a class="btn form-btn-primary2"
+                                   href="{% url 'view treatment plan' treatment_plan_pk=treatment.pk %}">View full
+                                    details</a>
                             {% else %}
                                 <p class="lead text-secondary">No treatment plan available.</p>
                             {% endif %}
@@ -144,5 +152,4 @@
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}
