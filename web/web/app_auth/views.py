@@ -246,10 +246,12 @@ class UpdateAppointment(LoginRequiredMixin, UpdateView):
 
 
 class HistoryAppointments(DoctorRequiredMixin, ListView):
-    model = Appointment
     template_name = 'history_appointments.html'
+    model = Appointment
     context_object_name = 'appointments'
     ordering = ['pk']
+    paginate_by = 10
+
 
     def get_queryset(self):
         queryset = super().get_queryset()
