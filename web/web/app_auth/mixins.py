@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.views import View
@@ -6,20 +6,28 @@ from django.views import View
 from web.app_auth.models import DoctorProfile, PatientProfile
 
 
-class DoctorRequiredMixin(View):
-    def test_func(self):
-        return
+class DoctorRequiredMixin(LoginRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
-        exist = DoctorProfile.objects.filter(user=self.request.user).exists()
-        if self.request.user.is_authenticated and exist:
+        exist = DoctorProfile.objects.filter(user=request.user).exists()
+        if request.user.is_authenticated and exist:
             return super().dispatch(request, *args, **kwargs)
         return redirect('index')
 
 
-class PatientRequiredMixin(UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.is_authenticated and not self.request.user.is_doctor
+class DoctorOrSelfRequiredMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.pk != kwargs['pk'] and \
+                 request.user.groups.all()[0].name != 'Doctors':
+            return redirect('index')
+        return super().dispatch(request, *args, **kwargs)
+
+
+class SelfRequiredMixin(LoginRequiredMixin):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.pk == kwargs['pk']:
+            return redirect('index')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class LoggedUserRedirectMixin(LoginView):

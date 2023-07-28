@@ -161,12 +161,13 @@ class UpdateAppointmentForm(forms.ModelForm):
     status = forms.ChoiceField
 
     class Meta:
-        fields = '__all__'
+        exclude = ('status',)
         model = Appointment
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['status'].widget = forms.Select(choices=Appointment.STATUS, attrs={'class': 'form-control'})
+        # self.fields['status'].widget = forms.Select(choices=Appointment.STATUS, attrs={'class': 'form-control'})
+        self.fields['patient'].widget = forms.HiddenInput()
 
 
 class AppointmentPollForm(forms.ModelForm):

@@ -6,12 +6,14 @@
             <div class="row">
                 <div class="col">
                     <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Oncology status</h1>
-                <p class="card-header text-primary2 mb-4 text-center">{{ oncology_status.patient }}</p>
+                    <p class="card-header text-primary2 mb-4 text-center">{{ oncology_status.patient }}</p>
 
                     <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'patient details' pk=oncology_status.patient.pk %}">{{ oncology_status.patient.get_full_name }}</a> </li>
+                            <li class="breadcrumb-item active" aria-current="page"><a
+                                    href="{% url 'patient details' pk=oncology_status.patient.pk %}">{{ oncology_status.patient.get_full_name }}</a>
+                            </li>
                         </ol>
                     </nav>
                 </div>
@@ -99,8 +101,12 @@
                     <div class="row">
                         <div class="col-md-6">
 
-                                    <a class="btn card-btn-primary2 mb-4" href="{% url 'index' %}">Back</a>
-                                    <a class="btn card-btn-edit mb-4" href="{% url 'update oncology status' pk=oncology_status.patient.pk onco_status=oncology_status.pk  %}">Edit</a>
+                            <a class="btn card-btn-primary2 mb-4" href="{% url 'index' %}">Back</a>
+                            {% if request.user.groups.all.0.name == 'Doctors' %}
+                                <a class="btn card-btn-edit mb-4"
+                                   href="{% url 'update oncology status' pk=oncology_status.patient.pk onco_status=oncology_status.pk %}">Edit</a>
+
+                            {% endif %}
 
                         </div>
                         <div class="col-md-6">
@@ -108,7 +114,6 @@
                         </div>
                     </div>
                 </div>
-
 
 
             </div>

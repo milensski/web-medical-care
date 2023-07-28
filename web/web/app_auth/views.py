@@ -8,12 +8,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from .decorators import redirect_authenticated_user, restrict_profile_type
+from .decorators import redirect_authenticated_user, restrict_profile_type, patient_required, doctor_required
 from .filters import PatientFilter, AppointmentFilter
 from .forms import CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
     AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm, SignInForm, UpdateAppointmentForm, \
     LandingPageSignInForm, OncologyStatusForm
-from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin
+from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin, DoctorOrSelfRequiredMixin, SelfRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
 
 
@@ -123,7 +123,24 @@ def patient_profile(request):
     return render(request, 'patient_profile.html', {'form': form})
 
 
-@login_required()
+class SignInView(LoggedUserRedirectMixin, LoginView):
+    form_class = SignInForm
+    template_name = 'signin.html'
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        user = form.get_user()
+
+        print(login(self.request, user))
+
+        return super().form_valid(form)
+
+
+class SignOutView(LogoutView):
+    pass
+
+
+@patient_required
 def patient_dashboard(request):
     patient = PatientProfile.objects.filter(user=request.user).first()
 
@@ -141,7 +158,24 @@ def patient_dashboard(request):
     return render(request, 'patient_dashboard.html', context)
 
 
-@login_required()
+class PatientProfileDetails(LoginRequiredMixin, DetailView):
+    model = PatientProfile
+    template_name = 'patient_profile_details.html'
+    context_object_name = 'patient'
+
+
+class PatientProfileEdit(DoctorOrSelfRequiredMixin, UpdateView):
+    model = PatientProfile
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number',)
+    template_name = 'patient_profile_edit.html'
+    ordering = ['pk']
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('patient details', kwargs={'pk': pk})
+
+
+@patient_required
 def schedule_appointment(request):
     patient = PatientProfile.objects.filter(user=request.user).get()
 
@@ -161,32 +195,77 @@ def schedule_appointment(request):
     return render(request, 'schedule_appointment.html', context)
 
 
-@login_required()
+@patient_required
 def cancel_appointment(request, pk):
     appointment = Appointment.objects.get(pk=pk)
-    appointment.status = 'Canceled'
-    appointment.save()
-    return redirect('patient dashboard')
+    if request.user.pk == appointment.patient.pk:
+        appointment.status = 'Canceled'
+        appointment.save()
+        return redirect('view appointment', pk=pk)
+    return redirect('index')
 
 
-@login_required()
+@doctor_required
 def reject_appointment(request, pk):
     appointment = Appointment.objects.get(pk=pk)
     appointment.status = 'Rejected'
     appointment.save()
-    return redirect('doctor dashboard')
+    return redirect('view appointment', pk=pk)
 
 
-@login_required()
+@doctor_required
 def approve_appointment(request, pk):
     appointment = Appointment.objects.get(pk=pk)
     print(appointment)
     appointment.status = 'Approved'
     appointment.save()
-    return redirect('doctor dashboard')
+    return redirect('view appointment', pk=pk)
 
 
-@login_required()
+class ViewAppointment(LoginRequiredMixin, DetailView):
+    model = Appointment
+    template_name = 'appointment_details.html'
+    context_object_name = 'appointment'
+
+
+class UpdateAppointment(LoginRequiredMixin, UpdateView):
+    template_name = 'update_appointment_status.html'
+    model = Appointment
+    form_class = UpdateAppointmentForm
+
+    def get(self, request, *args, **kwargs):
+        patient = Appointment.objects.filter(pk=kwargs['pk']).get().patient
+        doctor = Appointment.objects.filter(pk=kwargs['pk']).get().doctor
+        if request.user.pk == patient.pk or request.user.pk == doctor.pk:
+            return super().get(request, *args, **kwargs)
+        return redirect('index')
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse_lazy('view appointment', kwargs={'pk': pk})
+
+
+class HistoryAppointments(DoctorRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'history_appointments.html'
+    context_object_name = 'appointments'
+    ordering = ['pk']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Filter appointments that are not in the "pending" status
+        queryset = queryset.exclude(status='Pending')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        my_filter = AppointmentFilter(self.request.GET, queryset=self.get_queryset())
+        context['appointments'] = my_filter.qs
+        context['my_filter'] = my_filter
+        return context
+
+
+@patient_required
 def create_appointment_poll(request):
     appointment = Appointment.objects.get(pk=request.session['appointment.pk'])
     if request.method == 'POST':
@@ -206,6 +285,7 @@ def create_appointment_poll(request):
     return render(request, 'create_appointment_poll.html', context)
 
 
+@doctor_required
 def create_treatment_plan(request, patient_pk):
     patient = PatientProfile.objects.get(pk=patient_pk)
 
@@ -216,7 +296,7 @@ def create_treatment_plan(request, patient_pk):
             treatment_plan.patient = patient
             treatment_plan.save()
             form.save_m2m()  # Save the medications many-to-many relationship
-            return redirect('doctor dashboard')
+            return redirect('view treatment plan', treatment_plan_pk=treatment_plan.pk)
     else:
         form = TreatmentPlanForm()
 
@@ -228,8 +308,14 @@ def create_treatment_plan(request, patient_pk):
     return render(request, 'create_treatment_plan.html', context)
 
 
+@login_required()
 def view_treatment_plan(request, treatment_plan_pk):
     treatment_plan = TherapyPlan.objects.get(pk=treatment_plan_pk)
+
+    user = request.user
+
+    if not user.groups.filter(name='Doctors').exists() and user.pk != treatment_plan.patient.pk:
+        return redirect('index')
 
     context = {
         'treatment_plan': treatment_plan,
@@ -238,6 +324,7 @@ def view_treatment_plan(request, treatment_plan_pk):
     return render(request, 'treatment_plan_details.html', context)
 
 
+@doctor_required
 def update_treatment_plan(request, treatment_plan_pk):
     treatment = TherapyPlan.objects.get(pk=treatment_plan_pk)
 
@@ -256,23 +343,6 @@ def update_treatment_plan(request, treatment_plan_pk):
     }
 
     return render(request, 'treatment_plan_edit.html', context)
-
-
-class SignInView(LoggedUserRedirectMixin, LoginView):
-    form_class = SignInForm
-    template_name = 'signin.html'
-    success_url = reverse_lazy('index')
-
-    def form_valid(self, form):
-        user = form.get_user()
-
-        print(login(self.request, user))
-
-        return super().form_valid(form)
-
-
-class SignOutView(LogoutView):
-    pass
 
 
 class DoctorDashboard(DoctorRequiredMixin, ListView):
@@ -324,11 +394,28 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
     #     return queryset.filter(doctor__user=self.request.user)
 
 
+class DoctorProfileDetails(LoginRequiredMixin, DetailView):
+    model = DoctorProfile
+    template_name = 'doctor_profile_details.html'
+    context_object_name = 'doctor'
+
+
+class DoctorProfileEdit(SelfRequiredMixin, UpdateView):
+    model = DoctorProfile
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'uin_number',)
+    template_name = 'doctor_profile_edit.html'
+    # success_url = reverse_lazy('doctor details')  # Replace with the desired URL or reverse('dashboard')
+    ordering = ['pk']
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse_lazy('doctor details', kwargs={'pk': pk})
+
+
 class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     template_name = 'add_oncology_status.html'
     model = OncologyStatus
     form_class = OncologyStatusForm
-    success_url = reverse_lazy('doctor dashboard')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -351,6 +438,11 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_success_url(self):
+        onco_status_pk = self.object.pk
+        patient = self.get_patient()
+        return reverse_lazy('view oncology status', kwargs={'onco_status': onco_status_pk, 'pk': patient.pk})
+
     def get_doctor(self):
         doctor = DoctorProfile.objects.get(user=self.request.user)
         return doctor
@@ -365,7 +457,10 @@ class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
     model = OncologyStatus
     form_class = OncologyStatusForm
 
-    success_url = reverse_lazy('doctor dashboard')
+    def get_success_url(self):
+        onco_status_pk = self.object.pk
+        patient = self.get_patient()
+        return reverse_lazy('view oncology status', kwargs={'onco_status': onco_status_pk, 'pk': patient.pk})
 
     def get_object(self, queryset=None):
         patient_id = self.kwargs['pk']
@@ -373,41 +468,12 @@ class UpdateOncologyStatus(DoctorRequiredMixin, UpdateView):
         obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
         return obj
 
-
-class ViewAppointment(LoginRequiredMixin, DetailView):
-    model = Appointment
-    template_name = 'appointment_details.html'
-    context_object_name = 'appointment'
+    def get_patient(self):
+        patient = PatientProfile.objects.get(pk=self.kwargs['pk'])
+        return patient
 
 
-class UpdateAppointment(LoginRequiredMixin, UpdateView):
-    template_name = 'update_appointment_status.html'
-    model = Appointment
-    form_class = UpdateAppointmentForm
-    success_url = reverse_lazy('doctor dashboard')
-
-
-class HistoryAppointments(DoctorRequiredMixin, ListView):
-    model = Appointment
-    template_name = 'history_appointments.html'
-    context_object_name = 'appointments'
-    ordering = ['pk']
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        # Filter appointments that are not in the "pending" status
-        queryset = queryset.exclude(status='Pending')
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        my_filter = AppointmentFilter(self.request.GET, queryset=self.get_queryset())
-        context['appointments'] = my_filter.qs
-        context['my_filter'] = my_filter
-        return context
-
-
-class ViewOncologyStatus(DetailView):
+class ViewOncologyStatus(DoctorOrSelfRequiredMixin, DetailView):
     template_name = 'view_oncology_status.html'
     model = OncologyStatus
     context_object_name = 'oncology_status'
@@ -417,17 +483,3 @@ class ViewOncologyStatus(DetailView):
         oncology_status_id = self.kwargs['onco_status']
         obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
         return obj
-
-
-class PatientProfileDetails(LoginRequiredMixin, DetailView):
-    model = PatientProfile
-    template_name = 'patient_profile_details.html'
-    context_object_name = 'patient'
-
-
-class PatientProfileEdit(LoginRequiredMixin, UpdateView):
-    model = PatientProfile
-    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number',)
-    template_name = 'patient_profile_edit.html'
-    success_url = reverse_lazy('doctor dashboard')  # Replace with the desired URL or reverse('dashboard')
-    ordering = ['pk']

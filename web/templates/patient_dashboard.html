@@ -1,155 +1,158 @@
 {% extends 'base.html' %}
 {% block content %}
-        <div class="container mb-5 text-center my-5">
-            <h1 class="display-4 mb-4 hero-login-h3">Patient Dashboard</h1>
+    <div class="container mb-5 text-center my-5">
+        <h1 class="display-4 mb-4 hero-login-h3">Patient Dashboard</h1>
 
-            <div class="row">
-                <!-- Personal Info Section -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title section-title">Personal Information</h2>
-                            <table class="table">
-                                <tbody>
-                                <tr>
-                                    <th>Name</th>
-                                    <td>{{ patient.get_full_name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td>{{ patient.user.email }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Phone</th>
-                                    <td>{{ patient.phone_number }}</td>
-                                </tr>
-                                <tr>
-                                    <th>PIN</th>
-                                    <td>{{ patient.civil_number }}</td>
-                                </tr>
-                                <!-- Display other personal info fields here -->
-                                </tbody>
-                            </table>
-                            <a class="btn form-btn-primary2"
-                               href="{% url 'patient details' pk=patient.pk %}">See profile</a>
-                        </div>
+        <div class="row">
+            <!-- Personal Info Section -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title section-title">Personal Information</h2>
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ patient.get_full_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ patient.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone</th>
+                                <td>{{ patient.phone_number }}</td>
+                            </tr>
+                            <tr>
+                                <th>PIN</th>
+                                <td>{{ patient.civil_number }}</td>
+                            </tr>
+                            <!-- Display other personal info fields here -->
+                            </tbody>
+                        </table>
+                        <a class="btn form-btn-primary2"
+                           href="{% url 'patient details' pk=patient.pk %}">See profile</a>
+                    </div>
 
-                    </div>
-                </div>
-                <!-- Appointments Section -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title section-title">Appointments</h2>
-                            <hr>
-                            <a class="btn table-btn-primary2 mb-3" href="{% url 'schedule appointment' %}">Schedule
-                                Appointment</a>
-                            <br>
-                            {% if appointments %}
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for appointment in appointments %}
-                                        <tr>
-                                            <td>{{ appointment.status }}</td>
-                                            <td>{{ appointment.for_date }}</td>
-                                            <td>{{ appointment.for_time }}</td>
-                                            <td>
-                                                {% if appointment.status == 'Pending' %}
-                                                    <a href="{% url 'cancel appointment' pk=appointment.pk %}"
-                                                       class="btn table-btn-danger"
-                                                       onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel</a>
-                                                {% else %}
-                                                    <a href="{% url 'view appointment' pk=appointment.pk %}"
-                                                       class="btn table-btn-view">View</a>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            {% else %}
-                                <p class="lead text-secondary">No appointments scheduled.</p>
-                            {% endif %}
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- Appointments Section -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title section-title">Appointments</h2>
+                        <hr>
+                        <a class="btn table-btn-primary2 mb-3" href="{% url 'schedule appointment' %}">Schedule
+                            Appointment</a>
+                        <br>
+                        {% if appointments %}
+                            <table class="table">
+                                <thead>
 
-                <!-- Oncology Status Section -->
-                <div class="col-md-6">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title section-title">Oncology Status</h2>
-                            {% if oncology_status %}
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <th>Histology Diagnosis</th>
-                                        <td>{{ oncology_status.histology_diagnose }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>TNM</th>
-                                        <td>{{ oncology_status.tnm }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Stage</th>
-                                        <td>{{ oncology_status.get_stage_display }}</td>
-                                    </tr>
-                                    <!-- Display other oncology status fields here -->
-                                    </tbody>
-                                </table>
-                                <a class="btn form-btn-primary2"
-                                   href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View
-                                    full details</a>
-                            {% else %}
-                                <p class="lead text-secondary">No oncology status available.</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+                                <tr>
 
-
-                <!-- Treatment Plan Section -->
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h2 class="card-title section-title">Treatment Plan</h2>
-                            {% if treatment %}
-                                <table class="table">
-                                    <tbody>
-                                    <tr>
-                                        <th>Medication</th>
-                                        <td>{{ treatment.medication }}</td>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for appointment in appointments %}
+                                    <tr class="clickable"
+                                    onclick="window.location='{% url 'view appointment' pk=appointment.pk %}'">
+                                        <td>{{ appointment.status }}</td>
+                                        <td>{{ appointment.for_date }}</td>
+                                        <td>{{ appointment.for_time }}</td>
+                                        <td>
+                                            {% if appointment.status == 'Pending' %}
+                                                <a href="{% url 'cancel appointment' pk=appointment.pk %}"
+                                                   class="btn table-btn-danger"
+                                                   onclick="return confirm('Are you sure you want to cancel this appointment?');">Cancel</a>
+                                            {% else %}
+                                                <a href="{% url 'view appointment' pk=appointment.pk %}"
+                                                   class="btn table-btn-view">View</a>
+                                            {% endif %}
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <th>Dosage</th>
-                                        <td>{{ treatment.dosage }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Duration</th>
-                                        <td>{{ treatment.duration_days }} days</td>
-                                    </tr>
-                                    <!-- Display other treatment plan fields here -->
-                                    </tbody>
-                                </table>
-                                <a class="btn form-btn-primary2"
-                                   href="{% url 'view treatment plan' treatment_plan_pk=treatment.pk %}">View full
-                                    details</a>
-                            {% else %}
-                                <p class="lead text-secondary">No treatment plan available.</p>
-                            {% endif %}
-                        </div>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            <p class="lead text-secondary">No appointments scheduled.</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+
+            <!-- Oncology Status Section -->
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title section-title">Oncology Status</h2>
+                        {% if oncology_status %}
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Histology Diagnosis</th>
+                                    <td>{{ oncology_status.histology_diagnose }}</td>
+                                </tr>
+                                <tr>
+                                    <th>TNM</th>
+                                    <td>{{ oncology_status.tnm }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Stage</th>
+                                    <td>{{ oncology_status.get_stage_display }}</td>
+                                </tr>
+                                <!-- Display other oncology status fields here -->
+                                </tbody>
+                            </table>
+                            <a class="btn form-btn-primary2"
+                               href="{% url 'view oncology status' pk=patient.pk onco_status=oncology_status.pk %}">View
+                                full details</a>
+                        {% else %}
+                            <p class="lead text-secondary">No oncology status available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Treatment Plan Section -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title section-title">Treatment Plan</h2>
+                        {% if treatment %}
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>Medication</th>
+                                    <td>{{ treatment.medication }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Dosage</th>
+                                    <td>{{ treatment.dosage }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Duration</th>
+                                    <td>{{ treatment.duration_days }} days</td>
+                                </tr>
+                                <!-- Display other treatment plan fields here -->
+                                </tbody>
+                            </table>
+                            <a class="btn form-btn-primary2"
+                               href="{% url 'view treatment plan' treatment_plan_pk=treatment.pk %}">View full
+                                details</a>
+                        {% else %}
+                            <p class="lead text-secondary">No treatment plan available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

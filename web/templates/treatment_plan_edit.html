@@ -4,6 +4,8 @@
         <div class="container  text-center">
             <div class="appointment-poll-form">
                 <h1 class="mt-5 display-4 mb-4 hero-login-h3">Edit Treatment Plan</h1>
+                <p class="card-header text-primary2 mb-4 text-center">{{ treatment_plan.patient }}</p>
+
                 <form method="post" class="text-center">
                     {% csrf_token %}
                     <div class="mb-3 form-group">
@@ -13,6 +15,7 @@
                     <div class="my-4">
                         <a href="{{request.META.HTTP_REFERER}}" class="btn card-btn-primary2">Back</a>
                         <button type="submit" class="btn card-btn-edit">Edit</button>
+
                     </div>
                 </form>
             </div>

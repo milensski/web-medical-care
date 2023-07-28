@@ -1,90 +1,93 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="emtpy">
-    <section style="background-color: #eee;">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Treatment Plan</h1>
-                <p class="card-header text-primary2 mb-4 text-center">{{ treatment_plan.patient }}</p>
+    <div class="emtpy">
+        <section style="background-color: #eee;">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Treatment Plan</h1>
+                        <p class="card-header text-primary2 mb-4 text-center">{{ treatment_plan.patient }}</p>
 
-                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a
-                                    href="{% url 'patient details' pk=treatment_plan.patient.pk %}">{{ treatment_plan.patient.get_full_name }}</a>
-                            </li>
-                        </ol>
-                    </nav>
+                        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page"><a
+                                        href="{% url 'patient details' pk=treatment_plan.patient.pk %}">{{ treatment_plan.patient.get_full_name }}</a>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
+                <div class="row">
 
-                <div class="col-lg-12">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="row">
 
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Medication: </p>
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Medication: </p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.medication.name }}</p>
+                                    </div>
                                 </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.medication.name }}</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Description:</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.medication.description }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Description:</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Dosage:</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.dosage }}</p>
+                                    </div>
                                 </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.medication.description }}</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Created on:</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.created_on }}</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Dosage:</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Duration (days):</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.duration_days }}</p>
+                                    </div>
                                 </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.dosage }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Created on:</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.created_on }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Duration (days):</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.duration_days }}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <p class="mb-0">Instructions:</p>
-                                </div>
-                                <div class="col-sm-9">
-                                    <p class="text-muted mb-0">{{ treatment_plan.instructions }}</p>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Instructions:</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <p class="text-muted mb-0">{{ treatment_plan.instructions }}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                         <div class="row">
 
                             <div class="col-md-6">
                                 <a class="btn card-btn-primary2 mb-4" href="{% url 'index' %}">Back</a>
-                                <a class="btn card-btn-edit mb-4"
-                                   href="{% url 'update treatment plan' treatment_plan_pk=treatment_plan.pk %}">Edit</a>
+                                {% if request.user.groups.all.0.name == 'Doctors' %}
+
+                                    <a class="btn card-btn-edit mb-4" href="{% url 'update treatment plan' treatment_plan_pk=treatment_plan.pk %}">Edit</a>
+
+                                {% endif %}
 
                             </div>
                             <div class="col-md-6">
@@ -96,6 +99,6 @@
 
                 </div>
             </div>
-    </section>
-</div>
+        </section>
+    </div>
 {% endblock %}

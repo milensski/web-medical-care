@@ -91,9 +91,10 @@
                             <div class="col-md-6">
 
                                 <a class="btn card-btn-primary2" href="{% url 'index' %}">Back</a>
-                                <a class="btn card-btn-edit"
-                                   href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
-
+                                {% if request.user.pk == patient.pk or request.user.groups.all.0.name == 'Doctors' %}
+                                    <a class="btn card-btn-edit"
+                                       href="{% url 'patient edit' pk=patient.pk %}">Edit</a>
+                                {% endif %}
                             </div>
                             <div class="col-md-6">
 

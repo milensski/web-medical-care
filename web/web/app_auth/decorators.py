@@ -1,5 +1,6 @@
 from functools import wraps
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
 from .models import DoctorProfile, PatientProfile
@@ -40,3 +41,45 @@ def redirect_authenticated_user(view_func):
         return view_func(request, *args, **kwargs)
 
     return wrapper
+
+
+def doctor_or_self_required(view_func):
+    @wraps(view_func)
+    @login_required
+    def _wrapped_view(request, *args, **kwargs):
+        user = request.user
+
+        if not user.groups.filter(name='Doctors').exists() and user.pk != kwargs.get('pk'):
+            return redirect("index")
+        else:
+            return view_func(request, *args, **kwargs)
+
+    return _wrapped_view
+
+
+def patient_required(view_func):
+    @wraps(view_func)
+    @login_required
+    def _wrapped_view(request, *args, **kwargs):
+        user = request.user
+
+        if user.groups.filter(name='Doctors').exists():
+            return redirect("index")
+        else:
+            return view_func(request, *args, **kwargs)
+
+    return _wrapped_view
+
+
+def doctor_required(view_func):
+    @wraps(view_func)
+    @login_required
+    def _wrapped_view(request, *args, **kwargs):
+        user = request.user
+
+        if not user.groups.filter(name='Doctors').exists():
+            return redirect("index")
+        else:
+            return view_func(request, *args, **kwargs)
+
+    return _wrapped_view

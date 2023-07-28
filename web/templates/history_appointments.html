@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="emtpy">
         <div class="container mb-5 text-center">
             <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">History appointments</h1>
 
@@ -25,7 +24,6 @@
                 {% for appointment in appointments %}
                     <tr class="clickable" onclick="window.location='{% url 'view appointment' pk=appointment.pk %}'">
                         <td>{{ appointment.pk }}</td>
-                        </a>
                         <td>{{ appointment.patient }}</td>
                         <td>{{ appointment.doctor }}</td>
                         <td>{{ appointment.symptoms }}</td>
@@ -42,10 +40,11 @@
             </table>
 
             <div class="row">
-                    <a class="btn btn-primary2 mx-4" href="{% url 'index' %}">Return</a>
+                    <a class="btn btn-primary2 mx-4 mb-4" href="{% url 'index' %}">Return</a>
                 </div>
+            
             </div>
-        </div>
-    </div>
+
+
 
 {% endblock %}

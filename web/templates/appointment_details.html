@@ -31,10 +31,18 @@
                                 <!-- Add other fields from Appointment model here -->
                             </table>
                             {% if appointment.status == 'Pending' %}
-                                <a href="{% url 'reject appointment' pk=appointment.pk %}" class="btn form-btn-danger"
-                                   onclick="return confirm('Are you sure you want to reject this appointment?');">Reject</a>
-                                <a href="{% url 'approve appointment' pk=appointment.pk %}" class="btn form-btn-add"
-                                   onclick="return confirm('Are you sure you want to confirm this appointment?');">Approve</a>
+                                {% if request.user.groups.all.0.name == 'Doctors' %}
+
+                                    <a href="{% url 'reject appointment' pk=appointment.pk %}"
+                                       class="btn form-btn-danger"
+                                       onclick="return confirm('Are you sure you want to reject this appointment?');">Reject</a>
+                                    <a href="{% url 'approve appointment' pk=appointment.pk %}" class="btn form-btn-add"
+                                       onclick="return confirm('Are you sure you want to confirm this appointment?');">Approve</a>
+                                {% else %}
+                                    <a href="{% url 'cancel appointment' pk=appointment.pk %}"
+                                       class="btn form-btn-danger"
+                                       onclick="return confirm('Are you sure you want to reject this appointment?');">Cancel</a>
+                                {% endif %}
                             {% else %}
                                 <!-- Handle other statuses or display a different button -->
                             {% endif %}
@@ -235,8 +243,11 @@
                 </div>
             </div>
             <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
-            <a href="{% url 'update appointment' pk=appointment.pk %}" class="btn card-btn-update">Update</a>
-
+            {% if appointment.status == 'Pending' %}
+                {% if request.user.groups.all.0.name == 'Doctors' or request.user.pk == appointment.patient.pk %}
+                    <a href="{% url 'update appointment' pk=appointment.pk %}" class="btn card-btn-update">Update</a>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
 {% endblock %}

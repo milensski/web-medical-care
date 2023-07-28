@@ -90,11 +90,24 @@ input[type=password] {
 #id_patient {
     font-family: 'Montserrat', sans-serif;
     border-radius: 50px;
+    padding-left: 5px;
+}
+
+#id_doctor {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 50px;
 }
 
 #id_status {
     font-family: 'Montserrat', sans-serif;
     border-radius: 50px;
+}
+
+#id_symptoms {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 15px;
+    height: 100px;
+    padding-left: 5px;
 }
 
 #id_histology_diagnose {
@@ -182,7 +195,6 @@ input[type=password] {
 #id_for_time {
     font-family: 'Montserrat', sans-serif;
     border-radius: 15px;
-    background-color: transparent;
     padding-left: 5px;
 }
 
@@ -456,6 +468,7 @@ tr.clickable {
     color: white;
     border-color: #cf0303;
 }
+
 .table-btn-danger {
     color: #cf0303;
     border-color: #cf0303;
@@ -489,7 +502,7 @@ tr.clickable {
 }
 
 .table-btn-primary2 {
-        background-color: #411997;
+    background-color: #411997;
     color: white;
     border-color: #411997;
     display: inline-block;

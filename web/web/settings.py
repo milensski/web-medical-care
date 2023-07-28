@@ -134,7 +134,7 @@ AUTH_USER_MODEL = 'app_auth.CustomUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('landing page')
 LOGOUT_REDIRECT_URL = reverse_lazy('landing page')
-LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('landing page')
 #
 # AUTHENTICATION_BACKENDS = [
 #     'web.app_auth.backends.EmailBackend',
