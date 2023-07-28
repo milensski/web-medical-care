@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
@@ -376,12 +377,26 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
                 patients_without_therapy.append(patient)
 
         appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all()
+        paginator = Paginator(appointments, 2)  # Show 10 appointments per page
+        page = self.request.GET.get('page')
+
+        try:
+            appointments = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            appointments = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            appointments = paginator.page(paginator.num_pages)
+
         context['appointments'] = appointments
         context['my_filter'] = my_filter
         context['patients_with_oncology'] = patients_with_oncology
         context['patients_without_oncology'] = patients_without_oncology
         context['patients_with_therapy'] = patients_with_therapy
         context['patients_without_therapy'] = patients_without_therapy
+        context['page_obj'] = appointments
+        context['paginator'] = paginator
         return context
 
     """
