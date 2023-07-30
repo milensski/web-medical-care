@@ -2,21 +2,13 @@ from datetime import datetime, timedelta
 from enum import Enum
 
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin, Group, AbstractUser
+from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import EmailValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .custom_user_manager import UserManager
 from .validators import validate_only_digits
-
-
-def create_groups(self):
-    # Create the "Doctors" group
-    doctors_group, _ = Group.objects.get_or_create(name='Doctors')
-
-    # Create the "Patients" group
-    patients_group, _ = Group.objects.get_or_create(name='Patients')
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
