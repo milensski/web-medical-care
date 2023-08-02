@@ -13,7 +13,7 @@ services:
       - /.env.development
     volumes:
       - /staticfiles:/app/web/web/staticfiles/
-    depends_on:
+    links:
       - postgres
   postgres:
     image: postgres
@@ -39,5 +39,5 @@ services:
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
-    depends_on:
+    links:
       - web
