@@ -12,7 +12,7 @@ services:
     env_file:
       - /.env.development
     volumes:
-      - ./staticfiles:/app/static
+      - ./staticfiles:/app/staticfiles
     links:
       - postgres
   postgres:
