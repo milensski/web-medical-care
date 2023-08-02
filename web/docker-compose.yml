@@ -34,7 +34,7 @@ services:
       - "81:80"
       - "443:443"
     volumes:
-      - app/web/staticfiles:/app/web/staticfiles/
+      - /app/web/staticfiles:/app/web/staticfiles/
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
