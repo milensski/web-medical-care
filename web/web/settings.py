@@ -14,6 +14,7 @@ from pathlib import Path
 
 from django.contrib import messages
 from django.urls import reverse_lazy
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +25,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
 
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
-
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split(' ')
 CSRF_TRUSTED_ORIGINS = [f'http://{x}' for x in os.environ.get('ALLOWED_HOST', '').split(' ')]
@@ -141,7 +139,6 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.environ.get('STATIC_ROOT', BASE_DIR / 'static')
 
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -159,9 +156,9 @@ LOGIN_URL = reverse_lazy('landing page')
 # ]
 
 MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.WARNING: 'alert-warning',
-        messages.SUCCESS: 'alert-success',
-        messages.ERROR: 'alert-danger',
- }
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.WARNING: 'alert-warning',
+    messages.SUCCESS: 'alert-success',
+    messages.ERROR: 'alert-danger',
+}
