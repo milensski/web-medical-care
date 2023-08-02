@@ -12,7 +12,7 @@ services:
     env_file:
       - /.env.development
     volumes:
-      - /tmp/staticfiles:/app/staticfiles/
+      - static_volume:/app/staticfiles/
     links:
       - postgres
   postgres:
@@ -31,13 +31,15 @@ services:
   nginx:
     image: nginx
     ports:
-      - "80:80"
+      - "81:80"
       - "443:443"
     volumes:
-      - /tmp/staticfiles:/app/web/staticfiles/
+      - static_volume:/app/staticfiles/
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
     links:
       - web
+volumes:
+  static_volume:
