@@ -1,6 +1,7 @@
 # <span style="color:cornflowerblue">OncoConnect</span>
 
 > A Web-based medical care app developed with Django
+> - live demo - *http://oncoconnect.eu/* - please note that this demo is not deployed to its final version like in the main branch! 
 
 ## Setup Instructions
 
@@ -22,7 +23,7 @@ docker-compose up nginx -d
 ```
 
 ### Step 4: Collect Static Files
-```bashh
+```bash
 docker-compose exec web python manage.py collectstatic
 ```
 
