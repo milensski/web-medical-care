@@ -376,7 +376,7 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
             else:
                 patients_without_therapy.append(patient)
 
-        appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all()
+        appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all().order_by('patient_id')
         paginator = Paginator(appointments, 2)  # Show 10 appointments per page
         page = self.request.GET.get('page')
 
@@ -437,7 +437,7 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         print(self.request.user.pk)
-        initial['doctor'] = DoctorProfile.objects.get(pk=13)  # HARD CODED since the user must be doctor
+        initial['doctor'] = DoctorProfile.objects.get(pk=self.get_doctor().pk)  # HARD CODED since the user must be doctor
         initial['patient'] = self.get_patient()
         return initial
 
@@ -450,7 +450,6 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
 
         if existing_status:
             # Redirect or display an error message indicating that the status already exists
-            # You can modify the behavior based on your requirements
             return self.form_invalid(form)
 
         return super().form_valid(form)
