@@ -1,10 +1,6 @@
-# A web based medical care app developed with Django
-
-
-
 # <span style="color:cornflowerblue">OncoConnect</span>
 
-A Web-based medical care app developed with Django
+## A Web-based medical care app developed with Django
 
 ## Setup Instructions
 
