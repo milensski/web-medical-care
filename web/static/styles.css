@@ -1,4 +1,18 @@
+body {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        'nav'
+        'main'
+        'footer';
+}
+
 .navbar {
+    grid-area: nav;
+    position: sticky;
+    top: 0;
+    left: 0;
     background-color: cornflowerblue;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: padding-top 0.3s, padding-bottom 0.3s;
@@ -57,7 +71,7 @@
 }
 
 main {
-    padding-top: 60px;
+    grid-area: main;
 
 }
 
@@ -230,12 +244,9 @@ option:checked {
 }
 
 footer {
-    height: 20vh;
+    grid-area: footer;
     font-family: 'Montserrat', sans-serif;
-}
-
-.footer-padding {
-    padding-top: 30px;
+    padding: 20px 0;
 }
 
 .card-blur {
