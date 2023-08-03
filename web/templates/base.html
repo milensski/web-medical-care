@@ -44,9 +44,9 @@
                     </li>
                     <li class="nav-item">
                         {% if request.user.groups.all.0.name == 'Doctors' %}
-                            <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}"> Profile</a>
+                            <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}"> {{ request.user }}</a>
                         {% elif request.user.groups.all.0.name == 'Patients' %}
-                            <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}"> Profile</a>
+                            <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}"> {{ request.user }}</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">
