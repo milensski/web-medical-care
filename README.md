@@ -1,5 +1,5 @@
-# <span style="color:cornflowerblue">Web-medical-care</span>
-A web based medical care app developed with Django
+# A web based medical care app developed with Django
+
 
 
 # <span style="color:cornflowerblue">OncoConnect</span>
