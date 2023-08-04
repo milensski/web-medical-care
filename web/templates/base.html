@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-md fixed-top">
+<nav class="navbar navbar-expand-md">
     <div class="container">
         <!-- Logo or Brand -->
         <a class="navbar-brand" href="{% url 'landing page' %}">OncoConnect</a>
@@ -39,29 +39,29 @@
                 <li class="nav-item">
                 </li>
                 {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index' %}"> Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    {% if request.user.groups.all.0.name == 'Doctors' %}
-                    <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}"> Profile</a>
-                    {% elif request.user.groups.all.0.name == 'Patients' %}
-                    <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}"> Profile</a>
-                    {% endif %}
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'index' %}"> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if request.user.groups.all.0.name == 'Doctors' %}
+                            <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}"> {{ request.user }}</a>
+                        {% elif request.user.groups.all.0.name == 'Patients' %}
+                            <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}"> {{ request.user }}</a>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>
@@ -74,7 +74,7 @@
 </main>
 
 <footer class="bg-primary2 text-white text-center">
-    <div class="text-center footer-padding">
+    <div class="text-center">
         <p>&copy; 2023 OncoConnect. All rights reserved.</p>
         <p>Designed and developed by Milen Palachorov.</p>
     </div>
@@ -84,7 +84,16 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-
+{#<script>#}
+{#    $(document).ready(function () {#}
+{#        // Initialize Materialize components#}
+{#        $('.sidenav').sidenav();#}
+{#    });#}
+{#    $(document).ready(function () {#}
+{#        $('.card').addClass('animate__animated animate__fadeInUp');#}
+{#    });#}
+{##}
+{#</script>#}
 
 <script>
     $(document).ready(function () {
@@ -96,7 +105,6 @@
             }
         });
     });
-
 </script>
 <script>
     // suppose the `id` attribute of element is `message_container`.
@@ -108,7 +116,6 @@
 
     }, 3000);
     // Timeout is 3 sec, you can change it
-
 </script>
 
 </body>

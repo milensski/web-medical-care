@@ -3,17 +3,17 @@ version: '3.4'
 services:
 
   web:
-    image: milensski/web
+    image: web
     build: .
     command: gunicorn --bind=0.0.0.0:8000 web.wsgi:application
     platform: linux/amd64
     ports:
       - "8000:8000"
     env_file:
-      - /.env
+      - /.env.development
     volumes:
-      - /tmp/app-resources/static:/app/web/web/staticfiles/
-    depends_on:
+      - ./staticfiles:/app/staticfiles
+    links:
       - postgres
   postgres:
     image: postgres
@@ -23,7 +23,7 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: web_db_deploy
+      POSTGRES_DB: web_db_development
       PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - ./postgresql:/var/lib/postgresql/data
@@ -34,10 +34,12 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /tmp/app-resources/static:/app/web/web/staticfiles/
+      - ./staticfiles:/app/staticfiles/
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./nginx/logs:/var/log/nginx
       - ./certbot/www:/var/www/certbot/:ro
       - ./certbot/conf/:/etc/nginx/ssl/:ro
-    depends_on:
+    links:
       - web
+volumes:
+  static_volume:
