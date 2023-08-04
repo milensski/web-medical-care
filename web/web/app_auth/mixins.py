@@ -34,11 +34,16 @@ class LoggedUserRedirectMixin(LoginView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
+            if self.request.user.is_superuser:
+                return redirect('index')
             try:
                 if self.request.user.groups.filter(name='Doctors').exists():
                     return redirect('doctor dashboard')
                 elif self.request.user.groups.filter(name='Patients').exists():
                     return redirect('patient dashboard')
+                else:
+                    return redirect('registration step2')
+
             except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
                 # Profile does not exist
                 pass

@@ -5,7 +5,7 @@ from .views import SignInView, SignOutView, registration_step1, registration_ste
     UpdateOncologyStatus, ViewOncologyStatus, patient_dashboard, schedule_appointment, UpdateAppointment, \
     HistoryAppointments, cancel_appointment, create_appointment_poll, ViewAppointment, reject_appointment, \
     create_treatment_plan, view_treatment_plan, update_treatment_plan, LandingPageView, index, approve_appointment, \
-    DoctorProfileDetails, DoctorProfileEdit
+    DoctorProfileDetails, DoctorProfileEdit, UserProfilePictureChange
 
 urlpatterns = [
 
@@ -41,5 +41,7 @@ urlpatterns = [
          name='update oncology status'),
     path('oncology-status/<int:pk>/view/<int:onco_status>/', ViewOncologyStatus.as_view(),
          name='view oncology status'),
+    path('profile/<int:pk>/edit-photo/', UserProfilePictureChange.as_view(),
+         name='profile picture change'),
 
 ]

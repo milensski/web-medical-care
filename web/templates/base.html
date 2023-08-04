@@ -39,14 +39,23 @@
                 <li class="nav-item">
                 </li>
                 {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}"> Dashboard</a>
-                    </li>
+                    {% if request.user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin"> Admin panel</a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.groups.all.0.name == 'Doctors' or request.user.groups.all.0.name == 'Patients' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'index' %}"> Dashboard</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         {% if request.user.groups.all.0.name == 'Doctors' %}
-                            <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}"> {{ request.user }}</a>
+                            <a class="nav-link" href="{% url 'doctor details' pk=request.user.pk %}">
+                                MD. {{ request.user.doctorprofile.last_name }}</a>
                         {% elif request.user.groups.all.0.name == 'Patients' %}
-                            <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}"> {{ request.user }}</a>
+                            <a class="nav-link" href="{% url 'patient details' pk=request.user.pk %}">
+                                {{ request.user.patientprofile.first_name }} {{ request.user.patientprofile.last_name }}</a>
                         {% endif %}
                     </li>
                     <li class="nav-item">

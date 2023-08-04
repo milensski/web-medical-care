@@ -19,6 +19,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         help_text=_("Designates whether the user can log into this admin site."),
     )
 
+    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'

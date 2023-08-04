@@ -1,9 +1,12 @@
+import os
+
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, LogoutView
+from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -17,6 +20,8 @@ from .forms import CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientPr
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin, DoctorOrSelfRequiredMixin, SelfRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
 
+UserModel = get_user_model()
+
 
 class LandingPageView(LoggedUserRedirectMixin, LoginView):
     form_class = LandingPageSignInForm
@@ -26,7 +31,7 @@ class LandingPageView(LoggedUserRedirectMixin, LoginView):
     def form_valid(self, form):
         user = form.get_user()
 
-        print(login(self.request, user))
+        login(self.request, user)
 
         return super().form_valid(form)
 
@@ -36,6 +41,10 @@ def index(request):
     user = request.user
     profile = None
     is_doctor = False
+
+    if request.user.is_superuser:
+        print('redirecting')
+        return redirect('/admin')
 
     try:
         if user.groups.filter(name='Doctors').exists():
@@ -122,6 +131,40 @@ def patient_profile(request):
     else:
         form = PatientProfileForm()
     return render(request, 'patient_profile.html', {'form': form})
+
+
+class UserProfilePictureChange(SelfRequiredMixin, UpdateView):
+    model = UserModel
+    fields = ('profile_picture',)
+    template_name = 'picture_profile_edit.html'
+    # success_url = reverse_lazy('')
+    ordering = ['pk']
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        if DoctorProfile.objects.filter(pk=pk).exists():
+            return reverse_lazy('doctor details', kwargs={'pk': pk})
+        return reverse_lazy('patient details', kwargs={'pk': pk})
+
+    def form_valid(self, form):
+        if not form.cleaned_data['profile_picture']:
+            try:
+                old_img = form.initial['profile_picture']
+                if old_img and default_storage.exists(old_img.name):
+                    default_storage.delete(old_img.name)
+            except (AttributeError, ValueError):
+                pass
+        else:
+            try:
+                old_img = form.initial['profile_picture']
+                new_img = form.cleaned_data['profile_picture']
+                if old_img != new_img:
+                    default_storage.delete(old_img.name)
+
+            except (AttributeError, ValueError):
+                pass
+
+        return super().form_valid(form)
 
 
 class SignInView(LoggedUserRedirectMixin, LoginView):
@@ -253,7 +296,6 @@ class HistoryAppointments(DoctorRequiredMixin, ListView):
     ordering = ['pk']
     paginate_by = 10
 
-
     def get_queryset(self):
         queryset = super().get_queryset()
         # Filter appointments that are not in the "pending" status
@@ -263,7 +305,12 @@ class HistoryAppointments(DoctorRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         my_filter = AppointmentFilter(self.request.GET, queryset=self.get_queryset())
-        context['appointments'] = my_filter.qs
+
+        paginator = Paginator(my_filter.qs, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        appointments = paginator.get_page(page_number)
+
+        context['appointments'] = appointments
         context['my_filter'] = my_filter
         return context
 
@@ -437,7 +484,7 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         print(self.request.user.pk)
-        initial['doctor'] = DoctorProfile.objects.get(pk=self.get_doctor().pk)  # HARD CODED since the user must be doctor
+        initial['doctor'] = DoctorProfile.objects.get(pk=self.get_doctor().pk)
         initial['patient'] = self.get_patient()
         return initial
 
