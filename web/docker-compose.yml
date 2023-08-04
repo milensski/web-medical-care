@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   web:
-    image: web
+    image: milensski/web
     build: .
     command: gunicorn --bind=0.0.0.0:8000 web.wsgi:application
     platform: linux/amd64
