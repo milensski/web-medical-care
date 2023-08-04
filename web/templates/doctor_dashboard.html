@@ -3,7 +3,6 @@
     <div class="container mb-5 text-center">
         <h1 class="display-4 mb-4 hero-login-h3 my-4">Doctor dashboard</h1>
         <form method="get" class="form-group search">
-            {% csrf_token %}
             {{ my_filter.form }}
 
             <button type="submit" class="form-btn-primary2 search">Search</button>
@@ -157,4 +156,5 @@
 
         {#    <a class="btn btn-primary2" href="{% url 'index' %}">Return</a>#}
     </div>
+
 {% endblock %}

@@ -4,7 +4,6 @@
         <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">History appointments</h1>
 
         <form method="get" class="form-group search">
-            {% csrf_token %}
             {{ my_filter.form }}
 
             <button type="submit" class="form-btn-primary2 search">Search</button>
@@ -21,7 +20,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for appointment in page_obj %}
+            {% for appointment in appointments %}
                 <tr class="clickable" onclick="window.location='{% url 'view appointment' pk=appointment.pk %}'">
                     <td>{{ appointment.pk }}</td>
                     <td>{{ appointment.patient }}</td>

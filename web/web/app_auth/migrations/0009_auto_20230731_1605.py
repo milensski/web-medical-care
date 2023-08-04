@@ -5,8 +5,15 @@ from django.db import migrations
 
 def create_groups(apps, schema_editor):
     Group = apps.get_model('auth', 'Group')
-    Group.objects.create(name='Doctors')
-    Group.objects.create(name='Patients')
+    doctors_group = Group.objects.filter(name='Doctors').exists()
+    patients_group = Group.objects.filter(name='Patients').exists()
+
+    if not doctors_group:
+        Group.objects.create(name='Doctors')
+
+    if not patients_group:
+        Group.objects.create(name='Patients')
+
 
 
 class Migration(migrations.Migration):
