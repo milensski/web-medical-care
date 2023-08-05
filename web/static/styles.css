@@ -254,6 +254,10 @@ ul.errorlist.nonfield {
     color: red;
 }
 
+ul.errorlist {
+    color: red;
+}
+
 footer {
     grid-area: footer;
     font-family: 'Montserrat', sans-serif;
