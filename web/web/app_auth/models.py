@@ -3,7 +3,7 @@ from enum import Enum
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.validators import EmailValidator, MinValueValidator
+from django.core.validators import EmailValidator, MinValueValidator, MinLengthValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -62,12 +62,32 @@ class ER(ChoicesEnum):
 
 
 class PatientProfile(models.Model):
+    MIN_LEN_NAME = 2
+
+    MAX_LEN_FIRST_NAME = 30
+    MAX_LEN_MIDDLE_NAME = 30
+    MAX_LEN_LAST_NAME = 30
+
+    MIN_MAX_LEN_PHONE = 10
+
+    MIN_MAX_LEN_CIVIL_NUMBER = 10
+
     user = models.OneToOneField(CustomUser, primary_key=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    middle_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=30, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True, validators=(validate_only_digits,))
-    civil_number = models.CharField(max_length=10, null=True, blank=True, validators=(validate_only_digits,))
+    first_name = models.CharField(max_length=MAX_LEN_FIRST_NAME, null=True, blank=False,
+                                  validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                 _('First name should contain at least %(limit_value)d characters')),))
+    middle_name = models.CharField(max_length=MAX_LEN_MIDDLE_NAME, null=True, blank=False,
+                                   validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                  _('Middle name should contain at least %(limit_value)d characters')),))
+    last_name = models.CharField(max_length=MAX_LEN_LAST_NAME, null=True, blank=True,
+                                 validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                _('Last name should contain at least %(limit_value)d characters')),))
+    phone_number = models.CharField(max_length=MIN_MAX_LEN_PHONE, null=True, blank=True,
+                                    validators=(validate_only_digits, MinLengthValidator(MIN_MAX_LEN_PHONE,
+                                                                                         _('Phone number should contain at least %(limit_value)d digits')),))
+    civil_number = models.CharField(max_length=MIN_MAX_LEN_CIVIL_NUMBER, null=True, blank=True,
+                                    validators=(validate_only_digits, MinLengthValidator(MIN_MAX_LEN_CIVIL_NUMBER,
+                                                                                         _('Civil number should contain at least %(limit_value)d digits')),))
     gender = models.CharField(max_length=6, choices=Genders.choices(), null=True, blank=True, )
 
     def __str__(self):
@@ -92,16 +112,34 @@ class PatientProfile(models.Model):
 
 
 class DoctorProfile(models.Model):
+    MIN_LEN_NAME = 2
+
+    MAX_LEN_FIRST_NAME = 30
+    MAX_LEN_MIDDLE_NAME = 30
+    MAX_LEN_LAST_NAME = 30
+
+    MIN_MAX_LEN_PHONE = 10
+
     user = models.OneToOneField(CustomUser, primary_key=True, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=30, null=True, blank=True)
-    middle_name = models.CharField(max_length=30, null=True, blank=True)
-    last_name = models.CharField(max_length=30, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True, validators=(validate_only_digits,))
-    uin_number = models.CharField(max_length=20, null=True, blank=True, validators=(validate_only_digits,))
-    specialization = models.CharField(max_length=100)
+    first_name = models.CharField(max_length=MAX_LEN_FIRST_NAME, null=True, blank=False,
+                                  validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                 _('First name should contain at least %(limit_value)d characters')),))
+    middle_name = models.CharField(max_length=MAX_LEN_MIDDLE_NAME, null=True, blank=False,
+                                   validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                  _('Middle name should contain at least %(limit_value)d characters')),))
+    last_name = models.CharField(max_length=MAX_LEN_LAST_NAME, null=True, blank=True,
+                                 validators=(MinLengthValidator(MIN_LEN_NAME,
+                                                                _('Last name should contain at least %(limit_value)d characters')),))
+    phone_number = models.CharField(max_length=MIN_MAX_LEN_PHONE, null=True, blank=True,
+                                    validators=(validate_only_digits, MinLengthValidator(MIN_MAX_LEN_PHONE,
+                                                                                         _('Phone number should contain at least %(limit_value)d digits')),))
+    uin_number = models.CharField(max_length=20, null=True, blank=True,
+                                  validators=(validate_only_digits, MinLengthValidator(MIN_MAX_LEN_PHONE,
+                                                                                       _('UIN number should contain at least %(limit_value)d digits')),), )
+    specialization = models.CharField(max_length=50, null=True, blank=True, )
     experience = models.PositiveIntegerField()
 
-    gender = models.CharField(max_length=6, choices=Genders.choices(), null=True, blank=True, )
+    gender = models.CharField(max_length=6, choices=Genders.choices(), null=True, blank=False, )
 
     def __str__(self):
         if self.first_name is None or self.middle_name is None or self.last_name is None:

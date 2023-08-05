@@ -10,7 +10,16 @@ from .widgets import DatePickerInput
 UserModel = get_user_model()
 
 
+class ProfileTypeForm(forms.Form):
+    profile_type = forms.ChoiceField(
+        choices=[('doctor', 'Doctor'), ('patient', 'Patient')],
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        required=True
+    )
+
+
 class CustomUserForm(UserCreationForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Add Bootstrap classes and placeholders to the form fields
@@ -24,14 +33,6 @@ class CustomUserForm(UserCreationForm):
     class Meta:
         model = UserModel
         fields = ('email', 'password1', 'password2')
-
-
-class ProfileTypeForm(forms.Form):
-    profile_type = forms.ChoiceField(
-        choices=[('doctor', 'Doctor'), ('patient', 'Patient')],
-        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
-        required=True
-    )
 
 
 class DoctorProfileForm(forms.ModelForm):

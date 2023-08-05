@@ -1,5 +1,3 @@
-import os
-
 from django.contrib import messages
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
@@ -17,6 +15,7 @@ from .filters import PatientFilter, AppointmentFilter
 from .forms import CustomUserForm, ProfileTypeForm, DoctorProfileForm, PatientProfileForm, AppointmentForm, \
     AppointmentPollForm, TreatmentPlanForm, UpdateTreatmentPlanForm, SignInForm, UpdateAppointmentForm, \
     LandingPageSignInForm, OncologyStatusForm
+from .functions import show_errors
 from .mixins import LoggedUserRedirectMixin, DoctorRequiredMixin, DoctorOrSelfRequiredMixin, SelfRequiredMixin
 from .models import DoctorProfile, PatientProfile, OncologyStatus, Appointment, TherapyPlan
 
@@ -72,8 +71,7 @@ def registration_step1(request):
             login(request, user)  # Log in the user
             return redirect('registration step2')
         else:
-            # messages.error(request, form.errors)
-            messages.add_message(request, messages.ERROR, message='Invalid form')
+            show_errors(request, form)
 
     return render(request, 'registration_step1.html', {'form': form})
 
@@ -100,6 +98,8 @@ def registration_step2(request):
 @login_required()
 @restrict_profile_type
 def doctor_profile(request):
+    form = DoctorProfileForm()
+
     if request.method == 'POST':
         form = DoctorProfileForm(request.POST)
         if form.is_valid():
@@ -111,14 +111,17 @@ def doctor_profile(request):
             request.user.groups.add(doctors_group)
 
             return redirect('index')
-    else:
-        form = DoctorProfileForm()
+        else:
+            show_errors(request, form)
+
     return render(request, 'doctor_profile.html', {'form': form})
 
 
 @login_required()
 @restrict_profile_type
 def patient_profile(request):
+    form = PatientProfileForm()
+
     if request.method == 'POST':
         form = PatientProfileForm(request.POST)
         if form.is_valid():
@@ -128,8 +131,9 @@ def patient_profile(request):
             patient_group = Group.objects.get(name='Patients')
             request.user.groups.add(patient_group)
             return redirect('index')
-    else:
-        form = PatientProfileForm()
+        else:
+            show_errors(request, form)
+
     return render(request, 'patient_profile.html', {'form': form})
 
 
