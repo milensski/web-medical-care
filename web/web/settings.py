@@ -26,10 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'purple unicorn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 #
-# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split(' ')
-# CSRF_TRUSTED_ORIGINS = [f'http://{x}' for x in os.environ.get('ALLOWED_HOST', '').split(' ')]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split(' ')
+CSRF_TRUSTED_ORIGINS = [f'http://{x}' for x in os.environ.get('ALLOWED_HOST', '').split(' ')]
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,27 +78,27 @@ WSGI_APPLICATION = 'web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "web_db",
-        "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
-}
-#
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.environ.get('DB_NAME', None),
-#         "USER": os.environ.get('DB_USER', None),
-#         "PASSWORD": os.environ.get('DB_PASSWORD', None),
-#         "HOST": os.environ.get('DB_HOST', None),
-#         "PORT": os.environ.get('DB_PORT', None),
+#         "NAME": "web_db",
+#         "USER": "postgres",
+#         "PASSWORD": "postgres",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
 #     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get('DB_NAME', None),
+        "USER": os.environ.get('DB_USER', None),
+        "PASSWORD": os.environ.get('DB_PASSWORD', None),
+        "HOST": os.environ.get('DB_HOST', None),
+        "PORT": os.environ.get('DB_PORT', None),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -138,8 +138,8 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = os.environ.get('MEDIA_ROOT')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.environ.get('MEDIA_ROOT')
 STATIC_ROOT = os.environ.get('STATIC_ROOT')
 
 # Default primary key field type
