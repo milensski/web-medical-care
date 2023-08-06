@@ -76,6 +76,12 @@ main {
 
 }
 
+footer {
+    grid-area: footer;
+    font-family: 'Montserrat', sans-serif;
+    padding: 20px 0;
+}
+
 input[type=text] {
     height: 25px;
     font-size: 14px;
@@ -94,6 +100,12 @@ input[type=password] {
 .emtpy {
     padding-top: 60px;
     height: 90vh;
+}
+
+#id_experience {
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 50px;
+    padding-left: 5px;
 }
 
 #id_gender {
@@ -250,19 +262,18 @@ option:checked {
     color: #ffffff;
 }
 
+
 ul.errorlist.nonfield {
     color: red;
 }
 
 ul.errorlist {
     color: red;
+    font-size: 12px;
+    margin-top: -10px;
+    text-align: center;
 }
 
-footer {
-    grid-area: footer;
-    font-family: 'Montserrat', sans-serif;
-    padding: 20px 0;
-}
 
 .card-blur {
     position: relative;

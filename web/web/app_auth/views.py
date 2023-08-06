@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -192,7 +191,7 @@ class SignOutView(LogoutView):
 def patient_dashboard(request):
     patient = PatientProfile.objects.filter(user=request.user).first()
 
-    appointments = Appointment.objects.filter(patient=patient).all()
+    appointments = Appointment.objects.filter(patient=patient).filter(status='Pending')
     oncology_status = OncologyStatus.objects.filter(patient=patient).first()
     treatment = TherapyPlan.objects.filter(patient=patient).first()
 
@@ -293,29 +292,53 @@ class UpdateAppointment(LoginRequiredMixin, UpdateView):
         return reverse_lazy('view appointment', kwargs={'pk': pk})
 
 
-class HistoryAppointments(DoctorRequiredMixin, ListView):
+class BaseHistoryAppointments(ListView):
     template_name = 'history_appointments.html'
     model = Appointment
     context_object_name = 'appointments'
     ordering = ['pk']
     paginate_by = 10
 
+
+class HistoryAppointments(DoctorRequiredMixin, BaseHistoryAppointments):
+
     def get_queryset(self):
         queryset = super().get_queryset()
         # Filter appointments that are not in the "pending" status
-        queryset = queryset.exclude(status='Pending')
+        queryset = queryset \
+            .exclude(status='Pending')
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         my_filter = AppointmentFilter(self.request.GET, queryset=self.get_queryset())
-
         paginator = Paginator(my_filter.qs, self.paginate_by)
         page_number = self.request.GET.get('page')
         appointments = paginator.get_page(page_number)
 
         context['appointments'] = appointments
         context['my_filter'] = my_filter
+        return context
+
+
+class PatientHistoryAppointment(DoctorOrSelfRequiredMixin, BaseHistoryAppointments):
+    def get_queryset(self):
+        patient_pk = self.kwargs['pk']
+        queryset = super().get_queryset()
+        # Filter appointments that are not in the "pending" status
+        queryset = queryset \
+            .filter(patient=patient_pk) \
+            .exclude(status='Pending')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        appointment = self.get_queryset()
+        paginator = Paginator(appointment, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        appointments = paginator.get_page(page_number)
+
+        context['appointments'] = appointments
         return context
 
 
@@ -428,7 +451,7 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
                 patients_without_therapy.append(patient)
 
         appointments = Appointment.objects.filter(doctor=doctor).filter(status='Pending').all().order_by('patient_id')
-        paginator = Paginator(appointments, 2)  # Show 10 appointments per page
+        paginator = Paginator(appointments, 2)
         page = self.request.GET.get('page')
 
         try:
@@ -470,7 +493,7 @@ class DoctorProfileDetails(LoginRequiredMixin, DetailView):
 
 class DoctorProfileEdit(SelfRequiredMixin, UpdateView):
     model = DoctorProfile
-    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'uin_number',)
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'uin_number', 'specialization', 'experience')
     template_name = 'doctor_profile_edit.html'
     # success_url = reverse_lazy('doctor details')  # Replace with the desired URL or reverse('dashboard')
     ordering = ['pk']

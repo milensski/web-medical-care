@@ -1,30 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <div class="container">
-            {% include 'messages.html' %}
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card card-blur">
-                        <div class="card-body">
-                            <h3 class="hero-login-h3 mb-4">Doctor</h3>
-                            <form method="post">
-                                {% csrf_token %}
-                                {{ form.as_p }}
-{#                                {% for field in form %}#}
-{#                                    <div class="mb-4">#}
-{#                                        <label for="{{ field.id_for_label }}"#}
-{#                                               class="form-label2">{{ field.label }}</label>#}
-{#                                        {{ field }}#}
-{#                                    </div>#}
-{#                                {% endfor %}#}
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary2">Next</button>
+    <div class="container">
+        {#        {% include 'messages.html' %}#}
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card card-blur">
+                    <div class="card-body">
+                        <h3 class="hero-login-h3 mb-4">Doctor</h3>
+                        <form method="post">
+                            {% csrf_token %}
+                            {#                            {{ form.as_p }}#}
+                            {% for field in form %}
+                                <div class="mb-4">
+                                    <label for="{{ field.id_for_label }}"
+                                           class="form-label2">{{ field.label }}</label>
+                                     <div>
+                                     <div class="form-label2">
+                                    {% if field.errors %}
+                                        {{ field.errors }}
+                                    {% endif %}
+                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary2">Next</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 {% endblock %}

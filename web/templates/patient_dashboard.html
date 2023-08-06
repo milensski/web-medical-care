@@ -40,11 +40,15 @@
             <div class="col-md-6">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h2 class="card-title section-title">Appointments</h2>
+                        <h2 class="card-title section-title">Appointments
+                            {% if request.user.pk == patient.pk or request.user.groups.all.0 == 'Doctors' %}
+                            <a class="btn btn-sm btn-history"
+                                                                             href="{% url 'patient history appointments' pk=patient.pk %}">History</a>
+                            {% endif %}
+                        </h2>
+
                         <hr>
-                        <a class="btn table-btn-primary2 mb-3" href="{% url 'schedule appointment' %}">Schedule
-                            Appointment</a>
-                        <br>
+
                         {% if appointments %}
                             <table class="table">
                                 <thead>
@@ -60,7 +64,7 @@
                                 <tbody>
                                 {% for appointment in appointments %}
                                     <tr class="clickable"
-                                    onclick="window.location='{% url 'view appointment' pk=appointment.pk %}'">
+                                        onclick="window.location='{% url 'view appointment' pk=appointment.pk %}'">
                                         <td>{{ appointment.status }}</td>
                                         <td>{{ appointment.for_date }}</td>
                                         <td>{{ appointment.for_time }}</td>
@@ -81,6 +85,8 @@
                         {% else %}
                             <p class="lead text-secondary">No appointments scheduled.</p>
                         {% endif %}
+                        <a class="btn table-btn-primary2 mb-3" href="{% url 'schedule appointment' %}">Schedule
+                            Appointment</a>
                     </div>
                 </div>
             </div>

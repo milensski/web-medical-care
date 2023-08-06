@@ -2,12 +2,13 @@
 {% block content %}
     <div class="container mb-5 text-center">
         <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">History appointments</h1>
-
+        {% if my_filter %}
         <form method="get" class="form-group search">
             {{ my_filter.form }}
 
             <button type="submit" class="form-btn-primary2 search">Search</button>
         </form>
+        {% endif %}
         <table class="table">
             <thead>
             <tr>
