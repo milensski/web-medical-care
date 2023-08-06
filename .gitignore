@@ -160,3 +160,4 @@ cython_debug/
 *.idea/
 /postgresql
 web/web/settings.py
+web/.idea/workspace.xml
