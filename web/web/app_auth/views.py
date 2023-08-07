@@ -1,3 +1,5 @@
+from http.client import HTTPResponse
+
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,12 +39,9 @@ class LandingPageView(LoggedUserRedirectMixin, LoginView):
 @login_required
 def index(request):
     user = request.user
-    profile = None
-    is_doctor = False
 
     if request.user.is_superuser:
-        print('redirecting')
-        return redirect('/admin')
+        return redirect('/admin')  # redirect the superuser to the admin panel
 
     try:
         if user.groups.filter(name='Doctors').exists():
@@ -53,8 +52,8 @@ def index(request):
             return redirect('patient dashboard')
 
     except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
-        # Profile does not exist
-        pass
+        print('Profile does not exist!')
+        return render(request, '404.html',)
 
     return redirect('landing page')
 
@@ -140,7 +139,6 @@ class UserProfilePictureChange(SelfRequiredMixin, UpdateView):
     model = UserModel
     fields = ('profile_picture',)
     template_name = 'picture_profile_edit.html'
-    # success_url = reverse_lazy('')
     ordering = ['pk']
 
     def get_success_url(self):
@@ -213,7 +211,7 @@ class PatientProfileDetails(LoginRequiredMixin, DetailView):
 
 class PatientProfileEdit(DoctorOrSelfRequiredMixin, UpdateView):
     model = PatientProfile
-    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number',)
+    fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'civil_number', 'gender',)
     template_name = 'patient_profile_edit.html'
     ordering = ['pk']
 
@@ -325,7 +323,7 @@ class PatientHistoryAppointment(DoctorOrSelfRequiredMixin, BaseHistoryAppointmen
     def get_queryset(self):
         patient_pk = self.kwargs['pk']
         queryset = super().get_queryset()
-        # Filter appointments that are not in the "pending" status
+        # Filter appointments that are not in the "pending" status for the specified patient
         queryset = queryset \
             .filter(patient=patient_pk) \
             .exclude(status='Pending')
@@ -410,7 +408,7 @@ def update_treatment_plan(request, treatment_plan_pk):
         if form.is_valid():
             form.save()
             return redirect('view treatment plan',
-                            treatment_plan_pk=treatment.pk)  # Replace with the URL name for treatment plan details view
+                            treatment_plan_pk=treatment.pk)
     else:
         form = UpdateTreatmentPlanForm(instance=treatment)
 
@@ -473,17 +471,6 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
         context['paginator'] = paginator
         return context
 
-    """
-    The get_queryset() method is overridden to filter the patient profiles 
-    based on the logged-in doctor. 
-    It retrieves only the patient profiles that have a foreign key relationship 
-    with the logged-in doctor.
-    
-    """
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     return queryset.filter(doctor__user=self.request.user)
-
 
 class DoctorProfileDetails(LoginRequiredMixin, DetailView):
     model = DoctorProfile
@@ -495,7 +482,6 @@ class DoctorProfileEdit(SelfRequiredMixin, UpdateView):
     model = DoctorProfile
     fields = ('first_name', 'middle_name', 'last_name', 'phone_number', 'uin_number', 'specialization', 'experience')
     template_name = 'doctor_profile_edit.html'
-    # success_url = reverse_lazy('doctor details')  # Replace with the desired URL or reverse('dashboard')
     ordering = ['pk']
 
     def get_success_url(self):
@@ -523,7 +509,6 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
         ).exists()
 
         if existing_status:
-            # Redirect or display an error message indicating that the status already exists
             return self.form_invalid(form)
 
         return super().form_valid(form)

@@ -8,5 +8,6 @@ def validate_only_digits(value):
 
 
 def validate_only_chars(value):
-    if not value.isalpha():
-        raise exceptions.ValidationError(_(f"Invalid '{value}' must contain only characters"))
+    for char in value:
+        if not char.isalpha() and not char.isspace():
+            raise exceptions.ValidationError(_(f"Invalid '{value}' must contain only characters"))

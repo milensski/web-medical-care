@@ -12,7 +12,15 @@
                             {% csrf_token %}
                             {% for field in form %}
                                 <div class="mb-4">
-                                    <label for="{{ field.id_for_label }}" class="form-label2">{{ field.label }}</label>
+                                    <label for="{{ field.id_for_label }}"
+                                           class="form-label2">{{ field.label }}</label>
+                                     <div>
+                                     <div class="form-label2">
+                                    {% if field.errors %}
+                                        {{ field.errors }}
+                                    {% endif %}
+                                     </div>
+                                </div>
                                     {{ field }}
                                 </div>
                             {% endfor %}
@@ -23,8 +31,6 @@
                     </div>
                 </div>
             </div>
-                        {% include 'messages.html' %}
-        
         </div>
     </div>
 
