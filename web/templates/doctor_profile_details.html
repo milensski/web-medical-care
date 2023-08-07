@@ -2,40 +2,52 @@
 {% load static %}
 {% block content %}
     <div class="container">
-    <div class="row">
-        <div class="col">
-            <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Doctor profile</h1>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4 mb-4 hero-login-h3 my-4 text-center">Doctor profile</h1>
 
-            <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ doctor }}</li>
-                </ol>
-            </nav>
+                <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ doctor }}</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card mb-4">
-                <div class="card-body text-center">
-                    <div style="width: 150px; height: 150px; margin: 0 auto; ">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div style="width: 150px; height: 150px; margin: 0 auto; ">
 
-                        {% if doctor.user.profile_picture.url is not None %}
+                            {% if doctor.user.profile_picture.url is not None %}
                             <img src="{{ MEDIA_URL }}{{ doctor.user.profile_picture.url }}"
                                  alt="avatar"
                                  class="rounded-circle img-fluid"
                                  style="width: 100%;max-height: 100%;object-fit: cover;">
-                        {% else %}
-                            <img src="{% static 'images/Doctor-icon.jpg' %}"
-                                 alt="avatar"
-                                 class="rounded-circle img-fluid"
-                                 style="width: 100%;max-height: 100%;object-fit: cover;">
-                        {% endif %}
-                    </div>
+                            {% else %}
+                                {% if doctor.gender == 'male' %}
+                                    <img src="{% static 'images/defaults/male_doctor_default.jpg' %}"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid"
+                                         style="width: 100%;max-height: 100%;object-fit: cover;">
+                                {% elif doctor.gender == 'female' %}
+                                    <img src="{% static 'images/defaults/female_doctor_default.jpg' %}"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid"
+                                         style="width: 100%;max-height: 100%;object-fit: cover;">
+                                {% else %}
+                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                         alt="avatar"
+                                         class="rounded-circle img-fluid"
+                                         style="width: 100%;max-height: 100%;object-fit: cover;">
+                                    {% endif %}
+                            {% endif %}
+                        </div>
                         {% if request.user.pk == doctor.pk %}
-                        <a class="form-btn-primary2"
-                           href="{% url 'profile picture change' pk=request.user.pk %}">Change</a>
+                            <a class="form-btn-primary2"
+                               href="{% url 'profile picture change' pk=request.user.pk %}">Change</a>
                         {% endif %}
                         <h5 class="my-3">{{ doctor.first_name }} {{ doctor.last_name }}</h5>
 
@@ -109,9 +121,9 @@
                         <a class="btn card-btn-primary2" href="{% url 'index' %}">Back</a>
                         {% if request.user.pk == doctor.pk %}
 
-                        <a class="btn card-btn-edit"
-                           href="{% url 'doctor edit' pk=doctor.pk %}">Edit</a>
-                            {% endif %}
+                            <a class="btn card-btn-edit"
+                               href="{% url 'doctor edit' pk=doctor.pk %}">Edit</a>
+                        {% endif %}
                     </div>
 
                 </div>

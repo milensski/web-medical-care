@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <div class="emtpy">
         <section>
@@ -24,11 +25,26 @@
                                     {% if patient.user.profile_picture.url is not None %}
                                         <img src="{{ MEDIA_URL }}{{ patient.user.profile_picture.url }}"
                                              alt="avatar"
-                                             class="rounded-circle img-fluid" style="width: 100%;max-height: 100%;object-fit: cover;">
+                                             class="rounded-circle img-fluid"
+                                             style="width: 100%;max-height: 100%;object-fit: cover;">
                                     {% else %}
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                             alt="avatar"
-                                             class="rounded-circle img-fluid" style="width: 100%;max-height: 100%;object-fit: cover;">
+                                        {% if patient.gender == 'male' %}
+                                            <img src="{% static 'images/defaults/male_patient_default.jpg' %}"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid"
+                                                 style="width: 100%;max-height: 100%;object-fit: cover;">
+                                        {% elif patient.gender == 'female' %}
+                                            <img src="{% static 'images/defaults/female_patient_default.jpg' %}"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid"
+                                                 style="width: 100%;max-height: 100%;object-fit: cover;">
+                                        {% else %}
+                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                                 alt="avatar"
+                                                 class="rounded-circle img-fluid"
+                                                 style="width: 100%;max-height: 100%;object-fit: cover;">
+                                        {% endif %}
+
                                     {% endif %}
                                 </div>
                                 {% if request.user.pk == patient.pk %}
