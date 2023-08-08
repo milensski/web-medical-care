@@ -9,7 +9,10 @@ from web.app_auth.models import DoctorProfile, PatientProfile
 class DoctorRequiredMixin(LoginRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
-        exist = DoctorProfile.objects.filter(user=request.user).exists()
+        try:
+            exist = DoctorProfile.objects.filter(user=request.user).exists()
+        except TypeError:
+            return redirect('index')
         if request.user.is_authenticated and exist:
             return super().dispatch(request, *args, **kwargs)
         return redirect('index')
@@ -17,10 +20,13 @@ class DoctorRequiredMixin(LoginRequiredMixin):
 
 class DoctorOrSelfRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
-        if request.user.pk != kwargs['pk'] and \
-                 request.user.groups.all()[0].name != 'Doctors':
-            return redirect('index')
-        return super().dispatch(request, *args, **kwargs)
+        if request.user.is_authenticated:
+            if request.user.pk != kwargs['pk'] and \
+                     request.user.groups.all()[0].name != 'Doctors':
+                return redirect('index')
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('landing page')
 
 
 class SelfRequiredMixin(LoginRequiredMixin):

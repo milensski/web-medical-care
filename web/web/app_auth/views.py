@@ -1,5 +1,4 @@
-from http.client import HTTPResponse
-
+from django.contrib import messages
 from django.contrib.auth import login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
@@ -41,7 +40,7 @@ def index(request):
     user = request.user
 
     if request.user.is_superuser:
-        return redirect('/admin')  # redirect the superuser to the admin panel
+        return redirect('/admin')
 
     try:
         if user.groups.filter(name='Doctors').exists():
@@ -53,7 +52,7 @@ def index(request):
 
     except (DoctorProfile.DoesNotExist, PatientProfile.DoesNotExist):
         print('Profile does not exist!')
-        return render(request, '404.html',)
+        return render(request, '404.html', )
 
     return redirect('landing page')
 
@@ -65,8 +64,8 @@ def registration_step1(request):
     if request.method == 'POST':
         form = CustomUserForm(request.POST)
         if form.is_valid():
-            user = form.save()  # Save the user object
-            login(request, user)  # Log in the user
+            user = form.save()
+            login(request, user)
             return redirect('registration step2')
         else:
             show_errors(request, form)
@@ -247,7 +246,11 @@ def cancel_appointment(request, pk):
         appointment.status = 'Canceled'
         appointment.save()
         return redirect('view appointment', pk=pk)
-    return redirect('index')
+
+    messages.add_message(request, level=messages.ERROR,
+                         message='You are not authorized to cancel another user appointment')
+
+    return redirect('view appointment', pk=pk)
 
 
 @doctor_required
@@ -265,6 +268,14 @@ def approve_appointment(request, pk):
     appointment.status = 'Approved'
     appointment.save()
     return redirect('view appointment', pk=pk)
+
+
+@doctor_required
+def delete_appointment(request, pk):
+    appointment = get_object_or_404(Appointment, pk=pk)
+    appointment.delete()
+    messages.add_message(request, level=messages.SUCCESS, message='Successfully deleted')
+    return redirect('doctor dashboard')
 
 
 class ViewAppointment(LoginRequiredMixin, DetailView):
@@ -302,7 +313,6 @@ class HistoryAppointments(DoctorRequiredMixin, BaseHistoryAppointments):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # Filter appointments that are not in the "pending" status
         queryset = queryset \
             .exclude(status='Pending')
         return queryset
@@ -319,11 +329,10 @@ class HistoryAppointments(DoctorRequiredMixin, BaseHistoryAppointments):
         return context
 
 
-class PatientHistoryAppointment(DoctorOrSelfRequiredMixin, BaseHistoryAppointments):
+class PatientHistoryAppointment(DoctorOrSelfRequiredMixin, LoginRequiredMixin, BaseHistoryAppointments):
     def get_queryset(self):
         patient_pk = self.kwargs['pk']
         queryset = super().get_queryset()
-        # Filter appointments that are not in the "pending" status for the specified patient
         queryset = queryset \
             .filter(patient=patient_pk) \
             .exclude(status='Pending')
@@ -455,10 +464,8 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
         try:
             appointments = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             appointments = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
             appointments = paginator.page(paginator.num_pages)
 
         context['appointments'] = appointments
@@ -502,7 +509,6 @@ class AddOncologyStatus(DoctorRequiredMixin, CreateView):
         return initial
 
     def form_valid(self, form):
-        # Check if an OncologyStatus record already exists for the doctor and patient combination
         existing_status = OncologyStatus.objects.filter(
             doctor=form.cleaned_data['doctor'],
             patient=form.cleaned_data['patient']
@@ -556,5 +562,8 @@ class ViewOncologyStatus(DoctorOrSelfRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         patient_id = self.kwargs['pk']
         oncology_status_id = self.kwargs['onco_status']
-        obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
+        try:
+            obj = self.model.objects.get(patient__pk=patient_id, pk=oncology_status_id)
+        except:
+            return render(self.request, '404.html', status=404)
         return obj
