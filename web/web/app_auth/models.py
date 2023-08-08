@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import EmailValidator, MinValueValidator, MinLengthValidator
 from django.db import models
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .custom_user_manager import UserManager
@@ -25,6 +26,12 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    def img_preview(self):  # new
+        if self.profile_picture:
+            return mark_safe(f'<img src = "{self.profile_picture.url}" width = "50" />')
+
+
 
     class Meta:
         verbose_name = "User"
@@ -167,6 +174,7 @@ class DoctorProfile(models.Model):
             return f'{self.user.email}'
         return f'MD. {self.first_name} {self.middle_name} {self.last_name}'
 
+
     class Meta:
         ordering = ('user_id',)
         verbose_name = "DoctorProfile"
@@ -186,7 +194,7 @@ class OncologyStatus(models.Model):
     start_date = models.DateTimeField(blank=False, null=False, auto_now_add=True)
 
     def __str__(self):
-        return f'{self.histology_diagnose}'
+        return f'For {self.patient}'
 
     class Meta:
         verbose_name = "OncologyStatus"
@@ -252,6 +260,9 @@ class AppointmentPoll(models.Model):
     diarrhea = models.BooleanField(blank=False, null=False)
     skin_rash = models.BooleanField(blank=False, null=False)
     additional_info = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f'For {self.appointment}'
 
 
 class Medication(models.Model):
