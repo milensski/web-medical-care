@@ -93,17 +93,6 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-{#<script>#}
-{#    $(document).ready(function () {#}
-{#        // Initialize Materialize components#}
-{#        $('.sidenav').sidenav();#}
-{#    });#}
-{#    $(document).ready(function () {#}
-{#        $('.card').addClass('animate__animated animate__fadeInUp');#}
-{#    });#}
-{##}
-{#</script>#}
-
 <script>
     $(document).ready(function () {
         $(window).on("scroll", function () {
@@ -116,15 +105,12 @@
     });
 </script>
 <script>
-    // suppose the `id` attribute of element is `message_container`.
     var message_ele = document.querySelector(".alert");
 
     setTimeout(function () {
         message_ele.classList.add('animate__animated', 'animate__fadeOutUp');
-        {#message_ele.style.display = "none";#}
 
-    }, 9000);
-    // Timeout is 3 sec, you can change it
+    }, 3000);
 </script>
 
 </body>

@@ -14,6 +14,7 @@ class UsersAdmin(admin.ModelAdmin):
     list_display = ('email', 'img_preview')
     search_fields = ("email",)
     search_help_text = 'Search for email'
+    ordering = ('id',)
 
 
 @admin.register(PatientProfile)
@@ -22,6 +23,7 @@ class PatientProfilesAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'middle_name', 'last_name', 'civil_number', 'phone_number')
     search_help_text = 'Search by Name, PIN or Phone'
     list_filter = ('gender',)
+    ordering = ('user',)
 
 
 @admin.register(DoctorProfile)
@@ -30,6 +32,7 @@ class DoctorProfilesAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'middle_name', 'last_name', 'uin_number',)
     search_help_text = 'Search by Name or UIN'
     list_filter = ('gender',)
+    ordering = ('user',)
 
 
 @admin.register(Medication)
@@ -41,6 +44,8 @@ class MedicationAdmin(admin.ModelAdmin):
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'for_date', 'for_time', 'status')
     list_filter = ('status', 'for_date', 'for_time')
+    date_hierarchy = 'for_date'
+    ordering = ('for_date', '-for_time')
 
 
 @admin.register(AppointmentPoll)

@@ -1,253 +1,256 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="emtpy">
-        <div class="container mb-5">
-            <h1 class="display-4 mb-4 hero-login-h3 text-center">Appointment details</h1>
+    <div class="container mb-5">
+        <h1 class="display-4 mb-4 hero-login-h3 text-center">Appointment details</h1>
+        {% include 'messages.html' %}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title section-title text-center">Appointment</h2>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title section-title text-center">Appointment</h2>
+                        <table class="table">
+                            <tr class="clickable"
+                                onclick="window.location='{% url 'patient details' pk=appointment.patient.pk %}'">
+                                <th>Patient Name</th>
+                                <td>{{ appointment.patient.get_full_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Symptoms</th>
+                                <td>{{ appointment.symptoms }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ appointment.for_date }} {{ appointment.for_time }}</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>{{ appointment.status }}</td>
+                            </tr>
+                            <!-- Add other fields from Appointment model here -->
+                        </table>
+                        {% if appointment.status == 'Pending' %}
+                            {% if request.user.groups.all.0.name == 'Doctors' %}
 
-                            <table class="table">
-                                <tr class="clickable"
-                                    onclick="window.location='{% url 'patient details' pk=appointment.patient.pk %}'">
-                                    <th>Patient Name</th>
-                                    <td>{{ appointment.patient.get_full_name }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Symptoms</th>
-                                    <td>{{ appointment.symptoms }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Date</th>
-                                    <td>{{ appointment.for_date }} {{ appointment.for_time }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Status</th>
-                                    <td>{{ appointment.status }}</td>
-                                </tr>
-                                <!-- Add other fields from Appointment model here -->
-                            </table>
-                            {% if appointment.status == 'Pending' %}
-                                {% if request.user.groups.all.0.name == 'Doctors' %}
-
-                                    <a href="{% url 'reject appointment' pk=appointment.pk %}"
-                                       class="btn form-btn-danger"
-                                       onclick="return confirm('Are you sure you want to reject this appointment?');">Reject</a>
-                                    <a href="{% url 'approve appointment' pk=appointment.pk %}" class="btn form-btn-add"
-                                       onclick="return confirm('Are you sure you want to confirm this appointment?');">Approve</a>
-                                {% else %}
-                                    <a href="{% url 'cancel appointment' pk=appointment.pk %}"
-                                       class="btn form-btn-danger"
-                                       onclick="return confirm('Are you sure you want to reject this appointment?');">Cancel</a>
-                                {% endif %}
+                                <a href="{% url 'reject appointment' pk=appointment.pk %}"
+                                   class="btn form-btn-danger"
+                                   onclick="return confirm('Are you sure you want to reject this appointment?');">Reject</a>
+                                <a href="{% url 'approve appointment' pk=appointment.pk %}" class="btn form-btn-add"
+                                   onclick="return confirm('Are you sure you want to confirm this appointment?');">Approve</a>
                             {% else %}
-                                <!-- Handle other statuses or display a different button -->
+                                <a href="{% url 'cancel appointment' pk=appointment.pk %}"
+                                   class="btn form-btn-danger"
+                                   onclick="return confirm('Are you sure you want to reject this appointment?');">Cancel</a>
                             {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <h2 class="card-title section-title text-center">Appointment poll</h2>
-                            {% if appointment.appointmentpoll %}
-                                <table class="table2">
-                                    <tr>
-                                        <th>Current Condition</th>
-                                        <td>{{ appointment.appointmentpoll.current_condition }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>High Temperature</th>
-                                        {% if appointment.appointmentpoll.high_temperature == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Cough</th>
-                                        {% if appointment.appointmentpoll.cough == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Sores in mouth</th>
-                                        {% if appointment.appointmentpoll.sores_in_mouth == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Sores in nose</th>
-                                        {% if appointment.appointmentpoll.sores_in_nose == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Cold</th>
-                                        {% if appointment.appointmentpoll.cold == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Diarrhea</th>
-                                        {% if appointment.appointmentpoll.diarrhea == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Skin rash</th>
-                                        {% if appointment.appointmentpoll.skin_rash == True %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-success" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
-                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
-                                            </span>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                            <span
-                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
-                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
-                                                                             width="20" height="20" fill="white"
-                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
-                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
-                                            </span>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                    <tr>
-                                        <th>Additional info</th>
-                                        <td>
-                                            {{ appointment.appointmentpoll.additional_info }}
-
-                                        </td>
-                                    </tr>
-                                </table>
-                            {% else %}
-                                <p>No appointment poll available for this appointment.</p>
-                            {% endif %}
-                        </div>
+                        {% else %}
+                            <!-- Handle other statuses or display a different button -->
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
-            {% if appointment.status == 'Pending' %}
-                {% if request.user.groups.all.0.name == 'Doctors' or request.user.pk == appointment.patient.pk %}
-                    <a href="{% url 'update appointment' pk=appointment.pk %}" class="btn card-btn-update">Update</a>
-                {% endif %}
-            {% endif %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title section-title text-center">Appointment poll</h2>
+                        {% if appointment.appointmentpoll %}
+                            <table class="table2">
+                                <tr>
+                                    <th>Current Condition</th>
+                                    <td>{{ appointment.appointmentpoll.current_condition }}</td>
+                                </tr>
+                                <tr>
+                                    <th>High Temperature</th>
+                                    {% if appointment.appointmentpoll.high_temperature == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Cough</th>
+                                    {% if appointment.appointmentpoll.cough == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Sores in mouth</th>
+                                    {% if appointment.appointmentpoll.sores_in_mouth == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Sores in nose</th>
+                                    {% if appointment.appointmentpoll.sores_in_nose == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Cold</th>
+                                    {% if appointment.appointmentpoll.cold == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Diarrhea</th>
+                                    {% if appointment.appointmentpoll.diarrhea == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Skin rash</th>
+                                    {% if appointment.appointmentpoll.skin_rash == True %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-success" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-check" viewBox="0 0 16 16"><path
+                                                    d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"></path></svg>
+                                            </span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span
+                                                    class="input-group-text text-center bg-danger" id="basic-addon1"
+                                                    style="width: 40px"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                             width="20" height="20" fill="white"
+                                                                             class="bi bi-x" viewBox="0 0 16 16"><path
+                                                    d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/></svg>
+                                            </span>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                                <tr>
+                                    <th>Additional info</th>
+                                    <td>
+                                        {{ appointment.appointmentpoll.additional_info }}
+
+                                    </td>
+                                </tr>
+                            </table>
+                        {% else %}
+                            <p>No appointment poll available for this appointment.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
+        <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
+        {% if appointment.status == 'Pending' %}
+            {% if request.user.groups.all.0.name == 'Doctors' or request.user.pk == appointment.patient.pk %}
+                <a href="{% url 'update appointment' pk=appointment.pk %}" class="btn card-btn-update">Update</a>
+            {% endif %}
+        {% else %}
+            {% if request.user.groups.all.0.name == 'Doctors' %}
+                    <a href="{% url 'delete appointment' pk=appointment.pk %}" class="btn table-btn-danger" onclick="return confirm('Are you sure you want to DELETE this appointment?');">Delete</a>
+            {% endif %}
+        {% endif %}
     </div>
+
 {% endblock %}
