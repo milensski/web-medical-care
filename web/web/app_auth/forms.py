@@ -22,7 +22,6 @@ class CustomUserForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Add Bootstrap classes and placeholders to the form fields
         self.fields['email'].widget.attrs.update(
             {'class': 'form-control2 text-center', 'placeholder': 'Enter your email'})
         self.fields['password1'].widget.attrs.update(
@@ -38,7 +37,6 @@ class CustomUserForm(UserCreationForm):
 class DoctorProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Add Bootstrap classes and placeholders to the form fields
         self.fields['first_name'].widget.attrs.update(
             {'class': 'form-control2 text-center', 'placeholder': 'Enter first name'})
         self.fields['middle_name'].widget.attrs.update(
@@ -89,7 +87,7 @@ class SignInForm(AuthenticationForm):
 class LandingPageSignInForm(SignInForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Add Bootstrap classes and placeholders to the form fields
+
         self.fields['username'].widget.attrs.update(
             {'class': 'form-control2 text-center', 'placeholder': 'Enter your email', 'type': 'email'})
         self.fields['password'].widget.attrs.update(
@@ -100,7 +98,6 @@ class LandingPageSignInForm(SignInForm):
         password = self.cleaned_data.get('password')
 
         if email and password:
-            # Validate email format using Django's built-in validator
             try:
                 validate_email(email)
             except ValidationError:
@@ -133,7 +130,7 @@ class OncologyStatusForm(forms.ModelForm):
 
     class Meta:
         model = OncologyStatus
-        fields = '__all__'  # Include all fields from the model
+        fields = '__all__'
 
 
 class AppointmentForm(forms.ModelForm):
@@ -145,6 +142,25 @@ class AppointmentForm(forms.ModelForm):
         self.fields['for_time'].widget.attrs.update({'class': 'form-control'})
         self.fields['symptoms'].widget.attrs.update({'class': 'form-control', 'rows': 4})
         self.fields['doctor'].widget.attrs.update({'class': 'custom-select'})
+
+    def clean(self):
+        cleaned_data = super().clean()
+        for_date = cleaned_data.get('for_date')
+        for_time = cleaned_data.get('for_time')
+        doctor = cleaned_data.get('doctor')
+
+        if for_date and for_time and doctor:
+            existing_appointment = Appointment.objects.filter(
+                for_date=for_date,
+                for_time=for_time,
+                doctor=doctor
+            ).exclude(pk=self.instance.pk if self.instance else None).first()
+
+            if existing_appointment:
+                raise forms.ValidationError(
+                    "An appointment already exists for the selected date and time."
+                )
+        return cleaned_data
 
     class Meta:
         model = Appointment
@@ -167,7 +183,7 @@ class UpdateAppointmentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['status'].widget = forms.Select(choices=Appointment.STATUS, attrs={'class': 'form-control'})
+
         self.fields['patient'].widget = forms.HiddenInput()
 
 
@@ -184,12 +200,6 @@ class AppointmentPollForm(forms.ModelForm):
 
 
 class TreatmentPlanForm(forms.ModelForm):
-    # medications = forms.ModelMultipleChoiceField(
-    #     queryset=Medication.objects.all(),
-    #     widget=forms.CheckboxSelectMultiple,
-    #     required=True,
-    # )
-
     class Meta:
         model = TherapyPlan
         fields = ['medication', 'dosage', 'duration_days', 'instructions']

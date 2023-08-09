@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="emtpy">
-        <div class="container  text-center">
+        <div class="container  text-center my-5">
             <div class="appointment-poll-form">
                 <h1 class="mt-5 display-4 mb-4 hero-login-h3">Edit Treatment Plan</h1>
                 <p class="card-header text-primary2 mb-4 text-center">{{ treatment_plan.patient }}</p>
@@ -10,7 +9,6 @@
                     {% csrf_token %}
                     <div class="mb-3 form-group">
                         {{ form.as_p }}
-
                     </div>
                     <div class="my-4">
                         <a href="{{request.META.HTTP_REFERER}}" class="btn card-btn-primary2">Back</a>
@@ -19,7 +17,5 @@
                     </div>
                 </form>
             </div>
-
         </div>
-    </div>
 {% endblock %}
