@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="emtpy">
-        <div class="container">
+        <div class="container my-5">
             {% include 'messages.html' %}
             <div class="row justify-content-center mt-5">
                 <div class="col-md-6">
                     <div class="card card-blur">
                         <div class="card-body">
-                            <h3 class="hero-login-h3">Choose Profile Type</h3>
+                            <h3 class="hero-login-h3 mb-5">Choose Profile Type</h3>
                             <form method="post">
                                 {% csrf_token %}
                                 {% for field in form.profile_type %}
@@ -31,5 +30,4 @@
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}

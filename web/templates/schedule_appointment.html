@@ -1,40 +1,45 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="emtpy">
-        <div class="container  text-center">
-            <div class="appointment-poll-form">
-                <h1 class="mt-5 display-4 mb-4 hero-login-h3">Schedule Appointment</h1>
-                <form method="post" class="text-center">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="{{ form.doctor.id_for_label }}">Doctor</label>
-                        {{ form.doctor }}
-                    </div>
-                    <div class="form-group">
-                        <label for="{{ form.for_date.id_for_label }}">Date</label>
-                        {{ form.for_date }}
-                    </div>
+    <div class="container  text-center my-5">
+        {% include 'messages.html' %}
 
-                    <div class="form-group">
-                        <label for="{{ form.for_time.id_for_label }}">Time</label>
-                        {{ form.for_time }}
-                    </div>
+        <div class="appointment-poll-form">
+            <h1 class="mt-5 display-4 mb-4 hero-login-h3">Schedule Appointment</h1>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+{#                <div class="form-group">#}
+{#                    <label for="{{ form.doctor.id_for_label }}">Doctor</label>#}
+{#                    {{ form.doctor }}#}
+{#                </div>#}
+{#                <div class="form-group">#}
+{#                    <label for="{{ form.for_date.id_for_label }}">Date</label>#}
+{#                    {{ form.for_date }}#}
+{#                </div>#}
+{##}
+{#                <div class="form-group">#}
+{#                    <label for="{{ form.for_time.id_for_label }}">Time</label>#}
+{#                    {% if form.for_time.errors %}#}
+{#                        <div class="form-label2">#}
+{#                            {{ form.for_time.errors }}#}
+{#                        </div>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                {{ form.for_time }}#}
+{##}
+{#                <div class="form-group">#}
+{#                    <label for="{{ form.symptoms.id_for_label }}">Symptoms</label>#}
+{#                    {{ form.symptoms }}#}
+{#                </div>#}
 
-                    <div class="form-group">
-                        <label for="{{ form.symptoms.id_for_label }}">Symptoms</label>
-                        {{ form.symptoms }}
-                    </div>
+                {{ form.as_p }}
 
-                    {# Add other fields here if needed #}
+                {# Add other fields here if needed #}
 
-                    <input type="hidden" name="patient" value="{{ form.initial.patient.pk }}">
-                    <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
-                    <button type="submit" class="btn card-btn-edit">Schedule</button>
-                </form>
-            </div>
-
+                <input type="hidden" name="patient" value="{{ form.initial.patient.pk }}">
+                <a href="{% url 'index' %}" class="btn card-btn-primary2">Back</a>
+                <button type="submit" class="btn card-btn-edit">Schedule</button>
+            </form>
         </div>
     </div>
-
 {% endblock %}

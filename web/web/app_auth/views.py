@@ -231,7 +231,9 @@ def schedule_appointment(request):
             appointment = form.save()
             request.session['appointment.pk'] = appointment.pk
             return redirect('create appointment poll')
-
+        else:
+            messages.add_message(request, level=messages.ERROR,
+                                 message='An appointment already exists for the selected date and time.')
     context = {
         'form': form
     }
@@ -358,7 +360,9 @@ def create_appointment_poll(request):
             poll = form.save(commit=False)
             poll.appointment = appointment
             poll.save()
-            return redirect('patient dashboard')
+            messages.add_message(request, level=messages.SUCCESS,
+                                 message='Successfully created appointment')
+            return redirect('view appointment', pk=appointment.pk)
     else:
         form = AppointmentPollForm()
 

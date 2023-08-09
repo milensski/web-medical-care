@@ -2,7 +2,6 @@
 
 {% block content %}
     <div class="container">
-        {#        {% include 'messages.html' %}#}
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card card-blur">
@@ -10,7 +9,6 @@
                         <h3 class="hero-login-h3 mb-4">Doctor</h3>
                         <form method="post">
                             {% csrf_token %}
-                            {#                            {{ form.as_p }}#}
                             {% for field in form %}
                                 <div class="mb-4">
                                     <label for="{{ field.id_for_label }}"
