@@ -437,7 +437,8 @@ class DoctorDashboard(DoctorRequiredMixin, ListView):
     model = PatientProfile
     template_name = 'doctor_dashboard.html'
     context_object_name = 'patients'
-    ordering = ['-pk']
+    # ordering = ''
+    queryset = PatientProfile.objects.all().order_by('first_name', 'last_name', 'pk')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
