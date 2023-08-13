@@ -37,3 +37,10 @@ Congratulations! The web-based medical care app should now be up and running.
 Remember to visit the app on your browser using *http://localhost:80*
 
 If you encounter any issues during setup or usage, please refer to the documentation or raise an issue on the repository.
+
+## Demo pictures
+![Alt doctor-profile](https://m-palachorov.w3spaces.com/profile_view.png?bypass-cache=36225361)
+![Alt patient-dashboar](https://m-palachorov.w3spaces.com/patient_dashboard_preview.png?bypass-cache=36225359)
+![Alt appointment-details](https://m-palachorov.w3spaces.com/appointment_schedule_preview.png?bypass-cache=36225358)
+![Alt doctor-dashboard](https://m-palachorov.w3spaces.com/doctor_dashboard_preview.png?bypass-cache=36225360)
+
